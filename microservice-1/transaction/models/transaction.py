@@ -5,10 +5,19 @@ class TransactionModel():
     def __init__(self, db=None):
         self.db = db
 
-    def transfer(self, from_account_number, db_from_account_number, to_account_number, db_to_account_number, journal_number, amount, timestamp):
+    def transfer(self, from_account_number, to_account_number, journal_number, amount, timestamp):
         
-        current_from_account_balance = db_from_account_number.balance - amount
-        current_to_account_balance = db_to_account_number.balance + amount
+        response = requests.post(os.environ.get("ACCOUNT_HOST"), json={
+            "account" : from_account_number,
+            "action" : "DEBIT",
+            "amount": amount
+        })
+
+        response = requests.post(os.environ.get("ACCOUNT_HOST"), json={
+            "account" : to_account_number,
+            "action" : "CREDIT",
+            "amount": amount
+        })
 
         response = requests.post(os.environ.get("HISTORICAL_TRANSACTION_HOST"), json={
             "account_number": from_account_number, 
@@ -25,17 +34,15 @@ class TransactionModel():
             "action": "CREDIT",
             "transaction_type" : "TRANSFER"
         })
-        
-        # update balance
-        db_from_account_number.balance = current_from_account_balance
-        db_to_account_number.balnace = current_to_account_balance
-
-        self.db.commit()
-
         return True
 
-    def deposit(self, account_number, db_account_number, journal_number, amount, timestamp):
-        current_account_balance = db_account_number.balance + amount
+    def deposit(self, account_number, journal_number, amount, timestamp):
+
+        response = requests.post(os.environ.get("ACCOUNT_HOST"), json={
+            "account" : account_number,
+            "action" : "CREDIT",
+            "amount": amount
+        })
 
         request_json = {
             "account_number": account_number, 
@@ -49,10 +56,5 @@ class TransactionModel():
 
         if response.status_code != 200:
             return False
-        
-        # update balance
-        db_account_number.balance = current_account_balance
-
-        self.db.commit()
 
         return True

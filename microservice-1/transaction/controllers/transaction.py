@@ -17,8 +17,8 @@ class TransactionController():
 
     def transfer(self, transfer: TransferSchema):
 
-        account_model = AccountModel(self.db)
-        historical_transaction_model = HistoricalTransactionModel(self.db)
+        account_model = AccountModel()
+        historical_transaction_model = HistoricalTransactionModel()
         db_from_account = account_model.detail(transfer.from_account_number)
         db_to_account = account_model.detail(transfer.to_account_number)
 
@@ -29,9 +29,7 @@ class TransactionController():
         timestamp = datetime.utcnow()
 
         if self.model.transfer(from_account_number=transfer.from_account_number, 
-                            db_from_account_number=db_from_account, 
                             to_account_number=transfer.to_account_number, 
-                            db_to_account_number=db_to_account, 
                             journal_number=journal_number, 
                             amount=transfer.amount, 
                             timestamp=timestamp):
@@ -55,7 +53,6 @@ class TransactionController():
         timestamp = datetime.utcnow()
 
         if self.model.deposit(account_number=deposit.account_number, 
-                                db_account_number=db_account, 
                                 journal_number=journal_number, 
                                 amount=deposit.amount, 
                                 timestamp=timestamp):

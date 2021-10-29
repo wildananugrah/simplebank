@@ -1,6 +1,6 @@
 from models.account import AccountModel
 from views.account import AccountView
-from schemas.account import AccountSchema
+from schemas.account import AccountSchema, AccountUpdateBalanceSchema
 from fastapi import HTTPException
 
 import random, string
@@ -41,3 +41,18 @@ class AccountController():
 
     def all(self, skip: int = 0, limit: int = 100):
         return self.model.all(skip, limit)
+
+    def update_balance(self, request: AccountUpdateBalanceSchema):
+        db_account = self.select_by_account_number(request.account)
+        if not db_account:
+            raise HTTPException(status_code=404, detail="Account Number doesn't exist") 
+
+        if db_account.balance < request.amount and request.action == "DEBIT":
+            raise HTTPException(status_code=400, detail="Unsufficient Fund") 
+
+        result = self.model.update_balance(request.account, request.action, request.amount)
+
+        if result:
+            return db_account
+        else:
+            raise HTTPException(status_code=500, detail="Invalid update balance") 

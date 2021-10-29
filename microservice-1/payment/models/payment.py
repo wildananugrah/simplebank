@@ -1,7 +1,4 @@
 from databases.h2h_lookup import H2HLookupDB
-from models.account import AccountModel
-from models.historical_transaction import HistoricalTransactionModel
-from databases.historical_transaction import HistoricalTransactionDB
 
 import os, requests
 
@@ -12,9 +9,14 @@ class Payment():
         self.request_message = None
 
     def debit(self, account_number, amount):
-        db_account = AccountModel(self.db).detail(account_number)
-        db_account.balance = db_account.balance - amount
-        journal_number = HistoricalTransactionModel(self.db).generate_journal_number()
+        
+        response = requests.post(os.environ.get("ACCOUNT_HOST"), json={
+            "account" : account_number,
+            "action" : "DEBIT",
+            "amount": amount
+        })
+
+        journal_number = HistoricalTransactionModel().generate_journal_number()
 
         response = requests.post(os.environ.get("HISTORICAL_TRANSACTION_HOST"), json={
             "account_number": account_number, 

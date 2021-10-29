@@ -24,3 +24,15 @@ class AccountModel():
     
     def all(self, skip: int = 0, limit: int = 100):
         return self.db.query(AccountDB).offset(skip).limit(limit).all()
+
+    def update_balance(self, account, action, amount):
+        db_account = self.detail(account)
+        if action.upper() == "DEBIT":
+            db_account.balance = db_account.balance - amount
+        elif action.upper() == "CREDIT":
+            db_account.balance = db_account.balance - amount
+        else:
+            return False
+        
+        self.db.commit()
+        return True
