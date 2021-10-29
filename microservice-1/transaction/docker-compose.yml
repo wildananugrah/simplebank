@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./app.Dockerfile
+        container_name: application
+        ports:
+            - "8080:8080"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            SIMULATOR_HOST: http://192.168.0.102:9090/sim
+    appdb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: comp90078
+            POSTGRES_DB: comp90078-db
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
