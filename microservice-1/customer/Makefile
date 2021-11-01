@@ -16,3 +16,9 @@ compose-up:
 
 compose-down:
 	@docker-compose down
+
+clear-unused-volumes:
+	@docker volume prune
+
+clear-unused-images:
+	@docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
