@@ -7,8 +7,8 @@ class AccountModel():
 
     def detail(self, account):
         account_host = os.environ.get("ACCOUNT_HOST")
-        account = requests.get(f"{account_host}?account={account}")
-
+        account = requests.get(f"{account_host}/account?account={account}")
+        print(account_host)
         if account.status_code == 200:
             return account.json()
         else:

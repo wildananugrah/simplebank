@@ -2,7 +2,7 @@ run-test:
 	@pytest -v
 
 run-app-dev:
-	@uvicorn main:app --reload --host 0.0.0.0 --port 8080
+	@uvicorn main:app --reload --host 0.0.0.0 --port 7040
 
 run-db-dev:
 	@docker run --name simplebank-pg -p 6000:5432 -v data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=simplebank! -e POSTGRES_USER=simplebank -e POSTGRES_DB=simplebank-db -d postgres

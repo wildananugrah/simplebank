@@ -6,7 +6,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "account_number": "8628312040",
+  "account_number": "7273664125",
   "amount": 1000
 }
 
@@ -16,7 +16,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "to_account_number": "7057815992",
-  "from_account_number": "8628312040",
+  "to_account_number": "7423503322",
+  "from_account_number": "7273664125",
   "amount": 100
 }

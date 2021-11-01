@@ -5,18 +5,23 @@ Content-Type: application/json
 Accept: application/json
 
 ###
+GET {{host}}/accounts/cif_number?cif_number=7358922550 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+###
 POST {{host}}/account HTTP/1.1
 Content-Type: application/json
 Accept: application/json
 
 {
-    "cif_number": "2752847356",
+    "cif_number": "7358922550",
     "currency": "IDR",
     "balance": 0
 }
 
 ###
-GET {{host}}/account?account=7057815992 HTTP/1.1
+GET {{host}}/account?account=7423503322 HTTP/1.1
 
 ###
 DELETE {{host}}/account?account=7057815992 HTTP/1.1

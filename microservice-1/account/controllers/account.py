@@ -53,3 +53,6 @@ class AccountController():
         result = self.model.update_balance(request.account, request.action, request.amount)
         print(result)
         return { 'balance' : result.balance, 'account' : result.account }
+
+    def select_by_cif_number(self, cif_number: str):
+        return self.model.select_by_cif_number(cif_number=cif_number)

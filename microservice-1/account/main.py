@@ -56,6 +56,17 @@ def all_account(
     return AccountController(db).all(skip, limit)
 
 @app.get(
+    "/accounts/cif_number",
+    tags=["Accounts"]
+)
+def all_account(
+    cif_number: str,
+    db: Session = Depends(get_db),
+    skip: int = 0, limit: int = 100
+):
+    return AccountController(db).select_by_cif_number(cif_number)
+
+@app.get(
     "/account",
     tags=["Accounts"]
 )

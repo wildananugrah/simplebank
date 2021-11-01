@@ -16,7 +16,9 @@ class PaymentController():
 
     def tax_inquiry(self, request: TaxInquirySchema):
         start = datetime.now()
+        print(TAX_URL)
         response = TaxPayment(TAX_URL, self.db).inquiry(bill_id=request.bill_id)
+        print(response)
         if response.status_code == 200:
             return {
                 'status' : 'SUCCESS',
@@ -35,10 +37,10 @@ class PaymentController():
         if not db_account:
             raise HTTPException(status_code=400, detail="Invalid Account Number") 
 
-        if db_account.balance < request.amount:
+        if db_account['balance'] < request.amount:
             raise HTTPException(status_code=400, detail="Unsufficient fund") 
 
-        response = TaxPayment(TAX_URL, self.db).payment(bill_id=request.bill_id, account_number=request.account_number, cif_number=db_account.cif_number, amount=request.amount)
+        response = TaxPayment(TAX_URL, self.db).payment(bill_id=request.bill_id, account_number=request.account_number, cif_number=db_account['cif_number'], amount=request.amount)
         if response.status_code == 200:
             return {
                 'status' : 'SUCCESS',

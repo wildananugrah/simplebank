@@ -56,7 +56,7 @@ services:
             - appdb
         environment: 
             DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
-            SIMULATOR_HOST: http://192.168.0.102:9090/sim
+            SIMULATOR_HOST: http://192.168.0.102:8090/sim
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
     appdb:
         image: postgres

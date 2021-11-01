@@ -25,6 +25,10 @@ class AccountModel():
     def all(self, skip: int = 0, limit: int = 100):
         return self.db.query(AccountDB).offset(skip).limit(limit).all()
 
+    def select_by_cif_number(self, cif_number: str, skip: int = 0, limit: int = 100):
+        return self.db.query(AccountDB).filter(AccountDB.cif_number == cif_number).offset(skip).limit(limit).all()
+
+
     def update_balance(self, account, action, amount):
         db_account = self.detail(account)
         if action.upper() == "DEBIT":
