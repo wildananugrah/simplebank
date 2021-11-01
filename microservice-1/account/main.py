@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from databases.db import Base, SessionLocal, engine
 from controllers.account import AccountController
-from schemas.account import AccountSchema
+from schemas.account import AccountSchema, AccountUpdateBalanceSchema
 
 import base64
 
@@ -74,3 +74,13 @@ def delete_account(
     db: Session = Depends(get_db)
 ):
     return AccountController(db).delete(account)
+
+@app.post(
+    "/account/update_balance",
+    tags=["Accounts"]
+)
+def update_balance(
+    request: AccountUpdateBalanceSchema, 
+    db: Session = Depends(get_db)
+):
+    return AccountController(db).update_balance(request)

@@ -1,0 +1,33 @@
+@host=http://localhost:7010
+
+GET {{host}}/accounts HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+###
+POST {{host}}/account HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "cif_number": "2752847356",
+    "currency": "IDR",
+    "balance": 0
+}
+
+###
+GET {{host}}/account?account=7057815992 HTTP/1.1
+
+###
+DELETE {{host}}/account?account=7057815992 HTTP/1.1
+
+###
+POST {{host}}/account/update_balance HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": 10,
+  "account": "7057815992",
+  "action": "CREDIT"
+}

@@ -19,7 +19,7 @@ class HistoricalTransactionModel():
         return self.db.query(HistoricalTransactionDB).filter(and_((HistoricalTransactionDB.timestamp + timedelta(days=1)) > datetime.now(), HistoricalTransactionDB.journal_number == journal_number)).first()
 
     def historical_transaction(self, account_number, skip: int = 0, limit: int = 100):
-        return self.db.query(HistoricalTransactionDB).filter(HistoricalTransactionDB.account_number == account_number).offset(skip).limit(limit).all()
+        return self.db.query(HistoricalTransactionDB).filter(HistoricalTransactionDB.account_number == account_number).order_by(HistoricalTransactionDB.timestamp.desc()).offset(skip).limit(limit).all()
     
     def add(self, account_number, current_account_balance, amount, action, transaction_type):
         

@@ -23,6 +23,20 @@ class CustomerController():
     def select_by_id_number(self, id_number):
         return self.model.select_by_id_number(id_number)
 
+    def detail_cif(self, cif_number):
+        db_customer = self.select_by_cif(cif_number)
+        if db_customer:
+            return db_customer
+        else:
+            raise HTTPException(status_code=404, detail="ID Number not found!")
+
+    def detail_id_number(self, id_number):
+        db_customer = self.select_by_id_number(id_number)
+        if db_customer:
+            return db_customer
+        else:
+            raise HTTPException(status_code=404, detail="ID Number not found!") 
+
     def create(self, customer: CustomerSchema):
         customer_dict = customer.dict()
         customer_dict['cif_number'] = self.generate_cif_number()

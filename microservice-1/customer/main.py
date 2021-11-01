@@ -95,7 +95,7 @@ def detail_by_cif_customer(
     cif_number: str,
     db: Session = Depends(get_db)
 ):
-    return CustomerController(db).select_by_cif(cif_number)
+    return CustomerController(db).detail_cif(cif_number)
 
 @app.get(
     "/customer/id_number",
@@ -105,7 +105,7 @@ def detail_by_id_number_customer(
     id_number: str,
     db: Session = Depends(get_db)
 ):
-    return CustomerController(db).select_by_id_number(id_number)
+    return CustomerController(db).detail_id_number(id_number)
 
 @app.delete(
     "/customer/cif",

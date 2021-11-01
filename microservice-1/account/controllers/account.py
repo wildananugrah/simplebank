@@ -51,8 +51,5 @@ class AccountController():
             raise HTTPException(status_code=400, detail="Unsufficient Fund") 
 
         result = self.model.update_balance(request.account, request.action, request.amount)
-
-        if result:
-            return db_account
-        else:
-            raise HTTPException(status_code=500, detail="Invalid update balance") 
+        print(result)
+        return { 'balance' : result.balance, 'account' : result.account }

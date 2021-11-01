@@ -1,0 +1,4 @@
+@host=http://localhost:7030
+
+###
+GET {{host}}/historical_transaction?account_number=8628312040 HTTP/1.1

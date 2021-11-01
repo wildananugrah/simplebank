@@ -22,7 +22,7 @@ class TransactionController():
         db_from_account = account_model.detail(transfer.from_account_number)
         db_to_account = account_model.detail(transfer.to_account_number)
 
-        if db_from_account.balance < transfer.amount:
+        if db_from_account['balance'] < transfer.amount:
             raise HTTPException(status_code=400, detail="Unsufficient balance")
 
         journal_number = historical_transaction_model.generate_journal_number()
@@ -45,8 +45,8 @@ class TransactionController():
             raise HTTPException(status_code=500, detail="ERROR TRANSFER")
 
     def deposit(self, deposit: DepositSchema):
-        account_model = AccountModel(self.db)
-        historical_transaction_model = HistoricalTransactionModel(self.db)
+        account_model = AccountModel()
+        historical_transaction_model = HistoricalTransactionModel()
         db_account = account_model.detail(deposit.account_number)
 
         journal_number = historical_transaction_model.generate_journal_number()
@@ -59,7 +59,7 @@ class TransactionController():
             return self.view.deposit_response(
                 account_number=deposit.account_number,  
                 journal_number=journal_number, 
-                balance=db_account.balance, 
+                balance=db_account['balance'], 
                 timestamp=timestamp
             )
         else:
