@@ -11,5 +11,5 @@ class CustomerDB(Base):
     cif_number = Column(String, unique=True, index=True)
     name = Column(String)
     email = Column(String)
-    username = Column(String, unique=True, index=True, default="")
+    username = Column(String, index=True, default="")
     password = Column(String, index=True, default="")
