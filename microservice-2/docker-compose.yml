@@ -1,0 +1,86 @@
+version: "3.7"
+services:
+    customer:
+        build:
+            context: ./customer
+            dockerfile: ./app.Dockerfile
+        container_name: customer
+        ports:
+            - "7000:7000"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+    account:
+        build:
+            context: ./account
+            dockerfile: ./app.Dockerfile
+        container_name: account
+        ports:
+            - "7010:7010"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+    transaction:
+        build:
+            context: ./transaction
+            dockerfile: ./app.Dockerfile
+        container_name: transaction
+        ports:
+            - "7020:7020"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+            ACCOUNT_HOST: http://account:7010
+    historical_transaction:
+        build:
+            context: ./historical_transaction
+            dockerfile: ./app.Dockerfile
+        container_name: historical_transaction
+        ports:
+            - "7030:7030"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+    payment:
+        build:
+            context: ./payment
+            dockerfile: ./app.Dockerfile
+        container_name: payment
+        ports:
+            - "7040:7040"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            SIMULATOR_HOST: http://192.168.0.102:8090/sim
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+            ACCOUNT_HOST: http://account:7010
+    session:
+        build:
+            context: ./session
+            dockerfile: ./app.Dockerfile
+        container_name: session
+        ports:
+            - "7050:7050"
+        depends_on:
+            - appdb
+        environment: 
+            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            SIMULATOR_HOST: http://192.168.0.102:8090/sim
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+    appdb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: comp90078
+            POSTGRES_DB: comp90078-db
+        ports:
+            - "6000:5432"
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data

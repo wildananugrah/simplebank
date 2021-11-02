@@ -1,0 +1,21 @@
+@host=http://localhost:8000
+
+###
+POST {{host}}/bill/inquiry/tax
+Content-Type: application/json
+Accept: application/json
+
+{
+    "bill_id" : "001"
+}
+
+###
+POST {{host}}/bill/payment/tax
+Content-Type: application/json
+Accept: application/json
+
+{
+    "bill_id" : "001",
+    "account_number": "7955583028",
+    "amount": 10
+}

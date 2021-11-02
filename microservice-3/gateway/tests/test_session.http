@@ -1,0 +1,8 @@
+@host=http://localhost:8000
+
+###
+POST {{host}}/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+username=username&password=password

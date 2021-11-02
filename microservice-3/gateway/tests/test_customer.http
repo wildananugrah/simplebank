@@ -1,0 +1,65 @@
+@customer_host=http://localhost:8000
+
+###
+POST {{customer_host}}/customer HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "User Name",
+  "id_number": "31730059100011",
+  "email": "user@gmail.com"
+}
+
+###
+PUT {{customer_host}}/customer?cif_number=0958793051 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "User Name 2",
+  "id_number": "31730059100010",
+  "email": "user2@gmail.com"
+}
+
+###
+PUT {{customer_host}}/customer_user HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "username": "username",
+    "password": "password",
+    "cif_number": "0958793051"
+}
+
+###
+POST {{customer_host}}/customer/login HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "username": "username",
+    "password": "password"
+}
+
+###
+GET {{customer_host}}/customers HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+###
+GET {{customer_host}}/customer/cif?cif_number=7597794962 HTTP/1.1
+
+###
+GET {{customer_host}}/customer/id_number?id_number=31730059100009 HTTP/1.1
+
+###
+DELETE {{customer_host}}/customer/id_number?id_number=31730059100009 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+###
+DELETE {{customer_host}}/customer/cif?cif_number=0294622141 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
