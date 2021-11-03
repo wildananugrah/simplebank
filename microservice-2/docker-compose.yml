@@ -8,9 +8,26 @@ services:
         ports:
             - "7000:7000"
         depends_on:
-            - appdb
+            customerdb:
+                condition: service_healthy
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            DB_HOST: postgresql://customerdb-user:comp90078!@customerdb/comp90078-db
+    customerdb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: customerdb-user
+            POSTGRES_DB: comp90078-db
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        # ports:
+        #     - "6000:5432"
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
     account:
         build:
             context: ./account
@@ -19,9 +36,26 @@ services:
         ports:
             - "7010:7010"
         depends_on:
-            - appdb
+            accountdb:
+                condition: service_healthy
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            DB_HOST: postgresql://accountdb-user:comp90078!@accountdb/comp90078-db
+    accountdb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: accountdb-user
+            POSTGRES_DB: comp90078-db
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        # ports:
+        #     - "6000:5432"
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
     transaction:
         build:
             context: ./transaction
@@ -30,11 +64,28 @@ services:
         ports:
             - "7020:7020"
         depends_on:
-            - appdb
+            transactiondb:
+                condition: service_healthy
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            DB_HOST: postgresql://transactiondb-user:comp90078!@transactiondb/comp90078-db
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
             ACCOUNT_HOST: http://account:7010
+    transactiondb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: transactiondb-user
+            POSTGRES_DB: comp90078-db
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        # ports:
+        #     - "6000:5432"
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
     historical_transaction:
         build:
             context: ./historical_transaction
@@ -43,9 +94,26 @@ services:
         ports:
             - "7030:7030"
         depends_on:
-            - appdb
+            historical_transactiondb:
+                condition: service_healthy
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            DB_HOST: postgresql://historical_transactiondb-user:comp90078!@historical_transactiondb/comp90078-db
+    historical_transactiondb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: historical_transactiondb-user
+            POSTGRES_DB: comp90078-db
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        # ports:
+        #     - "6000:5432"
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
     payment:
         build:
             context: ./payment
@@ -54,12 +122,29 @@ services:
         ports:
             - "7040:7040"
         depends_on:
-            - appdb
+            paymentdb:
+                condition: service_healthy
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
+            DB_HOST: postgresql://paymentdb-user:comp90078!@paymentdb/comp90078-db
             SIMULATOR_HOST: http://192.168.0.102:8090/sim
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
             ACCOUNT_HOST: http://account:7010
+    paymentdb:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: comp90078!
+            POSTGRES_USER: paymentdb-user
+            POSTGRES_DB: comp90078-db
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        # ports:
+        #     - "6000:5432"
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
     session:
         build:
             context: ./session
@@ -67,20 +152,8 @@ services:
         container_name: session
         ports:
             - "7050:7050"
-        depends_on:
-            - appdb
+        # depends_on:
+        #     - appdb
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
             SIMULATOR_HOST: http://192.168.0.102:8090/sim
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
-    appdb:
-        image: postgres
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: comp90078!
-            POSTGRES_USER: comp90078
-            POSTGRES_DB: comp90078-db
-        ports:
-            - "6000:5432"
-        # volumes:
-        #     - ./data:/var/lib/postgresql/data

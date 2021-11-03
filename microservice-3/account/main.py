@@ -95,3 +95,56 @@ def update_balance(
     db: Session = Depends(get_db)
 ):
     return AccountController(db).update_balance(request)
+
+# payments
+@app.post(
+    "/bill/inquiry/tax",
+    tags=["Payments"]
+)
+def bill_inquiry_tax(
+    request: TaxInquirySchema,
+    db: Session = Depends(get_db),
+):
+    return PaymentController(db).tax_inquiry(request)
+
+@app.post(
+    "/bill/payment/tax",
+    tags=["Payments"]
+)
+def bill_payment_tax(
+    request: TaxPaymentSchema,
+    db: Session = Depends(get_db),
+):
+    return PaymentController(db).tax_payment(request)
+
+# transfer
+@app.post(
+    "/transfer",
+    tags=["Transactions"]
+)
+def transfer(
+    transfer_req: TransferSchema,
+    db: Session = Depends(get_db)
+):
+    return TransactionController(db).transfer(transfer_req)
+
+@app.post(
+    "/deposit",
+    tags=["Transactions"]
+)
+def deposit(
+    deposit_req: DepositSchema,
+    db: Session = Depends(get_db)
+):
+    return TransactionController(db).deposit(deposit_req)
+
+@app.get(
+    "/historical_transaction",
+    tags=["Transactions"]
+)
+def historical_transaction(
+    account_number: str, 
+    db: Session = Depends(get_db),
+    skip: int = 0, limit: int = 100
+):
+    return TransactionController(db).historical_transaction(account_number, skip, limit)

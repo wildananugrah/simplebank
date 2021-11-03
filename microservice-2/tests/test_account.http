@@ -15,7 +15,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "cif_number": "7358922550",
+    "cif_number": "1696616837",
     "currency": "IDR",
     "balance": 0
 }
