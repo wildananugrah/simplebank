@@ -1,16 +1,11 @@
 from fastapi import FastAPI, Depends, FastAPI, Body, Request, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
-from databases.db import Base, SessionLocal, engine
 from controllers.session import SessionController
 from schemas.customer import CustomerUserLoginSchema
 
 import base64
 
 app = FastAPI()
-
-Base.metadata.create_all(bind=engine)
-db = SessionLocal()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

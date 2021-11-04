@@ -4,6 +4,9 @@ from sqlalchemy.orm import Session
 from databases.db import Base, SessionLocal, engine
 from controllers.account import AccountController
 from schemas.account import AccountSchema, AccountUpdateBalanceSchema
+from schemas.payment import TaxInquirySchema, TaxPaymentSchema
+from schemas.transaction import TransferSchema
+from schemas.deposit import DepositSchema
 
 import base64
 
