@@ -15,3 +15,9 @@ compose-up:
 
 compose-down:
 	@docker-compose down
+
+clear-docker-volume:
+	@docker volume prune
+
+clear-docker-unused-image:
+	@docker image prune

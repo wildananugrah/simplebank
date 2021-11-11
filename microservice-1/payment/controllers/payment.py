@@ -48,4 +48,4 @@ class PaymentController():
                 'host_response' : response.json()
             }
         else:
-            raise HTTPException(status_code=400, detail="Invalid Inquiry Tax") 
+            raise HTTPException(status_code=400, detail="Invalid Inquiry Tax")
