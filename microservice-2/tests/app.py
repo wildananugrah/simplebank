@@ -67,9 +67,11 @@ print(response.json())
 
 response = requests.delete(f"{host}/account?account={account_number_1}")
 print(response)
+print(response.json())
 
 response = requests.delete(f"{host}/account?account={account_number_2}")
 print(response)
+print(response.json())
 
 response = requests.delete(f"{host}/customer/cif?cif_number={cif_number}")
 print(response)

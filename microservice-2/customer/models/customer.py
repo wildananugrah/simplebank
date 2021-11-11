@@ -44,3 +44,6 @@ class CustomerModel():
 
     def login(self, username, password):
         return self.db.query(CustomerDB).filter(and_(CustomerDB.username == username, CustomerDB.password == password)).first()
+
+    def select_by_username(self, username):
+        return self.db.query(CustomerDB).filter(CustomerDB.username == username).first()

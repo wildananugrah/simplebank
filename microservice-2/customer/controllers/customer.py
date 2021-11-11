@@ -22,6 +22,9 @@ class CustomerController():
 
     def select_by_id_number(self, id_number):
         return self.model.select_by_id_number(id_number)
+    
+    def select_by_username(self, username):
+        return self.model.select_by_username(username)
 
     def detail_cif(self, cif_number):
         db_customer = self.select_by_cif(cif_number)
@@ -74,6 +77,11 @@ class CustomerController():
         db_customer = self.select_by_cif(customer.cif_number)
         if not db_customer:
             raise HTTPException(status_code=400, detail="CIF Number doesn't exist")
+
+        db_customer_2 = self.select_by_username(customer.username)
+        if db_customer_2:
+            raise HTTPException(status_code=400, detail="Username is not available")
+
         return self.model.update_username_password(db_customer, customer.username, customer.password)
 
     def customer_user_login(self, customer: CustomerUserLoginSchema):

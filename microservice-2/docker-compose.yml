@@ -145,6 +145,20 @@ services:
         #     - "6000:5432"
         # volumes:
         #     - ./data:/var/lib/postgresql/data
+    gateway:
+        build:
+            context: ./gateway
+            dockerfile: ./app.Dockerfile
+        container_name: gateway
+        ports:
+            - "8000:8000"
+        environment: 
+            CUSTOMER_HOST: http://customer:7000
+            ACCOUNT_HOST: http://account:7010
+            TRANSACTION_HOST: http://transaction:7020
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+            PAYMENT_HOST: http://payment:7040
+            SESSION_HOST: http://session:7050
     session:
         build:
             context: ./session
