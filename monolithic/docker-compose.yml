@@ -6,12 +6,13 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: application
         ports:
-            - "8080:8080"
+            - "8000:8000"
         depends_on:
-            - appdb
+            appdb:
+                condition: service_healthy
         environment: 
             DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
-            SIMULATOR_HOST: http://192.168.0.102:9090/sim
+            SIMULATOR_HOST: http://192.168.0.102:8090/sim
     appdb:
         image: postgres
         restart: always
@@ -19,5 +20,12 @@ services:
             POSTGRES_PASSWORD: comp90078!
             POSTGRES_USER: comp90078
             POSTGRES_DB: comp90078-db
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        ports:
+            - "6000:5432"
         # volumes:
         #     - ./data:/var/lib/postgresql/data
