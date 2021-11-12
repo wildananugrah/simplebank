@@ -1,7 +1,7 @@
 from databases.h2h_lookup import H2HLookupDB
 from models.historical_transaction import HistoricalTransactionModel
 
-import os, requests
+import os, requests, pika, json
 
 class Payment():
     def __init__(self, url, db=None):
@@ -15,18 +15,26 @@ class Payment():
         self.db.commit()
         
         journal_number = HistoricalTransactionModel().generate_journal_number()
-        
-        historical_transaction_url = os.environ.get("HISTORICAL_TRANSACTION_HOST")
-        response = requests.post(f"{historical_transaction_url}/historical_transaction", json={
+
+        rabbit_mq_host = os.environ.get("RABBIT_MQ_HOST")
+        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbit_mq_host))
+        channel = connection.channel()
+
+        channel.queue_declare(queue='historical_transaction')
+
+        data = {
             "account_number": account_number, 
             "current_account_balance": db_account.balance, 
             "amount": amount, 
             "action": "DEBIT",
             "transaction_type" : "PAYMENT"
-        })
+        }
 
-        if response.status_code != 200:
-            return False
+        channel.basic_publish(exchange='',
+                            routing_key='historical_transaction',
+                            body=json.dumps(data))
+                            
+        print(f" [x] Sent {data}")
 
         return True
 

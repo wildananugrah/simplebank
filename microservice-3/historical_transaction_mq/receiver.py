@@ -1,8 +1,9 @@
-#!/usr/bin/env python
-import pika, sys, os, json
+from dotenv import load_dotenv
+import pika, sys, os, json, requests
 
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    rabbit_mq_host = os.environ.get("RABBIT_MQ_HOST")
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_mq_host))
     channel = connection.channel()
 
     channel.queue_declare(queue='historical_transaction')
@@ -10,6 +11,7 @@ def main():
     def callback(ch, method, properties, body):
         message = json.loads(body)
         historical_transaction_url = os.environ.get("HISTORICAL_TRANSACTION_HOST")
+        print(f"Message received: {message}")
         requests.post(f"{historical_transaction_url}/historical_transaction", json=message)
 
     channel.basic_consume(queue='historical_transaction', on_message_callback=callback, auto_ack=True)
@@ -19,6 +21,7 @@ def main():
 
 if __name__ == '__main__':
     try:
+        load_dotenv()
         main()
     except KeyboardInterrupt:
         print('Interrupted')
