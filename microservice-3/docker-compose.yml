@@ -1,17 +1,17 @@
 version: "3.7"
 services:
-    customer:
-        build:
-            context: ./customer
-            dockerfile: ./app.Dockerfile
-        container_name: customer
-        ports:
-            - "7000:7000"
-        depends_on:
-            customerdb:
-                condition: service_healthy
-        environment: 
-            DB_HOST: postgresql://customerdb-user:comp90078!@customerdb/comp90078-db
+    # customer:
+    #     build:
+    #         context: ./customer
+    #         dockerfile: ./app.Dockerfile
+    #     container_name: customer
+    #     ports:
+    #         - "7000:7000"
+    #     depends_on:
+    #         customerdb:
+    #             condition: service_healthy
+    #     environment: 
+    #         DB_HOST: postgresql://customerdb-user:comp90078!@customerdb/comp90078-db
     customerdb:
         image: postgres
         restart: always
@@ -24,22 +24,22 @@ services:
             interval: 10s
             timeout: 5s
             retries: 5
-        # ports:
-        #     - "6000:5432"
+        ports:
+            - "6000:5432"
         # volumes:
         #     - ./data:/var/lib/postgresql/data
-    account:
-        build:
-            context: ./account
-            dockerfile: ./app.Dockerfile
-        container_name: account
-        ports:
-            - "7010:7010"
-        depends_on:
-            accountdb:
-                condition: service_healthy
-        environment: 
-            DB_HOST: postgresql://accountdb-user:comp90078!@accountdb/comp90078-db
+    # account:
+    #     build:
+    #         context: ./account
+    #         dockerfile: ./app.Dockerfile
+    #     container_name: account
+    #     ports:
+    #         - "7010:7010"
+    #     depends_on:
+    #         accountdb:
+    #             condition: service_healthy
+    #     environment: 
+    #         DB_HOST: postgresql://accountdb-user:comp90078!@accountdb/comp90078-db
     accountdb:
         image: postgres
         restart: always
@@ -52,22 +52,22 @@ services:
             interval: 10s
             timeout: 5s
             retries: 5
-        # ports:
-        #     - "6000:5432"
+        ports:
+            - "6001:5432"
         # volumes:
         #     - ./data:/var/lib/postgresql/data
-    historical_transaction:
-        build:
-            context: ./historical_transaction
-            dockerfile: ./app.Dockerfile
-        container_name: historical_transaction
-        ports:
-            - "7030:7030"
-        depends_on:
-            historical_transactiondb:
-                condition: service_healthy
-        environment: 
-            DB_HOST: postgresql://historical_transactiondb-user:comp90078!@historical_transactiondb/comp90078-db
+    # historical_transaction:
+    #     build:
+    #         context: ./historical_transaction
+    #         dockerfile: ./app.Dockerfile
+    #     container_name: historical_transaction
+    #     ports:
+    #         - "7030:7030"
+    #     depends_on:
+    #         historical_transactiondb:
+    #             condition: service_healthy
+    #     environment: 
+    #         DB_HOST: postgresql://historical_transactiondb-user:comp90078!@historical_transactiondb/comp90078-db
     historical_transactiondb:
         image: postgres
         restart: always
@@ -80,19 +80,19 @@ services:
             interval: 10s
             timeout: 5s
             retries: 5
-        # ports:
-        #     - "6000:5432"
+        ports:
+            - "6002:5432"
         # volumes:
         #     - ./data:/var/lib/postgresql/data
-    session:
-        build:
-            context: ./session
-            dockerfile: ./app.Dockerfile
-        container_name: session
-        ports:
-            - "7050:7050"
-        # depends_on:
-        #     - appdb
-        environment: 
-            SIMULATOR_HOST: http://192.168.0.102:8090/sim
-            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+    # session:
+    #     build:
+    #         context: ./session
+    #         dockerfile: ./app.Dockerfile
+    #     container_name: session
+    #     ports:
+    #         - "7050:7050"
+    #     # depends_on:
+    #     #     - appdb
+    #     environment: 
+    #         SIMULATOR_HOST: http://192.168.0.102:8090/sim
+    #         HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030

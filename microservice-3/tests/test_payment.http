@@ -1,4 +1,4 @@
-@host=http://localhost:7040
+@host=http://localhost:7010
 
 ###
 POST {{host}}/bill/inquiry/tax
@@ -16,6 +16,6 @@ Accept: application/json
 
 {
     "bill_id" : "001",
-    "account_number": "7273664125",
+    "account_number": "4374000975",
     "amount": 10
 }

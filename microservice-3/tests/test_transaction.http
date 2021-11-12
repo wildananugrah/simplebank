@@ -1,4 +1,4 @@
-@host=http://localhost:7020
+@host=http://localhost:7010
 
 ###
 POST {{host}}/deposit HTTP/1.1
@@ -6,7 +6,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "account_number": "7273664125",
+  "account_number": "4374000975",
   "amount": 1000
 }
 
@@ -16,7 +16,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "to_account_number": "7423503322",
-  "from_account_number": "7273664125",
+  "to_account_number": "9199035865",
+  "from_account_number": "4374000975",
   "amount": 100
 }

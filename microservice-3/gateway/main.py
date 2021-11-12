@@ -189,10 +189,10 @@ def all_account_by_cif_number(
     tags=["Accounts"]
 )
 def all_account_by_cif_number(
-    account_number: str,
+    account: str,
     response: Response
 ):
-    _response =  AccountController().delete(account_number)
+    _response =  AccountController().delete(account)
     response.status_code = _response.status_code
     return _response.json()
 

@@ -10,20 +10,16 @@ class Payment():
         self.request_message = None
 
     def debit(self, account_number, amount):
-        account_url = os.environ.get("ACCOUNT_HOST")
-        response = requests.post(f"{account_url}/account/update_balance", json={
-            "account" : account_number,
-            "action" : "DEBIT",
-            "amount": amount
-        })
+        db_account = AccountModel(self.db).detail(account_number)
+        db_account.balance = db_account.balance - amount
+        self.db.commit()
         
-        db_account = response.json()
         journal_number = HistoricalTransactionModel().generate_journal_number()
         
         historical_transaction_url = os.environ.get("HISTORICAL_TRANSACTION_HOST")
         response = requests.post(f"{historical_transaction_url}/historical_transaction", json={
             "account_number": account_number, 
-            "current_account_balance": db_account['balance'], 
+            "current_account_balance": db_account.balance, 
             "amount": amount, 
             "action": "DEBIT",
             "transaction_type" : "PAYMENT"

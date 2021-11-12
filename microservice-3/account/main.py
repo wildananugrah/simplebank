@@ -3,6 +3,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from databases.db import Base, SessionLocal, engine
 from controllers.account import AccountController
+from controllers.transaction import TransactionController
+from controllers.payment import PaymentController
 from schemas.account import AccountSchema, AccountUpdateBalanceSchema
 from schemas.payment import TaxInquirySchema, TaxPaymentSchema
 from schemas.transaction import TransferSchema
@@ -140,14 +142,3 @@ def deposit(
     db: Session = Depends(get_db)
 ):
     return TransactionController(db).deposit(deposit_req)
-
-@app.get(
-    "/historical_transaction",
-    tags=["Transactions"]
-)
-def historical_transaction(
-    account_number: str, 
-    db: Session = Depends(get_db),
-    skip: int = 0, limit: int = 100
-):
-    return TransactionController(db).historical_transaction(account_number, skip, limit)

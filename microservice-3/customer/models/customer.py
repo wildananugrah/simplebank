@@ -18,6 +18,9 @@ class CustomerModel():
     def select_by_id_number(self, id_number):
         return self.db.query(CustomerDB).filter(CustomerDB.id_number == id_number).first()
 
+    def select_by_username(self, username):
+        return self.db.query(CustomerDB).filter(CustomerDB.username == username).first()
+
     def delete(self, db_customer):
         self.db.delete(db_customer)
         self.db.commit()

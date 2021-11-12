@@ -51,7 +51,6 @@ class AccountController():
             raise HTTPException(status_code=400, detail="Unsufficient Fund") 
 
         result = self.model.update_balance(request.account, request.action, request.amount)
-        print(result)
         return { 'balance' : result.balance, 'account' : result.account }
 
     def select_by_cif_number(self, cif_number: str):
