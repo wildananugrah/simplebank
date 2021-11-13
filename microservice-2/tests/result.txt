@@ -1,0 +1,58 @@
+== create customer ==
+200 {"name":"User Name","id":1,"email":"user@gmail.com","password":"","id_number":"31730059100009","cif_number":"7005663955","username":""}
+== select all customers ==
+200 [{"name":"User Name","id":1,"email":"user@gmail.com","password":"","id_number":"31730059100009","cif_number":"7005663955","username":""}]
+== select by cif number == 
+200 {"name":"User Name","id":1,"email":"user@gmail.com","password":"","id_number":"31730059100009","cif_number":"7005663955","username":""}
+== select by id number == 
+200 {"name":"User Name","id":1,"email":"user@gmail.com","password":"","id_number":"31730059100009","cif_number":"7005663955","username":""}
+== delete by cif == 
+200 true
+== create customer ==
+200 {"name":"User Name","id":2,"email":"user@gmail.com","password":"","id_number":"31730059100009","cif_number":"0752112257","username":""}
+== delete by id number ==
+200 true
+== create customer ==
+200 {"name":"User Name","id":3,"email":"user@gmail.com","password":"","id_number":"31730059100009","cif_number":"8963480673","username":""}
+== update customer ==
+<Response [422]>
+== update customer login ==
+200 {"name":"User Name","id":3,"email":"user@gmail.com","password":"password","id_number":"31730059100009","cif_number":"8963480673","username":"username"}
+== customer login ==
+200 {"access_token":"ODk2MzQ4MDY3Mw==","token_type":"bearer"}
+== create account ==
+200 {"cif_number":"8963480673","currency":"IDR","balance":0,"account":"6372806895"}
+== create account ==
+200 {"cif_number":"8963480673","currency":"IDR","balance":0,"account":"0093281321"}
+== create account ==
+200 {"cif_number":"8963480673","currency":"IDR","balance":0,"account":"7861860046"}
+== select all accounts ==
+200 [{"currency":"IDR","cif_number":"8963480673","id":1,"balance":0,"account":"6372806895"},{"currency":"IDR","cif_number":"8963480673","id":2,"balance":0,"account":"0093281321"},{"currency":"IDR","cif_number":"8963480673","id":3,"balance":0,"account":"7861860046"}]
+== select account by cif ==
+200 [{"currency":"IDR","cif_number":"8963480673","id":1,"balance":0,"account":"6372806895"},{"currency":"IDR","cif_number":"8963480673","id":2,"balance":0,"account":"0093281321"},{"currency":"IDR","cif_number":"8963480673","id":3,"balance":0,"account":"7861860046"}]
+== deposit account: 6372806895 ==
+200 {"account_number":"6372806895","balance":0,"timestamp":"2021-11-13T07:12:11.106032","journal_number":"209596"}
+== transfer 6372806895 to 0093281321 amount: 100 ==
+200 {"from_account_number":"6372806895","to_account_number":"0093281321","amount":100,"timestamp":"2021-11-13T07:12:11.160076","journal_number":"095436"}
+== historical 6372806895 ==
+200 [{"amount":100,"id":2,"action":"DEBIT","journal_number":"764960","account_number":"6372806895","transaction_type":"TRANSFER","balance":9900,"timestamp":"2021-11-13T07:12:11.181727"},{"amount":10000,"id":1,"action":"CREDIT","journal_number":"089758","account_number":"6372806895","transaction_type":"DEPOSIT","balance":10000,"timestamp":"2021-11-13T07:12:11.125106"}]
+account 1 len: 2
+ TRUE 
+== historical 0093281321 ==
+200 [{"amount":100,"id":3,"action":"CREDIT","journal_number":"890189","account_number":"0093281321","transaction_type":"TRANSFER","balance":100,"timestamp":"2021-11-13T07:12:11.189243"}]
+account 2 len: 1
+ TRUE 
+200 {"status":"SUCCESS","response_time":0.013286,"host_response":{"billing_id":115030016764839,"total_amount":1000000,"address":"JL.MESJID IV NO.19,JAKARTA UTARA","currency":"IDR","npwp":"021076427077000","name":"NPWP DUMMY BADAN DUA","sk_number":"000000000000000","adminBank":0,"bill":1000000,"nop":900019191818181800}}
+200 {"status":"SUCCESS","response_time":0.033224,"host_response":{"billing_id":115030016764839,"total_amount":1000000,"address":"JL.MESJID IV NO.19,JAKARTA UTARA","currency":"IDR","npwp":"021076427077000","name":"NPWP DUMMY BADAN DUA","sk_number":"000000000000000","adminBank":0,"bill":1000000,"nop":900019191818181800,"status":"SUCCESS"}}
+== historical 6372806895 ==
+200 [{"amount":10,"id":4,"action":"DEBIT","journal_number":"983961","account_number":"6372806895","transaction_type":"PAYMENT","balance":9890,"timestamp":"2021-11-13T07:12:11.293869"},{"amount":100,"id":2,"action":"DEBIT","journal_number":"764960","account_number":"6372806895","transaction_type":"TRANSFER","balance":9900,"timestamp":"2021-11-13T07:12:11.181727"},{"amount":10000,"id":1,"action":"CREDIT","journal_number":"089758","account_number":"6372806895","transaction_type":"DEPOSIT","balance":10000,"timestamp":"2021-11-13T07:12:11.125106"}]
+account 1 len: 3
+ TRUE 
+== delete account: 6372806895 ==
+200 true
+== delete account: 0093281321 ==
+200 true
+== delete account: 7861860046 ==
+200 true
+== delete by id number ==
+200 true

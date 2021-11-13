@@ -1,0 +1,58 @@
+== create customer ==
+200 {"id_number":"31730059100009","id":16,"cif_number":"7450260380","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== select all customers ==
+200 [{"id_number":"31730059100009","id":16,"cif_number":"7450260380","email":"user@gmail.com","password":"","name":"User Name","username":""}]
+== select by cif number == 
+200 {"id_number":"31730059100009","id":16,"cif_number":"7450260380","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== select by id number == 
+200 {"id_number":"31730059100009","id":16,"cif_number":"7450260380","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== delete by cif == 
+200 true
+== create customer ==
+200 {"id_number":"31730059100009","id":17,"cif_number":"7004898249","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== delete by id number ==
+200 true
+== create customer ==
+200 {"id_number":"31730059100009","id":18,"cif_number":"9439370676","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== update customer ==
+<Response [422]>
+== update customer login ==
+200 {"id_number":"31730059100009","id":18,"cif_number":"9439370676","email":"user@gmail.com","password":"password","name":"User Name","username":"username"}
+== customer login ==
+200 {"access_token":"OTQzOTM3MDY3Ng==","token_type":"bearer"}
+== create account ==
+200 {"cif_number":"9439370676","currency":"IDR","balance":0,"account":"3922410733"}
+== create account ==
+200 {"cif_number":"9439370676","currency":"IDR","balance":0,"account":"3949894791"}
+== create account ==
+200 {"cif_number":"9439370676","currency":"IDR","balance":0,"account":"9811312129"}
+== select all accounts ==
+200 [{"cif_number":"1873328866","account":"9923745592","balance":0,"currency":"IDR","id":2},{"cif_number":"1873328866","account":"3558762853","balance":0,"currency":"IDR","id":3},{"cif_number":"1873328866","account":"3642857654","balance":10000,"currency":"IDR","id":1},{"cif_number":"9439370676","account":"3922410733","balance":0,"currency":"IDR","id":16},{"cif_number":"9439370676","account":"3949894791","balance":0,"currency":"IDR","id":17},{"cif_number":"9439370676","account":"9811312129","balance":0,"currency":"IDR","id":18}]
+== select account by cif ==
+200 [{"cif_number":"9439370676","account":"3922410733","balance":0,"currency":"IDR","id":16},{"cif_number":"9439370676","account":"3949894791","balance":0,"currency":"IDR","id":17},{"cif_number":"9439370676","account":"9811312129","balance":0,"currency":"IDR","id":18}]
+== deposit account: 3922410733 ==
+200 {"account_number":"3922410733","balance":10000,"timestamp":"2021-11-13T06:54:03.368350","journal_number":"556784"}
+== transfer 3922410733 to 3949894791 amount: 100 ==
+200 {"from_account_number":"3922410733","to_account_number":"3949894791","amount":100,"timestamp":"2021-11-13T06:54:03.380486","journal_number":"259652"}
+== historical 3922410733 ==
+200 [{"amount":10000,"transaction_type":"DEPOSIT","balance":10000,"timestamp":"2021-11-13T05:35:50.354749","id":10,"action":"CREDIT","account_number":"3922410733","journal_number":"556784"},{"amount":100,"transaction_type":"TRANSFER","balance":9900,"timestamp":"2021-11-13T05:35:50.354749","id":11,"action":"DEBIT","account_number":"3922410733","journal_number":"259652"}]
+account 1 len: 2
+ TRUE 
+== historical 3949894791 ==
+200 [{"amount":100,"transaction_type":"TRANSFER","balance":100,"timestamp":"2021-11-13T05:35:50.354749","id":12,"action":"CREDIT","account_number":"3949894791","journal_number":"259652"}]
+account 2 len: 1
+ TRUE 
+200 {"status":"SUCCESS","response_time":0.005905,"host_response":{"billing_id":115030016764839,"total_amount":1000000,"address":"JL.MESJID IV NO.19,JAKARTA UTARA","currency":"IDR","npwp":"021076427077000","name":"NPWP DUMMY BADAN DUA","sk_number":"000000000000000","adminBank":0,"bill":1000000,"nop":900019191818181800}}
+200 {"status":"SUCCESS","response_time":0.010851,"host_response":{"billing_id":115030016764839,"total_amount":1000000,"address":"JL.MESJID IV NO.19,JAKARTA UTARA","currency":"IDR","npwp":"021076427077000","name":"NPWP DUMMY BADAN DUA","sk_number":"000000000000000","adminBank":0,"bill":1000000,"nop":900019191818181800,"status":"SUCCESS"}}
+== historical 3922410733 ==
+200 [{"amount":10000,"transaction_type":"DEPOSIT","balance":10000,"timestamp":"2021-11-13T05:35:50.354749","id":10,"action":"CREDIT","account_number":"3922410733","journal_number":"556784"},{"amount":100,"transaction_type":"TRANSFER","balance":9900,"timestamp":"2021-11-13T05:35:50.354749","id":11,"action":"DEBIT","account_number":"3922410733","journal_number":"259652"},{"amount":10,"transaction_type":"PAYMENT","balance":9890,"timestamp":"2021-11-13T05:35:50.354749","id":13,"action":"DEBIT","account_number":"3922410733","journal_number":"333422"}]
+account 1 len: 3
+ TRUE 
+== delete account: 3922410733 ==
+200 true
+== delete account: 3949894791 ==
+200 true
+== delete account: 9811312129 ==
+200 true
+== delete by id number ==
+200 true

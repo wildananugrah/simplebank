@@ -22,13 +22,6 @@ db = SessionLocal()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# 1. session 
-# 2. transaction [done]
-# 3. payments [done]
-# 4. historical [done]
-# 5. accounts [done]
-# 6. customers [done]
-
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -181,6 +174,17 @@ def delete_account(
     db: Session = Depends(get_db)
 ):
     return AccountController(db).delete(account)
+
+@app.get(
+    "/accounts/cif_number",
+    tags=["Accounts"]
+)
+def all_account(
+    cif_number: str,
+    db: Session = Depends(get_db),
+    skip: int = 0, limit: int = 100
+):
+    return AccountController(db).select_by_cif_number(cif_number)
 
 # transfer
 @app.post(

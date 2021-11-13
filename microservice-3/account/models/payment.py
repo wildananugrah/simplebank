@@ -1,4 +1,5 @@
 from databases.h2h_lookup import H2HLookupDB
+from models.account import AccountModel
 from models.historical_transaction import HistoricalTransactionModel
 
 import os, requests, pika, json

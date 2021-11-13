@@ -1,0 +1,58 @@
+== create customer ==
+200 {"id_number":"31730059100009","id":1,"cif_number":"9332745619","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== select all customers ==
+200 [{"id_number":"31730059100009","id":1,"cif_number":"9332745619","email":"user@gmail.com","password":"","name":"User Name","username":""}]
+== select by cif number == 
+200 {"id_number":"31730059100009","id":1,"cif_number":"9332745619","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== select by id number == 
+200 {"id_number":"31730059100009","id":1,"cif_number":"9332745619","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== delete by cif == 
+200 true
+== create customer ==
+200 {"id_number":"31730059100009","id":2,"cif_number":"4236165667","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== delete by id number ==
+200 true
+== create customer ==
+200 {"id_number":"31730059100009","id":3,"cif_number":"6661785960","email":"user@gmail.com","password":"","name":"User Name","username":""}
+== update customer ==
+{"detail":[{"loc":["query","cif_number"],"msg":"field required","type":"value_error.missing"}]}
+== update customer login ==
+200 {"id_number":"31730059100009","id":3,"cif_number":"6661785960","email":"user@gmail.com","password":"password","name":"User Name","username":"username"}
+== customer login ==
+200 {"access_token":"NjY2MTc4NTk2MA==","token_type":"bearer"}
+== create account ==
+200 {"cif_number":"6661785960","currency":"IDR","balance":0,"account":"0259090771"}
+== create account ==
+200 {"cif_number":"6661785960","currency":"IDR","balance":0,"account":"8060944693"}
+== create account ==
+200 {"cif_number":"6661785960","currency":"IDR","balance":0,"account":"5585828688"}
+== select all accounts ==
+200 [{"cif_number":"6661785960","id":1,"account":"0259090771","balance":0,"currency":"IDR"},{"cif_number":"6661785960","id":2,"account":"8060944693","balance":0,"currency":"IDR"},{"cif_number":"6661785960","id":3,"account":"5585828688","balance":0,"currency":"IDR"}]
+== select account by cif ==
+200 [{"cif_number":"6661785960","id":1,"account":"0259090771","balance":0,"currency":"IDR"},{"cif_number":"6661785960","id":2,"account":"8060944693","balance":0,"currency":"IDR"},{"cif_number":"6661785960","id":3,"account":"5585828688","balance":0,"currency":"IDR"}]
+== deposit account: 0259090771 ==
+200 {"account_number":"0259090771","balance":10000,"timestamp":"2021-11-13T07:39:31.747638","journal_number":"613242"}
+== transfer 0259090771 to 8060944693 amount: 100 ==
+200 {"from_account_number":"0259090771","to_account_number":"8060944693","amount":100,"timestamp":"2021-11-13T07:39:31.785591","journal_number":"616165"}
+== historical 0259090771 ==
+200 [{"account_number":"0259090771","id":2,"transaction_type":"TRANSFER","amount":100,"journal_number":"669733","action":"DEBIT","balance":9900,"timestamp":"2021-11-13T07:39:31.804721"},{"account_number":"0259090771","id":1,"transaction_type":"DEPOSIT","amount":10000,"journal_number":"565807","action":"CREDIT","balance":10000,"timestamp":"2021-11-13T07:39:31.783247"}]
+account 1 len: 2
+ TRUE 
+== historical 8060944693 ==
+200 [{"account_number":"8060944693","id":3,"transaction_type":"TRANSFER","amount":100,"journal_number":"997051","action":"CREDIT","balance":100,"timestamp":"2021-11-13T07:39:31.817872"}]
+account 2 len: 1
+ TRUE 
+200 {"status":"SUCCESS","response_time":0.010274,"host_response":{"billing_id":115030016764839,"total_amount":1000000,"address":"JL.MESJID IV NO.19,JAKARTA UTARA","currency":"IDR","npwp":"021076427077000","name":"NPWP DUMMY BADAN DUA","sk_number":"000000000000000","adminBank":0,"bill":1000000,"nop":900019191818181800}}
+200 {"status":"SUCCESS","response_time":0.024201,"host_response":{"billing_id":115030016764839,"total_amount":1000000,"address":"JL.MESJID IV NO.19,JAKARTA UTARA","currency":"IDR","npwp":"021076427077000","name":"NPWP DUMMY BADAN DUA","sk_number":"000000000000000","adminBank":0,"bill":1000000,"nop":900019191818181800,"status":"SUCCESS"}}
+== historical 0259090771 ==
+200 [{"account_number":"0259090771","id":4,"transaction_type":"PAYMENT","amount":10,"journal_number":"863858","action":"DEBIT","balance":9890,"timestamp":"2021-11-13T07:39:31.903154"},{"account_number":"0259090771","id":2,"transaction_type":"TRANSFER","amount":100,"journal_number":"669733","action":"DEBIT","balance":9900,"timestamp":"2021-11-13T07:39:31.804721"},{"account_number":"0259090771","id":1,"transaction_type":"DEPOSIT","amount":10000,"journal_number":"565807","action":"CREDIT","balance":10000,"timestamp":"2021-11-13T07:39:31.783247"}]
+account 1 len: 3
+ TRUE 
+== delete account: 0259090771 ==
+200 true
+== delete account: 8060944693 ==
+200 true
+== delete account: 5585828688 ==
+200 true
+== delete by id number ==
+200 true

@@ -40,9 +40,9 @@ services:
                 condition: service_healthy
         environment: 
             DB_HOST: postgresql://accountdb-user:comp90078!@accountdb/comp90078-db
-            SIMULATOR_HOST: http://192.168.0.102:8090/sim
+            SIMULATOR_HOST: http://192.168.194.138:8090/sim
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
-            RABBIT_MQ_HOST: 192.168.0.102
+            RABBIT_MQ_HOST: 192.168.194.138
     accountdb:
         image: postgres
         restart: always
@@ -97,7 +97,7 @@ services:
         # depends_on:
         #     - appdb
         environment: 
-            SIMULATOR_HOST: http://192.168.0.102:8090/sim
+            SIMULATOR_HOST: http://192.168.194.138:8090/sim
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
     historical_transaction_mq:
         build:
@@ -108,8 +108,22 @@ services:
         # depends_on:
         #     - rabbitmq
         environment: 
-            RABBIT_MQ_HOST: 192.168.0.102
+            RABBIT_MQ_HOST: 192.168.194.138
             HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+    gateway:
+        build:
+            context: ./gateway
+            dockerfile: ./app.Dockerfile
+        container_name: gateway
+        ports:
+            - "8000:8000"
+        environment: 
+            CUSTOMER_HOST: http://customer:7000
+            ACCOUNT_HOST: http://account:7010
+            TRANSACTION_HOST: http://account:7010
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:7030
+            PAYMENT_HOST: http://account:7010
+            SESSION_HOST: http://session:7050
     # rabbitmq:
     #     image: rabbitmq:3
     #     command: rabbitmq-server

@@ -41,3 +41,6 @@ class AccountController():
 
     def all(self, skip: int = 0, limit: int = 100):
         return self.model.all(skip, limit)
+
+    def select_by_cif_number(self, cif_number: str):
+        return self.model.select_by_cif_number(cif_number=cif_number)
