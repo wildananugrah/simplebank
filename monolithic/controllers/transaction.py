@@ -22,6 +22,12 @@ class TransactionController():
         db_from_account = account_model.detail(transfer.from_account_number)
         db_to_account = account_model.detail(transfer.to_account_number)
 
+        if not db_from_account:
+            raise HTTPException(status_code=400, detail="Invalid from account")
+
+        if not db_to_account:
+            raise HTTPException(status_code=400, detail="Invalid to account")
+
         if db_from_account.balance < transfer.amount:
             raise HTTPException(status_code=400, detail="Unsufficient balance")
 
@@ -50,6 +56,9 @@ class TransactionController():
         account_model = AccountModel(self.db)
         historical_transaction_model = HistoricalTransactionModel(self.db)
         db_account = account_model.detail(deposit.account_number)
+
+        if not db_account:
+            raise HTTPException(status_code=400, detail="Invalid account")
 
         journal_number = historical_transaction_model.generate_journal_number()
         timestamp = datetime.utcnow()
