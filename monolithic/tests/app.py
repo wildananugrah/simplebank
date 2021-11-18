@@ -5,7 +5,8 @@ class TestApp():
     def __init__(self):
 
         self.is_debug = True
-        self.host = "http://localhost:8000"
+        # self.host = "http://localhost:8000"
+        self.host = "http://115.146.95.169:8000"
 
         self.id_number = "31730059100009"
         self.name = "User Name"
@@ -59,7 +60,7 @@ class TestApp():
 
     def update_customer(self):
         print("== update customer ==")
-        response = requests.put(f"{self.host}/customer", json={
+        response = requests.put(f"{self.host}/customer?cif_number={self.cif_number}", json={
             "name": self.name,
             "id_number": self.id_number,
             "email": self.email

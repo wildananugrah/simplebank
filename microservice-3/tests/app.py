@@ -59,7 +59,7 @@ class TestApp():
 
     def update_customer(self):
         print("== update customer ==")
-        response = requests.put(f"{self.host}/customer", json={
+        response = requests.put(f"{self.host}/customer?cif_number={self.cif_number}", json={
             "name": self.name,
             "id_number": self.id_number,
             "email": self.email
