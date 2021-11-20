@@ -200,4 +200,7 @@ class SimpleBankTest(SequentialTaskSet):
         self.delete_by_id_number(self.id_number)
 
 class MyLoadTest(HttpUser):
+    min_wait = 5000
+    max_wait = 15000
+
     tasks = [SimpleBankTest]
