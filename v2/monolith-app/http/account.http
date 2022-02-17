@@ -1,0 +1,70 @@
+@host=http://localhost:3000
+
+POST {{host}}/account
+Content-Type: application/json
+
+{
+    "cif_number" : "918382910",
+    "currency" : "IDR"
+}
+
+###
+DELETE {{host}}/account/?account_number=8668776757
+Content-Type: application/json
+
+### 7299942792, 4052011898
+GET {{host}}/account/?account_number=4052011898
+Content-Type: application/json
+
+### 918382910
+GET {{host}}/account/list/?cif_number=918382910
+Content-Type: application/json
+
+### 7299942792
+POST {{host}}/account/deposit/
+Content-Type: application/json
+
+{
+    "account_number": "7299942792",
+    "amount": 10,
+    "description": "test 1"
+}
+
+### 7299942792, 4052011898
+POST {{host}}/account/transfer/
+Content-Type: application/json
+
+{
+    "from_account_number": "7299942792",
+    "to_account_number":"4052011898",
+    "amount":110,
+    "transaction_id":"",
+    "description":""
+}
+
+### 7299942792, 4052011898
+POST {{host}}/account/payment/
+Content-Type: application/json
+
+{
+    "account_number": "7299942792",
+    "amount":5,
+    "transaction_id":"124",
+    "description":"pembayaran listrik 1"
+}
+
+### 7299942792, 4052011898
+POST {{host}}/account/transfer/interbank/
+Content-Type: application/json
+
+{
+    "account_number": "7299942792",
+    "amount":28,
+    "transaction_id":"124",
+    "description":"BRI 54321",
+    "transaction_type":"INTERBANK TRANSFER"
+}
+
+### 7299942792
+GET {{host}}/account/historical_transaction?account_number=7299942792
+Content-Type: application/json

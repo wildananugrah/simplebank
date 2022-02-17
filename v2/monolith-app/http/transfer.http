@@ -1,0 +1,60 @@
+@host=http://localhost:3000
+
+###
+GET {{host}}/transfer/own_account_list/?cif_number=918382910
+Content-Type: application/json
+
+###
+GET {{host}}/transfer/account_inquiry?account_number=4052011898
+Content-Type: application/json
+
+###
+GET {{host}}/transfer/account_interbank_inquiry?account_number=3540447401&bank_code=014
+Content-Type: application/json
+
+###
+POST {{host}}/transfer/save_account/
+Content-Type: application/json
+
+{
+    "cif_number" : "918382910",
+    "account_number" : "3540447401",
+    "bank_code" : "014"
+}
+
+###
+GET {{host}}/transfer/account_number_list?cif_number=918382910
+Content-Type: application/json
+
+###
+DELETE {{host}}/transfer/accounts/?cif_number=918382910&account_number=3540447401&bank_code=014
+Content-Type: application/json
+
+###
+POST {{host}}/transfer/
+Content-Type: application/json
+
+{
+    "from_account_number": "7299942792",
+    "to_account_number": "4052011898",
+    "amount" : 90,
+    "description" : "TEST FROM ACCOUNT",
+    "cif_number" : "918382910"
+}
+
+###
+POST {{host}}/transfer/interbank/
+Content-Type: application/json
+
+{
+    "from_account_number": "7299942792",
+    "to_account_number": "3540447401",
+    "bank_code":"014",
+    "amount" : 84,
+    "description" : "TEST FROM ACCOUNT",
+    "cif_number" : "918382910"
+}
+
+###
+GET {{host}}/transfer?cif_number=918382910
+Content-Type: application/json
