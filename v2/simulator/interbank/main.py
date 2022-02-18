@@ -1,11 +1,9 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
-from db import dbinstance
 from uuid import uuid4
 from datetime import datetime
 
 app = Flask(__name__)
-dbinstance.init_app(app)
 client = MongoClient("mongodb://mongoadmin:secret@mongo:27017/")
 db = client.interbank_db
 

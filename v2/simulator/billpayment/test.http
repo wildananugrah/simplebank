@@ -1,0 +1,23 @@
+@host = http://localhost:9010
+
+###
+POST {{host}}/create_billing
+Content-Type: application/json
+
+{
+    "bill_name" : "telkomsel",
+    "amount" : 450000
+}
+
+###
+GET {{host}}/?bill_id=079181925587
+Content-Type: application/json
+
+###
+POST {{host}}
+Content-Type: application/json
+
+{
+    "bill_id" : "344247711962",
+    "description" : "settlement success!"
+}
