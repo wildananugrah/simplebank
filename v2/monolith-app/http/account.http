@@ -9,11 +9,11 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{host}}/account/?account_number=8668776757
+DELETE {{host}}/account/?account_number=1006621342
 Content-Type: application/json
 
-### 7299942792, 4052011898
-GET {{host}}/account/?account_number=4052011898
+### 7950455426, 1936891295
+GET {{host}}/account/?account_number=1936891295
 Content-Type: application/json
 
 ### 918382910
@@ -25,46 +25,46 @@ POST {{host}}/account/deposit/
 Content-Type: application/json
 
 {
-    "account_number": "7299942792",
-    "amount": 10,
+    "account_number": "7950455426",
+    "amount": 1000,
     "description": "test 1"
 }
 
-### 7299942792, 4052011898
+### 7950455426, 1936891295
 POST {{host}}/account/transfer/
 Content-Type: application/json
 
 {
-    "from_account_number": "7299942792",
-    "to_account_number":"4052011898",
-    "amount":110,
-    "transaction_id":"",
-    "description":""
+    "from_account_number": "7950455426",
+    "to_account_number":"1936891295",
+    "amount":180,
+    "transaction_id":"123",
+    "description":"TEST 123"
 }
 
-### 7299942792, 4052011898
-POST {{host}}/account/payment/
+### 7950455426, 1936891295
+POST {{host}}/account/debit/
 Content-Type: application/json
 
 {
-    "account_number": "7299942792",
-    "amount":5,
+    "account_number": "1936891295",
+    "amount":18,
     "transaction_id":"124",
     "description":"pembayaran listrik 1"
 }
 
-### 7299942792, 4052011898
+### 7950455426, 1936891295
 POST {{host}}/account/transfer/interbank/
 Content-Type: application/json
 
 {
-    "account_number": "7299942792",
+    "account_number": "7950455426",
     "amount":28,
     "transaction_id":"124",
     "description":"BRI 54321",
     "transaction_type":"INTERBANK TRANSFER"
 }
 
-### 7299942792
-GET {{host}}/account/historical_transaction?account_number=7299942792
+### 7950455426
+GET {{host}}/account/historical_transaction?account_number=1936891295
 Content-Type: application/json

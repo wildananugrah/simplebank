@@ -1,7 +1,7 @@
 from db import dbinstance
 from datetime import datetime
 from account.controller.account import *
-import requests
+import requests, os
 
 class PaymentModel():
     
@@ -24,7 +24,7 @@ class PaymentModel():
             'incoming_response' : {}
         }
         self.collection.insert_one(data)
-        return self.detail_payment(transaction_id)
+        return self.detail(transaction_id)
 
     def update_payment(self, transaction_id, status, incoming_response = {}):
         query = { 'transaction_id' : transaction_id }
@@ -32,7 +32,7 @@ class PaymentModel():
 
         return self.collection.update_one( query, { '$set' : newvalues } )
 
-    def detail_payment(self, transaction_id):
+    def detail(self, transaction_id):
         return self.collection.find_one( { 'transaction_id' : transaction_id } , { '_id' : False } )
 
     def find_account_number(self, account_number):
@@ -46,6 +46,16 @@ class PaymentModel():
             'transaction_id' : transaction_id,
         }
         return self.account_controller.debit(data)
+    
+    def reversal_payment(self, account_number, amount, description, transaction_id, journal_number):
+        data = {
+            'account_number' : account_number,
+            'amount' : amount,
+            'description' : description,
+            'transaction_id' : transaction_id,
+            'journal_number' : journal_number
+        }
+        return self.account_controller.reversal(data)
 
     def find_transaction_id(self,cif_number, transaction_id):
         return self.collection.find_one({ "cif_number" : cif_number, 'transaction_id' : transaction_id }, { '_id' : False })
@@ -54,8 +64,8 @@ class PaymentModel():
         return self.collection.find({ 'cif_number' : cif_number }, { '_id' : False }).sort('transaction_datetime', -1)
 
     def inquiry_billers(self, bill_id):
-        return requests.get(f"http://localhost:9010?bill_id={bill_id}")
+        return requests.get(f"{os.getenv('SIM_BILLPAYMENT_HOST')}?bill_id={bill_id}")
 
     def notify_billers(self, message):
-        return requests.post("http://localhost:9010/", json=message)
+        return requests.post(f"{os.getenv('SIM_BILLPAYMENT_HOST')}/", json=message)
 

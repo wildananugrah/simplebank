@@ -21,5 +21,5 @@ POST {{host}}/customer/logout
 Content-Type: application/json
 
 {
-    "session_id" : "eyJjaWZfbnVtYmVyIjogIjkxODM4MjkxMCIsICJkYXRldGltZSI6ICIxNi0wMi0yMDIyIDIwOjI2OjU3IiwgInV1aWQiOiAiYmU3ODFjNjItYzhhNi00OTY0LWFmM2MtODMyM2M5MzUwYmNjIn0="
+    "session_id" : "eyJjaWZfbnVtYmVyIjogIjkxODM4MjkxMCIsICJkYXRldGltZSI6ICIxOS0wMi0yMDIyIDAwOjE3OjUzIiwgInV1aWQiOiAiYmQ0MWMxNmUtY2NkOS00NjEyLTljMWQtZTUyNjk1M2RjMGMwIn0="
 }

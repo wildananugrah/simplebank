@@ -1,15 +1,15 @@
 @host=http://localhost:3000
 
 ###
-GET {{host}}/payment/?bill_id=553360290896
+GET {{host}}/payment/bill/inquiry?bill_id=553360290896
 
 ###
-POST {{host}}/payment/
+POST {{host}}/payment/bill/payment
 Content-Type: application/json
 
 {
     "bill_id" : "553360290896",
-    "account_number" : "4052011898",
+    "account_number" : "7950455426",
     "biller_name" : "telkomsel",
     "amount" : 10,
     "cif_number" : "918382910",
@@ -26,4 +26,4 @@ Content-Type: application/json
 GET {{host}}/payment/list?cif_number=918382910
 
 ###
-GET {{host}}/payment/detail?transaction_id=3313242841
+GET {{host}}/payment/detail?transaction_id=7470326824

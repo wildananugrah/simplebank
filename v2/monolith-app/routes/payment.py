@@ -4,13 +4,13 @@ from pymongo import MongoClient
 
 payment = Blueprint("payment", __name__)
 
-@payment.route("/", methods=["GET"])
+@payment.route("/bill/inquiry/", methods=["GET"])
 def inquiry_billpayment():
     return PaymentController().inquiry_billing(request.args.get('bill_id'))
 
-@payment.route("/", methods=["POST"])
+@payment.route("/bill/payment", methods=["POST"])
 def payment_billpayment():
-    return PaymentController().payment_billing(request.get_json())
+    return PaymentController().pay_billing(request.get_json())
 
 @payment.route("/list", methods=["GET"])
 def payment_list():

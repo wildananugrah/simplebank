@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import os
 
 class MongoDB():
     def __init__(self):
@@ -10,7 +11,7 @@ class MongoDB():
         self.client = self.get_connection()
 
     def get_connection(self):
-        client = MongoClient("mongodb://mongoadmin:secret@localhost:5000/")
+        client = MongoClient(os.getenv('MONGODB_HOST'))
         return client
 
     def get_db(self):

@@ -36,15 +36,12 @@ class AccountController():
 
     def list(self, cif_number):
         db_account_numbers = self.model.list(cif_number)
+
+        print(cif_number)
         
         account_numbers = []
         for account_number in db_account_numbers:
             account_numbers.append(account_number)
-
-        # response = self.view.list(account_numbers)
-        # print(dir(response))
-        # print(response.get_json())
-        # print(response.status_code)
 
         return self.view.list(account_numbers)
 
@@ -69,6 +66,8 @@ class AccountController():
         
         db_account_number = self.model.detail(account_number)
 
+        data = json_request
+
         if not db_account_number:
             return self.view.not_found_account_number()
 
@@ -86,8 +85,9 @@ class AccountController():
 
         if transaction_status:
             journal_number = self.generate_journal_number(account_number)
+            data['journal_number'] =journal_number
             self.model.add_historical_transaction(account_number, amount, "CREDIT", journal_number, '', "DEPOSIT", description)
-            return self.view.settlement_success()
+            return self.view.detail({ 'message' : 'success', 'data' : data })
         else:
             return self.view.settlement_failed()
 
@@ -112,6 +112,8 @@ class AccountController():
         description = json_request['description']
         amount = int(json_request['amount'])
 
+        data = json_request
+
         db_from_account_number = self.model.detail(from_account_number)
         db_to_account_number = self.model.detail(to_account_number)
 
@@ -125,6 +127,9 @@ class AccountController():
         db_to_account_number_balance = db_to_account_number['balance']
 
         current_settlement_balance = db_from_account_number_balance + db_to_account_number_balance
+
+        if amount >= db_from_account_number_balance:
+            return self.view.unsufficient_balance()
 
         from_account_number_current_balance = db_from_account_number_balance - amount
         to_account_number_current_balance = db_to_account_number_balance + amount
@@ -150,14 +155,47 @@ class AccountController():
 
         if transaction_status:
             journal_number = self.generate_journal_number(from_account_number)
+            data['journal_number'] = journal_number
             self.model.add_historical_transaction(from_account_number, amount, "DEBIT", journal_number, transaction_id, "TRANSFER", description)
             self.model.add_historical_transaction(to_account_number, amount, "CREDIT", journal_number, transaction_id, "TRANSFER", description)
 
             # notify transfer
 
-            return self.view.settlement_success()
+            return self.view.detail({ 'message' : 'success', 'data' : data })
         else:
             return self.view.settlement_failed()
+
+    def reversal(self, json_request):
+        # detail account
+        # get balance
+        # current settlement balance = db balance + amount
+        # get db balance
+        # current settlement balance == db current settlement balance - amount
+
+        account_number = json_request['account_number']
+        amount = int(json_request['amount'])
+        description = json_request['description']
+        transaction_id = json_request['transaction_id']
+        journal_number = json_request['journal_number']
+        transaction_type = "PAYMENT"
+        data = json_request
+
+        if 'transaction_type' in json_request:
+            transaction_type = json_request['transaction_type']
+
+        db_account_number = self.model.detail(account_number)
+        current_settlement_balance = db_account_number['balance'] + amount
+
+        self.model.update_balance(account_number, current_settlement_balance)
+        db_current_account_number = self.model.detail(account_number)
+
+        db_current_settlement_balance = db_current_account_number['balance'] - amount
+
+        if db_account_number['balance'] == db_current_settlement_balance:
+            self.model.add_historical_transaction(account_number, amount, "CREDIT", journal_number, transaction_id, transaction_type, description)
+            return self.view.detail({ 'message' : 'success', 'data' : data })
+        else:
+            return self.view.reversal_failed()
 
     def debit(self, json_request):
         # detail account
@@ -171,11 +209,16 @@ class AccountController():
         description = json_request['description']
         transaction_id = json_request['transaction_id']
         transaction_type = "PAYMENT"
+        data = json_request
 
         if 'transaction_type' in json_request:
             transaction_type = json_request['transaction_type']
 
         db_account_number = self.model.detail(account_number)
+
+        if amount >= db_account_number['balance']:
+            return self.view.unsufficient_balance()
+
         current_settlement_balance = db_account_number['balance'] - amount
 
         self.model.update_balance(account_number, current_settlement_balance)
@@ -185,8 +228,9 @@ class AccountController():
 
         if db_account_number['balance'] == db_current_settlement_balance:
             journal_number = self.generate_journal_number(account_number)
+            data['journal_number'] = journal_number
             self.model.add_historical_transaction(account_number, amount, "DEBIT", journal_number, transaction_id, transaction_type, description)
-            return self.view.settlement_success()
+            return self.view.detail({ "message" : "success", 'data' : data })
         else:
             return self.view.settlement_failed()
 

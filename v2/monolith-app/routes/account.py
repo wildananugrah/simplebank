@@ -34,9 +34,9 @@ def deposit():
 def transfer():
     return AccountController().transfer(request.get_json())
 
-@account.route("/payment", methods=['POST'])
-@account.route("/payment/", methods=['POST'])
-def payment():
+@account.route("/debit", methods=['POST'])
+@account.route("/debit/", methods=['POST'])
+def debit():
     return AccountController().debit(request.get_json())
 
 @account.route("/transfer/interbank", methods=['POST'])

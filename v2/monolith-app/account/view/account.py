@@ -21,3 +21,9 @@ class AccountView():
 
     def settlement_failed(self):
         return jsonify({"message" : "settlement failed!"}), 500
+
+    def reversal_failed(self):
+        return jsonify({ "message" : "reversal failed" }), 500
+
+    def unsufficient_balance(self, message = "unsufficient balance!"):
+        return jsonify({ "message" : message })
