@@ -15,7 +15,10 @@ class CustomerController():
         elif id_type == 'id_number':
             message = self.model.detail_by_id_number(value)
 
-        return CustomerView().detail(message)
+        if message:
+            return CustomerView().detail(message)
+        else:
+            return CustomerView().detail({ 'message' : 'customer not found.' }, 400)
 
     def login(self,json_request):
         username = json_request['username']
