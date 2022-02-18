@@ -58,3 +58,7 @@ Content-Type: application/json
 ###
 GET {{host}}/transfer?cif_number=918382910
 Content-Type: application/json
+
+###
+GET {{host}}/transfer/detail?transaction_id=3922292172
+Content-Type: application/json

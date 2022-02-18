@@ -1,17 +1,17 @@
 from flask import jsonify
 
 class AccountView():
-    def detail(self, message):
-        return jsonify(message)
+    def detail(self, message, status_code=201):
+        return jsonify(message), status_code
 
     def delete_success(self):
-        return jsonify({ "message" : "account has been deleted successfully" })
+        return jsonify({ "message" : "account has been deleted successfully" }), 201
     
     def list(self, message):
-        return jsonify(message)
+        return jsonify(message), 201
 
     def settlement_success(self):
-        return jsonify({"message" : "settlement success!"})
+        return jsonify({"message" : "settlement success!"}), 201
 
     def not_found_account_number(self, message = None):
         if message == None:

@@ -40,6 +40,9 @@ class TransferController():
             accounts.append(account)
 
         return self.view.list(accounts)
+    
+    def transfer_detail(self, transaction_id):
+        return self.view.detail(self.model.transfer_detail(transaction_id))
 
     def account_transfer(self, json_request):
         from_account_number = json_request['from_account_number'] 

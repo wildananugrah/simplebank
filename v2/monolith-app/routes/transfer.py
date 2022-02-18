@@ -43,3 +43,8 @@ def list():
 @transfer.route("/interbank/", methods=["POST"])
 def account_interbank_transfer():
     return TransferController().account_interbank_transfer(request.get_json())
+
+@transfer.route("/detail", methods=["GET"])
+@transfer.route("/detail/", methods=["GET"])
+def transfer_detail():
+    return TransferController().transfer_detail(request.args.get('transaction_id'))

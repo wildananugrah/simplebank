@@ -42,6 +42,9 @@ class TransferModel():
             'status' : 'PENDING'
         }
         return self.collection.insert_one(data)
+
+    def transfer_detail(self, transaction_id):
+        return self.collection.find_one({ 'transaction_id' : transaction_id }, { '_id' : False })
     
     def transfer_list(self, cif_number):
         return self.collection.find({ 'cif_number' : cif_number }, {'_id' : False}).sort('transaction_datetime', -1)

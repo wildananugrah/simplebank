@@ -28,6 +28,7 @@ class AccountController():
 
     def detail(self, account_number):
         account_number_detail = self.model.detail(account_number)
+        
         if account_number_detail:
             return self.view.detail(account_number_detail)
         else:
