@@ -1,2 +1,5 @@
 run-dev:
-	python main.py
+	@python main.py
+
+run-test:
+	@pytest -v -s

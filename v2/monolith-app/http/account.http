@@ -4,67 +4,252 @@ POST {{host}}/account
 Content-Type: application/json
 
 {
-    "cif_number" : "918382910",
+    "cif_number" : "1681274973",
     "currency" : "IDR"
 }
 
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 107
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:12:10 GMT
+
+# {
+#   "account_number": "4423913443",
+#   "balance": 0,
+#   "cif_number": "1681274973",
+#   "currency": "IDR"
+# }
+
+
 ###
-DELETE {{host}}/account/?account_number=1006621342
+DELETE {{host}}/account/?account_number=4423913443
 Content-Type: application/json
 
-### 7950455426, 1936891295
-GET {{host}}/account/?account_number=1936891295
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 57
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:12:43 GMT
+
+# {
+#   "message": "account has been deleted successfully"
+# }
+
+
+### 9341468172, 0556507608
+GET {{host}}/account/?account_number=3417925007
 Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 107
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:13:06 GMT
+
+# {
+#   "account_number": "3027826709",
+#   "balance": 0,
+#   "cif_number": "1681274973",
+#   "currency": "IDR"
+# }
 
 ### 918382910
-GET {{host}}/account/list/?cif_number=918382910
+GET {{host}}/account/list/?cif_number=1681274973
 Content-Type: application/json
 
-### 7299942792
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 123
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:13:24 GMT
+
+# [
+#   {
+#     "account_number": "3027826709",
+#     "balance": 0,
+#     "cif_number": "1681274973",
+#     "currency": "IDR"
+#   }
+# ]
+
+
+### 9341468172, 0556507608
 POST {{host}}/account/deposit/
 Content-Type: application/json
 
 {
-    "account_number": "7950455426",
+    "account_number": "9341468172",
     "amount": 1000,
     "description": "test 1"
 }
 
-### 7950455426, 1936891295
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 164
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:14:13 GMT
+
+# {
+#   "data": {
+#     "account_number": "3027826709",
+#     "amount": 1000,
+#     "description": "test 1",
+#     "journal_number": "759199"
+#   },
+#   "message": "success"
+# }
+
+
+### 3027826709, 3417925007
 POST {{host}}/account/transfer/
 Content-Type: application/json
 
 {
-    "from_account_number": "7950455426",
-    "to_account_number":"1936891295",
-    "amount":180,
+    "from_account_number": "3027826709",
+    "to_account_number":"3417925007",
+    "amount":1,
     "transaction_id":"123",
     "description":"TEST 123"
 }
 
-### 7950455426, 1936891295
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 238
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:14:45 GMT
+
+# {
+#   "data": {
+#     "amount": 1,
+#     "description": "TEST 123",
+#     "from_account_number": "3027826709",
+#     "journal_number": "125344",
+#     "to_account_number": "3417925007",
+#     "transaction_id": "123"
+#   },
+#   "message": "success"
+# }
+
+
+### 3027826709, 3417925007
 POST {{host}}/account/debit/
 Content-Type: application/json
 
 {
-    "account_number": "1936891295",
-    "amount":18,
+    "account_number": "3027826709",
+    "amount":1,
     "transaction_id":"124",
     "description":"pembayaran listrik 1"
 }
 
-### 7950455426, 1936891295
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 205
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:15:15 GMT
+
+# {
+#   "data": {
+#     "account_number": "3027826709",
+#     "amount": 1,
+#     "description": "pembayaran listrik 1",
+#     "journal_number": "071323",
+#     "transaction_id": "124"
+#   },
+#   "message": "success"
+# }
+
+
+### 3027826709
 POST {{host}}/account/transfer/interbank/
 Content-Type: application/json
 
 {
-    "account_number": "7950455426",
-    "amount":28,
+    "account_number": "3027826709",
+    "amount":1,
     "transaction_id":"124",
     "description":"BRI 54321",
-    "transaction_type":"INTERBANK TRANSFER"
+    "transaction_type":"INTERBANK_TRANSFER"
 }
 
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 241
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:15:39 GMT
+
+# {
+#   "data": {
+#     "account_number": "3027826709",
+#     "amount": 1,
+#     "description": "BRI 54321",
+#     "journal_number": "402449",
+#     "transaction_id": "124",
+#     "transaction_type": "INTERBANK TRANSFER"
+#   },
+#   "message": "success"
+# }
+
+
 ### 7950455426
-GET {{host}}/account/historical_transaction?account_number=1936891295
+GET {{host}}/account/historical_transaction?account_number=3027826709
 Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 1146
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:15:56 GMT
+
+# [
+#   {
+#     "account_number": "3027826709",
+#     "action": "DEBIT",
+#     "amount": 1,
+#     "description": "BRI 54321",
+#     "journal_number": "402449",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:15:39 GMT",
+#     "transaction_id": "124",
+#     "transaction_type": "INTERBANK TRANSFER"
+#   },
+#   {
+#     "account_number": "3027826709",
+#     "action": "DEBIT",
+#     "amount": 1,
+#     "description": "pembayaran listrik 1",
+#     "journal_number": "071323",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:15:15 GMT",
+#     "transaction_id": "124",
+#     "transaction_type": "PAYMENT"
+#   },
+#   {
+#     "account_number": "3027826709",
+#     "action": "DEBIT",
+#     "amount": 1,
+#     "description": "TEST 123",
+#     "journal_number": "125344",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:14:45 GMT",
+#     "transaction_id": "123",
+#     "transaction_type": "TRANSFER"
+#   },
+#   {
+#     "account_number": "3027826709",
+#     "action": "CREDIT",
+#     "amount": 1000,
+#     "description": "test 1",
+#     "journal_number": "759199",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:14:13 GMT",
+#     "transaction_id": "",
+#     "transaction_type": "DEPOSIT"
+#   }
+# ]
