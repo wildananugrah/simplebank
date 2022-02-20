@@ -5,31 +5,38 @@ services:
             context: ./customer
             dockerfile: ./app.Dockerfile
         container_name: customer
-        ports:
-            - "3100:3100"
+        # ports:
+        #     - "3100:3100"
     account:
         build:
             context: ./account
             dockerfile: ./app.Dockerfile
         container_name: account
-        ports:
-            - "3101:3101"
+        # ports:
+        #     - "3101:3101"
     transfer:
         build:
             context: ./transfer
             dockerfile: ./app.Dockerfile
         container_name: transfer
-        ports:
-            - "3102:3102"
+        # ports:
+        #     - "3102:3102"
     payment:
         build:
             context: ./payment
             dockerfile: ./app.Dockerfile
         container_name: payment
-        ports:
-            - "3103:3103"
+        # ports:
+        #     - "3103:3103"
     mq-sb-1:
         build:
             context: ./mq-sb-1
             dockerfile: ./app.Dockerfile
         container_name: mq-sb-1
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: ./app.Dockerfile
+        container_name: nginx
+        ports:
+            - "4001:80"

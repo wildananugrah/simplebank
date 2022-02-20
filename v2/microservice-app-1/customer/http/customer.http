@@ -1,5 +1,5 @@
 
-@host=http://localhost:3100
+@host=http://localhost:4001
 
 ###
 GET {{host}}/customer/?id_type=id_number&value=1605058497852873
@@ -21,5 +21,5 @@ POST {{host}}/customer/logout
 Content-Type: application/json
 
 {
-    "session_id" : "eyJjaWZfbnVtYmVyIjogIjE2ODEyNzQ5NzMiLCAiZGF0ZXRpbWUiOiAiMjAtMDItMjAyMiAwMjoyNTowOSIsICJ1dWlkIjogIjIwZjg2NGI4LTYzYTUtNGUzMi04MzUxLTEwZTRmY2ZlMmJmYiJ9"
+    "session_id" : "eyJjaWZfbnVtYmVyIjogIjE2ODEyNzQ5NzMiLCAiZGF0ZXRpbWUiOiAiMjAtMDItMjAyMiAxMDoxNjozMSIsICJ1dWlkIjogIjdjYThlNzg5LTdlNDMtNDg0OC05MzM1LTMzYzA0YmJmMzQxYSJ9"
 }
