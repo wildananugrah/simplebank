@@ -3,8 +3,10 @@ from pymongo import MongoClient
 from uuid import uuid4
 from datetime import datetime
 
+import os
+
 app = Flask(__name__)
-client = MongoClient("mongodb://mongoadmin:secret@mongo:27017/")
+client = MongoClient(os.getenv("MONGO_HOST"))
 db = client.interbank_db
 
 @app.route("/", methods=["POST"])
@@ -47,9 +49,10 @@ def settlement():
         'transaction_datetime_received' : datetime.today()
     })
 
-    return jsonify({ 'transaction_id' : transaction_id }), 201
+    if account_number == "888777666":
+        return jsonify({ 'transaction_id' : transaction_id, "incoming_request" : json_request }), 400
 
-    return jsonify({ "message" : "settled!" })
+    return jsonify({ 'transaction_id' : transaction_id, "incoming_request" : json_request }), 201
 
 if __name__ == "__main__":
     app.run(debug=True, port=9000, host="0.0.0.0")

@@ -2,10 +2,10 @@ from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from uuid import uuid4
 from datetime import datetime
-import random, string
+import random, string, os
 
 app = Flask(__name__)
-client = MongoClient("mongodb://mongoadmin:secret@mongo:27017/")
+client = MongoClient(os.getenv('MONGO_HOST'))
 db = client.billpayment_db
 
 def find_bill_id(bill_id):
@@ -44,6 +44,9 @@ def inquiry():
 def payment():
     json_request = request.get_json()
     bill_id = json_request['bill_id']
+
+    if bill_id == "999888777":
+        return jsonify(db.billings.find_one({ 'bill_id' : bill_id }, {'_id' : False})), 400
 
     query = { 'bill_id' : bill_id }
     newvalues = { 'status_payment' : 'PAID', "incoming_request" : json_request}

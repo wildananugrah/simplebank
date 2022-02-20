@@ -1,14 +1,12 @@
 from db import dbinstance
 from datetime import datetime
-from account.controller.account import *
-import requests, os
+import requests, os, pika, json
 
 class PaymentModel():
     
     def __init__(self):
         self.db = dbinstance.get_db().simplebank_db
         self.collection = self.db.payments
-        self.account_controller = AccountController()
 
     def save_payment(self, account_number, bill_id, biller_name, amount, transaction_id, cif_number, outgoing_request):
         data = {
@@ -35,9 +33,6 @@ class PaymentModel():
     def detail(self, transaction_id):
         return self.collection.find_one( { 'transaction_id' : transaction_id } , { '_id' : False } )
 
-    def find_account_number(self, account_number):
-        return self.account_controller.detail(account_number)
-
     def debit(self, account_number, amount, description, transaction_id):
         data = {
             'account_number' : account_number,
@@ -46,7 +41,13 @@ class PaymentModel():
             'transaction_id' : transaction_id,
             'transaction_type': "PAYMENT",
         }
-        return self.account_controller.debit(data)
+
+        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        channel = connection.channel()
+
+        channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_ACCOUNT_DEBIT'), body=json.dumps(data))
+
+        connection.close()
     
     def reversal_payment(self, account_number, amount, description, transaction_id, journal_number):
         data = {
@@ -57,7 +58,15 @@ class PaymentModel():
             'transaction_type': "REVERSAL_PAYMENT",
             'journal_number' : journal_number
         }
-        return self.account_controller.reversal(data)
+
+        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        channel = connection.channel()
+
+        channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_REVERSAL_PAYMENT'), body=json.dumps(data))
+
+        connection.close()
+
+        return True
 
     def find_transaction_id(self,cif_number, transaction_id):
         return self.collection.find_one({ "cif_number" : cif_number, 'transaction_id' : transaction_id }, { '_id' : False })
@@ -69,5 +78,6 @@ class PaymentModel():
         return requests.get(f"{os.getenv('SIM_BILLPAYMENT_HOST')}?bill_id={bill_id}")
 
     def notify_billers(self, message):
+        print(message)
         return requests.post(f"{os.getenv('SIM_BILLPAYMENT_HOST')}/", json=message)
 

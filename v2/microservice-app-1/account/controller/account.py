@@ -1,6 +1,5 @@
-from account.model.account import *
-from account.view.account import *
-from customer.model.customer import *
+from model.account import *
+from view.account import *
 import random, string, json
 
 class AccountController():
@@ -35,10 +34,7 @@ class AccountController():
             return self.view.not_found_account_number()
 
     def list(self, cif_number):
-        db_account_numbers = self.model.list(cif_number)
-
-        print(cif_number)
-        
+        db_account_numbers = self.model.list(cif_number)        
         account_numbers = []
         for account_number in db_account_numbers:
             account_numbers.append(account_number)
@@ -118,9 +114,11 @@ class AccountController():
         db_to_account_number = self.model.detail(to_account_number)
 
         if not db_from_account_number:
+            self.model.mq_to_transfer({ 'status_code' : 400, 'data' : data, 'message': 'From account number is not found!' })
             return self.view.not_found_account_number("From account number is not found!")
 
         if not db_to_account_number:
+            self.model.mq_to_transfer({ 'status_code' : 400, 'data' : data, 'message' : 'To account number is not found!' })
             return self.view.not_found_account_number("To account number is not found!")
 
         db_from_account_number_balance = db_from_account_number['balance']
@@ -133,8 +131,6 @@ class AccountController():
 
         from_account_number_current_balance = db_from_account_number_balance - amount
         to_account_number_current_balance = db_to_account_number_balance + amount
-
-        transaction_status = None
 
         if current_settlement_balance == from_account_number_current_balance + to_account_number_current_balance:
             self.model.update_balance(from_account_number, from_account_number_current_balance)
@@ -158,11 +154,15 @@ class AccountController():
             data['journal_number'] = journal_number
             self.model.add_historical_transaction(from_account_number, amount, "DEBIT", journal_number, transaction_id, "TRANSFER", description)
             self.model.add_historical_transaction(to_account_number, amount, "CREDIT", journal_number, transaction_id, "TRANSFER", description)
-
+            
+            response = { 'status_code' : 200, 'message' : 'success', 'data' : data }
+            
             # notify transfer
+            self.model.mq_to_transfer(response)
 
-            return self.view.detail({ 'message' : 'success', 'data' : data })
+            return self.view.detail(response)
         else:
+            self.model.mq_to_transfer({ 'status_code' : 500, 'message' : 'settlement failed' })
             return self.view.settlement_failed()
 
     def reversal(self, json_request):
@@ -190,8 +190,12 @@ class AccountController():
 
         if db_account_number['balance'] == db_current_settlement_balance:
             self.model.add_historical_transaction(account_number, amount, "CREDIT", journal_number, transaction_id, transaction_type, description)
-            return self.view.detail({ 'message' : 'success', 'data' : data })
+            response = { 'status_code' : 200, 'message' : 'success', 'data' : data }
+            self.model.mq_to_reversal_user(response)
+            return self.view.detail(response)
         else:
+            response = { 'status_code' : 500, 'message' : 'failed', 'data' : data }
+            self.model.mq_to_reversal_user(response)
             return self.view.reversal_failed()
 
     def debit(self, json_request):
@@ -205,15 +209,19 @@ class AccountController():
         amount = int(json_request['amount'])
         description = json_request['description']
         transaction_id = json_request['transaction_id']
-        json_request['transaction_type']
+        transaction_type = json_request['transaction_type']
         data = json_request
 
         db_account_number = self.model.detail(account_number)
 
         if db_account_number == None:
+            response = { 'status_code' : 400, "message" : "invalid debit account number!", 'data' : data }
+            self.model.mq_to_debit_user(response)
             return self.view.not_found_account_number()
 
         if amount >= db_account_number['balance']:
+            response = { 'status_code' : 400, "message" : "unsufficient balance!", 'data' : data }
+            self.model.mq_to_debit_user(response)
             return self.view.unsufficient_balance()
 
         current_settlement_balance = db_account_number['balance'] - amount
@@ -227,8 +235,14 @@ class AccountController():
             journal_number = self.generate_journal_number(account_number)
             data['journal_number'] = journal_number
             self.model.add_historical_transaction(account_number, amount, "DEBIT", journal_number, transaction_id, transaction_type, description)
-            return self.view.detail({ "message" : "success", 'data' : data })
+            
+            response = { 'status_code' : 200, "message" : "success", 'data' : data }
+            self.model.mq_to_debit_user(response)
+            
+            return self.view.detail(response)
         else:
+            response = { 'status_code' : 500, "message" : "success", 'data' : data }
+            self.model.mq_to_debit_user(response)
             return self.view.settlement_failed()
 
     def generate_journal_number(self, account_number, size=6):
