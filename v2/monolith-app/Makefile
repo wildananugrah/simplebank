@@ -2,4 +2,4 @@ run-dev:
 	@python main.py
 
 run-test:
-	@pytest -v -s
+	@pytest -v -s --durations=0

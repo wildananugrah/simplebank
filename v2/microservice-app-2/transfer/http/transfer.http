@@ -1,0 +1,218 @@
+@host=http://localhost:3102
+
+# ###
+# GET {{host}}/transfer/inquiry/own_account_number/?cif_number=918382910
+# Content-Type: application/json
+
+# ###
+# GET {{host}}/transfer/inquiry/account_number?account_number=7950455426
+# Content-Type: application/json
+
+###
+GET {{host}}/transfer/interbank/account_number?account_number=3540447401&bank_code=014
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 103
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 05:38:58 GMT
+
+# {
+#   "account_name": "Wildan Anugrah Putra",
+#   "account_number": "3540447401",
+#   "bank_code": "014"
+# }
+
+
+###
+POST {{host}}/transfer/save/account_number
+Content-Type: application/json
+
+{
+    "cif_number" : "918382910",
+    "account_number" : "3540447401",
+    "bank_code" : "014"
+}
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 90
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 05:40:24 GMT
+
+# {
+#   "account_number": "3540447401",
+#   "bank_code": "014",
+#   "cif_number": "918382910"
+# }
+
+###
+GET {{host}}/transfer/list/account_number?cif_number=918382910
+Content-Type: application/json
+
+###
+DELETE {{host}}/transfer/account_number/?cif_number=918382910&account_number=3540447401&bank_code=014
+Content-Type: application/json
+
+### 3120584606, 5789565838
+POST {{host}}/transfer/
+Content-Type: application/json
+
+{
+    "from_account_number": "3120584606",
+    "to_account_number": "5789565838",
+    "amount" : 1,
+    "description" : "TEST FROM ACCOUNT",
+    "cif_number" : "918382910"
+}
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 569
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 10:25:15 GMT
+
+# {
+#   "data": {
+#     "amount": 1,
+#     "cif_number": "918382910",
+#     "description": "TEST FROM ACCOUNT",
+#     "from_account_number": "9341468172",
+#     "to_account_number": "0556507608",
+#     "transaction_id": "6747157158",
+#     "transfer_result": {
+#       "data": {
+#         "amount": 1,
+#         "description": "TEST FROM ACCOUNT",
+#         "from_account_number": "9341468172",
+#         "journal_number": "824988",
+#         "to_account_number": "0556507608",
+#         "transaction_id": "6747157158"
+#       },
+#       "message": "success"
+#     }
+#   },
+#   "message": "DONE"
+# }
+
+
+### normal: 3540447401; reversal-> 888777666
+POST {{host}}/transfer/interbank/
+Content-Type: application/json
+
+{
+    "from_account_number": "3120584606",
+    "to_account_number": "3540447401",
+    "bank_code":"014",
+    "amount" : 1,
+    "description" : "TEST FROM ACCOUNT",
+    "cif_number" : "918382910"
+}
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 702
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 10:26:24 GMT
+
+# {
+#   "data": {
+#     "amount": 84,
+#     "bank_code": "014",
+#     "cif_number": "918382910",
+#     "description": "TEST FROM ACCOUNT",
+#     "from_account_number": "9341468172",
+#     "interbank_response": {
+#       "transaction_id": "b513e433-4096-4c99-a2f7-bb164aab5a3c"
+#     },
+#     "settlement_response": {
+#       "data": {
+#         "account_number": "9341468172",
+#         "amount": 84,
+#         "description": "TRF 014 3540447401",
+#         "journal_number": "983665",
+#         "transaction_id": "5988752339",
+#         "transaction_type": "INTERBANK_TRANSFER"
+#       },
+#       "message": "success"
+#     },
+#     "to_account_number": "3540447401",
+#     "transaction_id": "5988752339"
+#   },
+#   "message": "DONE"
+# }
+
+
+###
+GET {{host}}/transfer?cif_number=918382910
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 577
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 10:28:07 GMT
+
+# [
+#   {
+#     "amount": 84,
+#     "bank_code": "014",
+#     "cif_number": "918382910",
+#     "from_account_number": "9341468172",
+#     "status": "DONE",
+#     "to_account_number": "3540447401",
+#     "transaction_datetime": "Sat, 19 Feb 2022 10:26:24 GMT",
+#     "transaction_id": "5988752339"
+#   },
+#   {
+#     "amount": 1,
+#     "bank_code": "009",
+#     "cif_number": "918382910",
+#     "from_account_number": "9341468172",
+#     "status": "DONE",
+#     "to_account_number": "0556507608",
+#     "transaction_datetime": "Sat, 19 Feb 2022 10:25:15 GMT",
+#     "transaction_id": "6747157158"
+#   }
+# ]
+
+
+###
+GET {{host}}/transfer/detail?transaction_id=2194195945
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 265
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 10:28:23 GMT
+
+# {
+#   "amount": 1,
+#   "bank_code": "009",
+#   "cif_number": "918382910",
+#   "from_account_number": "9341468172",
+#   "status": "DONE",
+#   "to_account_number": "0556507608",
+#   "transaction_datetime": "Sat, 19 Feb 2022 10:25:15 GMT",
+#   "transaction_id": "6747157158"
+# }
+
+###
+POST {{host}}/transfer/update/
+Content-Type: application/json
+
+{   
+    "status_code": 400, 
+    "data": {
+        "transaction_id": "123"
+    },
+    "message": "From account number is not found!"
+}

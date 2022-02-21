@@ -2,12 +2,14 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import pytest, os, requests, random, string
 
+# docker stats monolith-app
+
 client = MongoClient("mongodb://mongoadmin:secret@localhost:5000/")
 db = client.simplebank_db
 
 load_dotenv()
 
-host = "http://localhost:3000"
+host = "http://localhost:4000"
 
 id_number_fail = '3175023005910001'
 session_login_list = []

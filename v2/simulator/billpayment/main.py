@@ -2,10 +2,13 @@ from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from uuid import uuid4
 from datetime import datetime
+from dotenv import load_dotenv
 import random, string, os
 
+load_dotenv()
+
 app = Flask(__name__)
-client = MongoClient(os.getenv('MONGO_HOST'))
+client = MongoClient(os.getenv('MONGODB_HOST'))
 db = client.billpayment_db
 
 def find_bill_id(bill_id):

@@ -2,12 +2,14 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import pytest, os, requests, random, string
 
+# docker stats account customer transfer payment
+
 client = MongoClient("mongodb://mongoadmin:secret@localhost:5000/")
 db = client.simplebank_db
 
 load_dotenv()
 
-host = "http://localhost:3000"
+host = "http://localhost:4001"
 
 id_number_fail = '3175023005910001'
 session_login_list = []
@@ -249,15 +251,15 @@ def test_historical_transactions():
         if len(response.json()) > 0:
             assert type(response.json()[0]) == dict
 
-@pytest.mark.run(order=15)
-def test_transfer_inquiry_own_account_number():
-    customers = db.customers.find({},{'_id' : False})
-    for customer in customers:
-        response = requests.get(f"{host}/transfer/inquiry/own_account_number/?cif_number={customer['cif_number']}")
-        assert response.status_code in (200, 201)
-        assert type(response.json()) == list
-        assert len(response.json()) == 1
-        assert type(response.json()[0]) == dict
+# @pytest.mark.run(order=15) # removed.
+# def test_transfer_inquiry_own_account_number():
+#     customers = db.customers.find({},{'_id' : False})
+#     for customer in customers:
+#         response = requests.get(f"{host}/transfer/inquiry/own_account_number/?cif_number={customer['cif_number']}")
+#         assert response.status_code in (200, 201)
+#         assert type(response.json()) == list
+#         assert len(response.json()) == 1
+#         assert type(response.json()[0]) == dict
 
 @pytest.mark.run(order=16)
 def test_transfer_inquiry_account_number():

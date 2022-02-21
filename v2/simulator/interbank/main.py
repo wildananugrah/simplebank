@@ -2,11 +2,13 @@ from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from uuid import uuid4
 from datetime import datetime
-
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
-client = MongoClient(os.getenv("MONGO_HOST"))
+client = MongoClient(os.getenv("MONGODB_HOST"))
 db = client.interbank_db
 
 @app.route("/", methods=["POST"])
@@ -20,10 +22,12 @@ def inquiry():
     bank_code = request.args.get('bank_code')
 
     query = { "account_number" : account_number, 'bank_code' : bank_code }
-    print(query)
+    # print(query)
     account_detail = db.accounts.find_one(query, {"_id" : False})
 
     return jsonify(account_detail), 201
+
+    # return jsonify({"message" : "Test"})
 
 @app.route("/settlement", methods=["POST"])
 def settlement():
