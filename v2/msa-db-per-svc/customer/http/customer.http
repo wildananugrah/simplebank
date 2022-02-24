@@ -1,0 +1,25 @@
+
+@host=http://localhost:3100
+
+###
+GET {{host}}/customer/?id_type=id_number&value=1605058497852873
+
+###
+GET {{host}}/customer/?id_type=cif_number&value=1681274973
+
+###
+POST {{host}}/customer/login
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password"
+}
+
+###
+POST {{host}}/customer/logout
+Content-Type: application/json
+
+{
+    "session_id" : "eyJjaWZfbnVtYmVyIjogIjE2ODEyNzQ5NzMiLCAiZGF0ZXRpbWUiOiAiMjEtMDItMjAyMiAxNzo0Nzo0OSIsICJ1dWlkIjogIjY4NzdiMDc0LWI1NjQtNGU1ZS05OTVlLTViZDcyMjc1NzI5MiJ9"
+}

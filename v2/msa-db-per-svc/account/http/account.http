@@ -1,0 +1,354 @@
+@host=http://localhost:3101
+
+POST {{host}}/account
+Content-Type: application/json
+
+{
+    "cif_number" : "1681274973",
+    "currency" : "IDR"
+}
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 107
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:12:10 GMT
+
+# {
+#   "account_number": "4423913443",
+#   "balance": 0,
+#   "cif_number": "1681274973",
+#   "currency": "IDR"
+# }
+
+
+###
+DELETE {{host}}/account/?account_number=1761760393
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 57
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:12:43 GMT
+
+# {
+#   "message": "account has been deleted successfully"
+# }
+
+
+### 4807157480, 3108174706
+GET {{host}}/account/?account_number=7162239869
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 107
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:13:06 GMT
+
+# {
+#   "account_number": "3027826709",
+#   "balance": 0,
+#   "cif_number": "1681274973",
+#   "currency": "IDR"
+# }
+
+### 918382910
+GET {{host}}/account/list/?cif_number=1681274973
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 123
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:13:24 GMT
+
+# [
+#   {
+#     "account_number": "3027826709",
+#     "balance": 0,
+#     "cif_number": "1681274973",
+#     "currency": "IDR"
+#   }
+# ]
+
+
+### 4807157480, 3108174706
+POST {{host}}/account/deposit/
+Content-Type: application/json
+
+{
+    "account_number": "4807157480",
+    "amount": 1000,
+    "description": "test 1"
+}
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 164
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:14:13 GMT
+
+# {
+#   "data": {
+#     "account_number": "3027826709",
+#     "amount": 1000,
+#     "description": "test 1",
+#     "journal_number": "759199"
+#   },
+#   "message": "success"
+# }
+
+
+### 4807157480, 3108174706
+POST {{host}}/account/transfer/
+Content-Type: application/json
+
+{
+    "from_account_number": "4807157480",
+    "to_account_number":"3108174706",
+    "amount":1,
+    "transaction_id":"123",
+    "description":"TEST 123"
+}
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 238
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:14:45 GMT
+
+# {
+#   "data": {
+#     "amount": 1,
+#     "description": "TEST 123",
+#     "from_account_number": "3027826709",
+#     "journal_number": "125344",
+#     "to_account_number": "3417925007",
+#     "transaction_id": "123"
+#   },
+#   "message": "success"
+# }
+
+
+### 4807157480, 3108174706
+POST {{host}}/account/debit/
+Content-Type: application/json
+
+{
+    "account_number": "4807157480",
+    "amount":1,
+    "transaction_id":"124",
+    "description":"pembayaran listrik 1",
+    "transaction_type":"PAYMENT"
+}
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 205
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:15:15 GMT
+
+# {
+#   "data": {
+#     "account_number": "3027826709",
+#     "amount": 1,
+#     "description": "pembayaran listrik 1",
+#     "journal_number": "071323",
+#     "transaction_id": "124"
+#   },
+#   "message": "success"
+# }
+
+
+### 4807157480
+POST {{host}}/account/transfer/interbank/
+Content-Type: application/json
+
+{
+    "account_number": "4807157480",
+    "amount":1,
+    "transaction_id":"124",
+    "description":"BRI 54321",
+    "transaction_type":"INTERBANK_TRANSFER"
+}
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 241
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:15:39 GMT
+
+# {
+#   "data": {
+#     "account_number": "3027826709",
+#     "amount": 1,
+#     "description": "BRI 54321",
+#     "journal_number": "402449",
+#     "transaction_id": "124",
+#     "transaction_type": "INTERBANK TRANSFER"
+#   },
+#   "message": "success"
+# }
+
+
+### 4807157480
+GET {{host}}/account/historical_transaction?account_number=4807157480
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 201 CREATED
+# Content-Type: application/json
+# Content-Length: 1146
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 19 Feb 2022 04:15:56 GMT
+
+# [
+#   {
+#     "account_number": "3027826709",
+#     "action": "DEBIT",
+#     "amount": 1,
+#     "description": "BRI 54321",
+#     "journal_number": "402449",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:15:39 GMT",
+#     "transaction_id": "124",
+#     "transaction_type": "INTERBANK TRANSFER"
+#   },
+#   {
+#     "account_number": "3027826709",
+#     "action": "DEBIT",
+#     "amount": 1,
+#     "description": "pembayaran listrik 1",
+#     "journal_number": "071323",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:15:15 GMT",
+#     "transaction_id": "124",
+#     "transaction_type": "PAYMENT"
+#   },
+#   {
+#     "account_number": "3027826709",
+#     "action": "DEBIT",
+#     "amount": 1,
+#     "description": "TEST 123",
+#     "journal_number": "125344",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:14:45 GMT",
+#     "transaction_id": "123",
+#     "transaction_type": "TRANSFER"
+#   },
+#   {
+#     "account_number": "3027826709",
+#     "action": "CREDIT",
+#     "amount": 1000,
+#     "description": "test 1",
+#     "journal_number": "759199",
+#     "transaction_datetime": "Sat, 19 Feb 2022 04:14:13 GMT",
+#     "transaction_id": "",
+#     "transaction_type": "DEPOSIT"
+#   }
+# ]
+
+###
+
+POST {{host}}/account/reversal/
+Content-Type: application/json
+
+{
+    "account_number": "4807157480",
+    "amount":1,
+    "transaction_id":"124",
+    "description":"BRI 54321",
+    "journal_number" : "123456",
+    "transaction_type":"REVERSAL_INTERBANK_TRANSFER"
+}
+
+###
+POST {{host}}/account/reversal/
+Content-Type: application/json
+
+{
+    "account_number": "4807157480",
+    "amount":1,
+    "transaction_id":"124",
+    "description":"BRI 54321",
+    "journal_number" : "123456",
+    "transaction_type":"REVERSAL_PAYMENT"
+}
+
+# MQ NOTIF
+## account to transfer
+# {
+#    "status_code":200,
+#    "message":"success",
+#    "data":{
+#       "from_account_number":"0023418965",
+#       "to_account_number":"7162239869",
+#       "amount":1,
+#       "transaction_id":"123",
+#       "description":"TEST 123",
+#       "journal_number":"942619"
+#    }
+# }
+
+## account to payment
+# {
+#    "status_code":200,
+#    "message":"success",
+#    "data":{
+#       "account_number":"0023418965",
+#       "amount":1,
+#       "transaction_id":"124",
+#       "description":"pembayaran listrik 1",
+#       "transaction_type":"PAYMENT",
+#       "journal_number":"665136"
+#    }
+# }
+
+## account to interbank
+# {
+#    "status_code":200,
+#    "message":"success",
+#    "data":{
+#       "account_number":"0023418965",
+#       "amount":1,
+#       "transaction_id":"124",
+#       "description":"BRI 54321",
+#       "transaction_type":"INTERBANK_TRANSFER",
+#       "journal_number":"211529"
+#    }
+# }
+
+## reversal interbank
+# {
+#    "status_code":200,
+#    "message":"success",
+#    "data":{
+#       "account_number":"0023418965",
+#       "amount":1,
+#       "transaction_id":"124",
+#       "description":"BRI 54321",
+#       "journal_number":"123456",
+#       "transaction_type":"REVERSAL_INTERBANK_TRANSFER"
+#    }
+# }
+
+## reversal payment
+# {
+#    "status_code":200,
+#    "message":"success",
+#    "data":{
+#       "account_number":"0023418965",
+#       "amount":1,
+#       "transaction_id":"124",
+#       "description":"BRI 54321",
+#       "journal_number":"123456",
+#       "transaction_type":"REVERSAL_PAYMENT"
+#    }
+# }

@@ -5,7 +5,7 @@ POST {{host}}
 Content-Type: application/json
 
 {
-    "account_number" : "3540447402",
+    "account_number" : "3540447401",
     "bank_code" : "014",
     "account_name" : "Wildan Anugrah Putra"
 }

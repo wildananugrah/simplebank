@@ -1,0 +1,29 @@
+@host=http://localhost:3103
+
+###
+GET {{host}}/payment/bill/inquiry?bill_id=383276601961
+
+### normal: 383276601961; reversal: 999888777
+POST {{host}}/payment/bill/payment
+Content-Type: application/json
+
+{
+    "bill_id" : "383276601961",
+    "account_number" : "4492199676",
+    "biller_name" : "telkomsel",
+    "amount" : 10,
+    "cif_number" : "918382910",
+    "description":  "TEST PAYMENT !",
+    "biller_request_message" : {
+        "bill_id" : "383276601961",
+        "amount" : 10,
+        "detail" : "0813-1600-6010",
+        "description" : "TEST PAYMENT"
+    }
+}
+
+###
+GET {{host}}/payment/list?cif_number=918382910
+
+###
+GET {{host}}/payment/detail?transaction_id=0850372750

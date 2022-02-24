@@ -1,0 +1,64 @@
+(venv) (base) wildananugrah@192-168-1-139 msa-cqrs % make run-test
+================================================================ test session starts =================================================================
+platform darwin -- Python 3.9.6, pytest-7.0.1, pluggy-1.0.0 -- /usr/local/opt/python@3.9/bin/python3.9
+cachedir: .pytest_cache
+rootdir: /Users/wildananugrah/Documents/Study in Melbourne/Research Project 1/Developments/simplebank/v2/msa-cqrs
+plugins: ordering-0.6, flask-1.2.0
+collected 28 items                                                                                                                                   
+
+tests/test_simplebank_normal.py::test_inquiry_customer_by_id_number_success PASSED
+tests/test_simplebank_normal.py::test_inquiry_customer_by_id_number_fail PASSED
+tests/test_simplebank_normal.py::test_login PASSED
+tests/test_simplebank_normal.py::test_session_validation PASSED
+tests/test_simplebank_normal.py::test_logout PASSED
+tests/test_simplebank_normal.py::test_session_validation_logout PASSED
+tests/test_simplebank_normal.py::test_create_account PASSED
+tests/test_simplebank_normal.py::test_get_account PASSED
+tests/test_simplebank_normal.py::test_account_list_cif_number PASSED
+tests/test_simplebank_normal.py::test_deposit PASSED
+tests/test_simplebank_normal.py::test_transfer_from_account PASSED
+tests/test_simplebank_normal.py::test_debit PASSED
+tests/test_simplebank_normal.py::test_interbank PASSED
+tests/test_simplebank_normal.py::test_historical_transactions PASSED
+tests/test_simplebank_normal.py::test_transfer_inquiry_account_number PASSED
+tests/test_simplebank_normal.py::test_transfer_inquiry_interbank_account_number PASSED
+tests/test_simplebank_normal.py::test_transfer_save_account_number PASSED
+tests/test_simplebank_normal.py::test_transfer_list_account_number PASSED
+tests/test_simplebank_normal.py::test_transfer_from_transfer PASSED
+tests/test_simplebank_normal.py::test_transfer_interbank PASSED
+tests/test_simplebank_normal.py::test_delete_transfer_account_number PASSED
+tests/test_simplebank_normal.py::test_transfer_list PASSED
+tests/test_simplebank_normal.py::test_delete_account PASSED
+tests/test_simplebank_normal.py::test_delete_transfer PASSED
+tests/test_simplebank_normal.py::test_delete_historical_transactions PASSED
+tests/test_simplebank_normal.py::test_delete_db_accounts PASSED
+tests/test_simplebank_normal.py::test_delete_db_payment PASSED
+tests/test_simplebank_normal.py::test_delete_db_transfer_accounts PASSED
+
+================================================================= slowest durations ==================================================================
+18.77s call     tests/test_simplebank_normal.py::test_transfer_from_account
+7.48s call     tests/test_simplebank_normal.py::test_transfer_list
+6.75s call     tests/test_simplebank_normal.py::test_transfer_from_transfer
+6.29s call     tests/test_simplebank_normal.py::test_transfer_interbank
+5.56s call     tests/test_simplebank_normal.py::test_transfer_save_account_number
+3.71s call     tests/test_simplebank_normal.py::test_deposit
+3.32s call     tests/test_simplebank_normal.py::test_delete_transfer_account_number
+3.19s call     tests/test_simplebank_normal.py::test_delete_account
+2.31s call     tests/test_simplebank_normal.py::test_create_account
+2.28s call     tests/test_simplebank_normal.py::test_logout
+2.13s call     tests/test_simplebank_normal.py::test_get_account
+2.04s call     tests/test_simplebank_normal.py::test_login
+1.75s call     tests/test_simplebank_normal.py::test_account_list_cif_number
+1.47s call     tests/test_simplebank_normal.py::test_transfer_list_account_number
+1.08s call     tests/test_simplebank_normal.py::test_inquiry_customer_by_id_number_success
+0.19s call     tests/test_simplebank_normal.py::test_session_validation
+0.19s call     tests/test_simplebank_normal.py::test_session_validation_logout
+0.18s call     tests/test_simplebank_normal.py::test_delete_historical_transactions
+0.09s call     tests/test_simplebank_normal.py::test_delete_transfer
+0.03s call     tests/test_simplebank_normal.py::test_transfer_inquiry_interbank_account_number
+0.01s call     tests/test_simplebank_normal.py::test_inquiry_customer_by_id_number_fail
+0.01s call     tests/test_simplebank_normal.py::test_delete_db_transfer_accounts
+0.01s call     tests/test_simplebank_normal.py::test_delete_db_payment
+
+(61 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================================================== 28 passed in 69.13s (0:01:09) ============================================================

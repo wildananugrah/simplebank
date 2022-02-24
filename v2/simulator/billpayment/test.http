@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{host}}/?bill_id=553360290896
+GET {{host}}/?bill_id=383276601961
 Content-Type: application/json
 
 ###
@@ -18,6 +18,6 @@ POST {{host}}
 Content-Type: application/json
 
 {
-    "bill_id" : "344247711962",
+    "bill_id" : "383276601961",
     "description" : "settlement success!"
 }
