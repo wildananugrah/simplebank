@@ -5,29 +5,37 @@ services:
             context: ./customer
             dockerfile: ./app.Dockerfile
         container_name: customer
-        # ports:
-        #     - "3100:3100"
+        environment:
+            MONGODB_READ_HOST: mongodb://45.113.235.79:6010/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
     account:
         build:
             context: ./account
             dockerfile: ./app.Dockerfile
         container_name: account
-        # ports:
-        #     - "3101:3101"
+        environment:
+            MONGODB_READ_HOST=mongodb://192.168.1.137:6020/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST=mongodb://192.168.1.137:6000/?readPreference=primary&directConnection=true
     transfer:
         build:
             context: ./transfer
             dockerfile: ./app.Dockerfile
         container_name: transfer
-        # ports:
-        #     - "3102:3102"
+        environment:
+            MONGODB_READ_HOST: mongodb://45.113.235.79:6030/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            SIM_INTERBANK_HOST: http://45.113.232.164:3000
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
     payment:
         build:
             context: ./payment
             dockerfile: ./app.Dockerfile
         container_name: payment
-        # ports:
-        #     - "3103:3103"
+        environment:
+            MONGODB_READ_HOST: mongodb://45.113.235.79:6040/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            SIM_INTERBANK_HOST: http://45.113.232.164:3000
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
     nginx:
         build:
             context: ./nginx
