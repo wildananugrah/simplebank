@@ -22,7 +22,7 @@ class TransferModel():
             'amount': amount,
             'description' : description
         }
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_ACCOUNT'), body=json.dumps(data))
@@ -66,7 +66,7 @@ class TransferModel():
             'transaction_type': "INTERBANK_TRANSFER"
         }
 
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_ACCOUNT_DEBIT'), body=json.dumps(data))
@@ -84,7 +84,7 @@ class TransferModel():
             'journal_number' : journal_number
         }
 
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_REVERSAL_INTERBANK'), body=json.dumps(data))

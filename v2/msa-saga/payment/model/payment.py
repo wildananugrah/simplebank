@@ -42,7 +42,7 @@ class PaymentModel():
             'transaction_type': "PAYMENT",
         }
 
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_ACCOUNT_DEBIT'), body=json.dumps(data))
@@ -59,7 +59,7 @@ class PaymentModel():
             'journal_number' : journal_number
         }
 
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_REVERSAL_PAYMENT'), body=json.dumps(data))

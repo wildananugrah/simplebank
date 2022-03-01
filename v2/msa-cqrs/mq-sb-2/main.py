@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST')))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
     channel = connection.channel()
 
     channel.queue_declare(queue='account_transfer')

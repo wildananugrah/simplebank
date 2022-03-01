@@ -66,7 +66,7 @@ class AccountModel():
         return True
 
     def mq_to_transfer(self, message):
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         channel.basic_publish(exchange='', routing_key=os.getenv('ROUTING_KEY_TO_TRANSFER'), body=json.dumps(message))
@@ -74,7 +74,7 @@ class AccountModel():
         connection.close()
 
     def mq_to_debit_user(self, message):
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         if message['data']['transaction_type'] == "PAYMENT":
@@ -85,7 +85,7 @@ class AccountModel():
         connection.close()
     
     def mq_to_reversal_user(self, message):
-        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBIT_MQ_HOST')))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.getenv('RABBIT_MQ_HOST'), port=os.getenv('RABBIT_MQ_PORT')))
         channel = connection.channel()
 
         print("message:", message)
