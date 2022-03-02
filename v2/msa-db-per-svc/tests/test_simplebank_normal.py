@@ -9,7 +9,7 @@ db = client.simplebank_db
 
 load_dotenv()
 
-host = "http://localhost:4003"
+host = "http://localhost:3010"
 
 id_number_fail = '3175023005910001'
 session_login_list = []

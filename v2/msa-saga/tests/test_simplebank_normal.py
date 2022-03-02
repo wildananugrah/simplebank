@@ -6,7 +6,7 @@ import pytest, os, requests, random, string
 client = MongoClient("mongodb://45.113.235.79:5000/")
 db = client.simplebank_db
 
-host = "http://localhost:4001"
+host = "http://localhost:3030"
 
 id_number_fail = '3175023005910001'
 session_login_list = []

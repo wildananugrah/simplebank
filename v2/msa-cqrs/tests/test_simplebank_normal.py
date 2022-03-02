@@ -9,7 +9,7 @@ db2 = client.simplebank_db
 client2 = MongoClient("mongodb://45.113.235.79:4010/?readPreference=primary&directConnection=true")
 db = client2.simplebank_db
 
-host = "http://localhost:4002"
+host = "http://localhost:3020"
 
 id_number_fail = '3175023005910001'
 session_login_list = []
