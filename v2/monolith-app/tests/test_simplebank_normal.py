@@ -4,7 +4,7 @@ import pytest, os, requests, random, string
 
 # docker stats monolith-app
 
-client = MongoClient("mongodb://mongoadmin:secret@localhost:5000/")
+client = MongoClient("mongodb://45.113.235.79:3000/")
 db = client.simplebank_db
 
 load_dotenv()

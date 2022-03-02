@@ -4,7 +4,7 @@ import pytest, os, requests, random, string
 
 # docker stats account customer transfer payment
 
-client = MongoClient("mongodb://localhost:6000/?readPreference=primary&directConnection=true")
+client = MongoClient("mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true")
 db = client.simplebank_db
 
 load_dotenv()

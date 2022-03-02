@@ -14,8 +14,8 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: account
         environment:
-            MONGODB_READ_HOST: mongodb://192.168.1.137:6020/?readPreference=secondary&directConnection=true
-            MONGODB_WRITE_HOST: mongodb://192.168.1.137:6000/?readPreference=primary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.235.79:6020/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
     transfer:
         build:
             context: ./transfer

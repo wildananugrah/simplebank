@@ -3,11 +3,11 @@ import pytest, os, requests, random, string, time, json
 
 # docker stats account customer transfer payment
 
-client = MongoClient("mongodb://localhost:6000/?readPreference=secondary&directConnection=true")
-db = client.simplebank_db
+client = MongoClient("mongodb://45.113.235.79:4000/?readPreference=secondary&directConnection=true")
+db2 = client.simplebank_db
 
-client2 = MongoClient("mongodb://localhost:6001/?readPreference=primary&directConnection=true")
-db2 = client2.simplebank_db
+client2 = MongoClient("mongodb://45.113.235.79:4010/?readPreference=primary&directConnection=true")
+db = client2.simplebank_db
 
 host = "http://localhost:4002"
 
@@ -381,7 +381,10 @@ def test_delete_account():
         assert response.status_code in (200, 201)
         assert type(response.json()) == dict
 
-    db_accounts = db.accounts.find()
+    account_client = MongoClient("mongodb://45.113.235.79:4020/?readPreference=primary&directConnection=true")
+    account_db = client.simplebank_db
+    
+    db_accounts = account_db.accounts.find()
     accounts = []
     for account in db_accounts:
         accounts.append(account)
@@ -390,20 +393,30 @@ def test_delete_account():
 
 @pytest.mark.run(order=25)
 def test_delete_transfer():
-    db2.transfers.delete_many({})
+    transfer_client = MongoClient("mongodb://45.113.235.79:4040/?readPreference=primary&directConnection=true")
+    transfer_db = transfer_client.simplebank_db
+    transfer_db.transfers.delete_many({})
 
 @pytest.mark.run(order=26)
 def test_delete_historical_transactions():
-    db2.historical_transactions.delete_many({})
+    account_client = MongoClient("mongodb://45.113.235.79:4020/?readPreference=primary&directConnection=true")
+    account_db = client.simplebank_db
+    account_db.historical_transactions.delete_many({})
 
 @pytest.mark.run(order=27)
 def test_delete_db_accounts():
-    db2.accounts.delete_many({})
+    account_client = MongoClient("mongodb://45.113.235.79:4020/?readPreference=primary&directConnection=true")
+    account_db = client.simplebank_db
+    account_db.accounts.delete_many({})
 
 @pytest.mark.run(order=28)
 def test_delete_db_payment():
-    db2.payments.delete_many({})
+    account_client = MongoClient("mongodb://45.113.235.79:4060/?readPreference=primary&directConnection=true")
+    account_db = client.simplebank_db
+    account_db.payments.delete_many({})
 
 @pytest.mark.run(order=29)
 def test_delete_db_transfer_accounts():
-    db2.transfer_accounts.delete_many({})
+    transfer_client = MongoClient("mongodb://45.113.235.79:4040/?readPreference=primary&directConnection=true")
+    transfer_db = transfer_client.simplebank_db
+    transfer_db.transfer_accounts.delete_many({})

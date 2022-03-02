@@ -4,7 +4,7 @@ import pytest, os, requests, random, string
 
 # docker stats account customer transfer payment
 
-client = MongoClient("mongodb://mongoadmin:secret@localhost:5000/")
+client = MongoClient("mongodb://45.113.235.79:5000/")
 db = client.simplebank_db
 
 load_dotenv()
@@ -387,12 +387,30 @@ def test_delete_account():
 
 @pytest.mark.run(order=25)
 def test_delete_transfer():
-    db.transfers.delete_many({})
+    transfer_client = MongoClient("mongodb://45.113.235.79:5020/")
+    transfer_db = transfer_client.simplebank_db
+    transfer_db.transfers.delete_many({})
 
 @pytest.mark.run(order=26)
 def test_delete_historical_transactions():
-    db.historical_transactions.delete_many({})
+    account_client = MongoClient("mongodb://45.113.235.79:5010/")
+    account_db = client.simplebank_db
+    account_db.historical_transactions.delete_many({})
 
 @pytest.mark.run(order=27)
 def test_delete_db_accounts():
-    db.accounts.delete_many({})
+    account_client = MongoClient("mongodb://45.113.235.79:5010/")
+    account_db = client.simplebank_db
+    account_db.accounts.delete_many({})
+
+@pytest.mark.run(order=28)
+def test_delete_db_payment():
+    account_client = MongoClient("mongodb://45.113.235.79:5030/")
+    account_db = client.simplebank_db
+    account_db.payments.delete_many({})
+
+@pytest.mark.run(order=29)
+def test_delete_db_transfer_accounts():
+    transfer_client = MongoClient("mongodb://45.113.235.79:5020/")
+    transfer_db = transfer_client.simplebank_db
+    transfer_db.transfer_accounts.delete_many({})

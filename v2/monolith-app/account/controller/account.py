@@ -205,7 +205,7 @@ class AccountController():
         amount = int(json_request['amount'])
         description = json_request['description']
         transaction_id = json_request['transaction_id']
-        json_request['transaction_type']
+        transaction_type = json_request['transaction_type']
         data = json_request
 
         db_account_number = self.model.detail(account_number)

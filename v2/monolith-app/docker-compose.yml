@@ -1,31 +1,18 @@
 version: "3.7"
 services:
-    app:
+    monolith-app:
         build:
-            context: .
+            context: ./
             dockerfile: ./app.Dockerfile
-        container_name: application
-        ports:
-            - "8000:8000"
-        depends_on:
-            appdb:
-                condition: service_healthy
+        container_name: monolith-app
         environment: 
-            DB_HOST: postgresql://comp90078:comp90078!@appdb/comp90078-db
-            SIMULATOR_HOST: http://192.168.0.102:8090/sim
-    appdb:
-        image: postgres
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: comp90078!
-            POSTGRES_USER: comp90078
-            POSTGRES_DB: comp90078-db
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
+            MONGODB_HOST: mongodb://45.113.235.79:3000
+            SIM_INTERBANK_HOST: http://45.113.232.164:3000
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: ./app.Dockerfile
+        container_name: nginx
         ports:
-            - "6000:5432"
-        # volumes:
-        #     - ./data:/var/lib/postgresql/data
+            - "4000:80"

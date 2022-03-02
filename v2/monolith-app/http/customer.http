@@ -2,10 +2,10 @@
 @host=http://localhost:4000
 
 ###
-GET {{host}}/customer/?id_type=id_number&value=3175023005910005
+GET {{host}}/customer/?id_type=id_number&value=1605058497852873
 
 ###
-GET {{host}}/customer/?id_type=cif_number&value=918382910
+GET {{host}}/customer/?id_type=cif_number&value=1681274973
 
 ###
 POST {{host}}/customer/login
@@ -21,5 +21,5 @@ POST {{host}}/customer/logout
 Content-Type: application/json
 
 {
-    "session_id" : "eyJjaWZfbnVtYmVyIjogIjkxODM4MjkxMCIsICJkYXRldGltZSI6ICIxOS0wMi0yMDIyIDAwOjE3OjUzIiwgInV1aWQiOiAiYmQ0MWMxNmUtY2NkOS00NjEyLTljMWQtZTUyNjk1M2RjMGMwIn0="
+    "session_id" : "eyJjaWZfbnVtYmVyIjogIjE2ODEyNzQ5NzMiLCAiZGF0ZXRpbWUiOiAiMDEtMDMtMjAyMiAxMjoyMjo0NyIsICJ1dWlkIjogImY0ZDkxYTg4LTAyZTQtNDdmYi05OGFkLTkxOWMwNmVmOWU3YyJ9"
 }
