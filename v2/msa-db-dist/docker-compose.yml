@@ -42,4 +42,4 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: nginx
         ports:
-            - "4004:80"
+            - "3040:80"
