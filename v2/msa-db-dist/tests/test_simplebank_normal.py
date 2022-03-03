@@ -17,6 +17,7 @@ account_numbers = []
 DEPOSIT_AMOUNT = 1000
 TRANSFER_AMOUNT = 1
 DEBIT_AMOUNT = 1
+BILL_ID = "830090890024"
 pytest.TO_ACCOUNT_NUMBER = None
 pytest.ACCOUNT_NUMBERS_AND_CIF_NUMBERS = []
 
@@ -371,7 +372,53 @@ def test_transfer_list():
             assert response.status_code in (200, 201)
             assert type(response.json()) == dict
 
+# bill inquiry
 @pytest.mark.run(order=24)
+def test_bill_inquiry():
+    response = requests.get(f"{host}/payment/bill/inquiry/?bill_id={BILL_ID}")
+    assert response.status_code in (200, 201)
+    assert type(response.json()) == dict
+
+# bill payment
+@pytest.mark.run(order=25)
+def test_bill_payment():
+    for account_numbers_and_cif_number in pytest.ACCOUNT_NUMBERS_AND_CIF_NUMBERS:
+
+        data = {
+            "bill_id" : BILL_ID,
+            "account_number" : account_numbers_and_cif_number['account_number'],
+            "biller_name" : "telkomsel",
+            "amount" : 10,
+            "cif_number" : account_numbers_and_cif_number['cif_number'],
+            "description":  "TEST PAYMENT !",
+            "biller_request_message" : {
+                "bill_id" : BILL_ID,
+                "amount" : 10,
+                "detail" : "0813-1600-6010",
+                "description" : "TEST PAYMENT"
+            }
+        }
+        response = requests.post(f"{host}/payment/bill/payment", json=data)
+        
+        assert response.status_code in (200, 201)
+        assert type(response.json()) == dict
+
+# list
+@pytest.mark.run(order=26)
+def test_payment_list():
+    for account_numbers_and_cif_number in pytest.ACCOUNT_NUMBERS_AND_CIF_NUMBERS:
+        response = requests.get(f"{host}/payment/list?cif_number={account_numbers_and_cif_number['cif_number']}")
+        
+        assert response.status_code in (200, 201)
+        assert type(response.json()) == list
+        assert len(response.json()) == 1
+
+        response = requests.get(f"{host}/payment/detail?transaction_id={response.json()[0]['transaction_id']}")
+        
+        assert response.status_code in (200, 201)
+        assert type(response.json()) == dict
+
+@pytest.mark.run(order=27)
 def test_delete_account():
     for account_numbers_and_cif_number in pytest.ACCOUNT_NUMBERS_AND_CIF_NUMBERS:
         response = requests.delete(f"{host}/account?account_number={account_numbers_and_cif_number['account_number']}")
@@ -385,14 +432,18 @@ def test_delete_account():
     
     assert len(accounts) == 0
 
-@pytest.mark.run(order=25)
+@pytest.mark.run(order=28)
 def test_delete_transfer():
     db.transfers.delete_many({})
 
-@pytest.mark.run(order=26)
+@pytest.mark.run(order=29)
 def test_delete_historical_transactions():
     db.historical_transactions.delete_many({})
 
-@pytest.mark.run(order=27)
+@pytest.mark.run(order=30)
 def test_delete_db_accounts():
     db.accounts.delete_many({})
+
+@pytest.mark.run(order=31)
+def test_delete_db_payments():
+    db.payments.delete_many({})

@@ -84,7 +84,7 @@ POST {{host}}/account/deposit/
 Content-Type: application/json
 
 {
-    "account_number": "9341468172",
+    "account_number": "0062629802",
     "amount": 1000,
     "description": "test 1"
 }

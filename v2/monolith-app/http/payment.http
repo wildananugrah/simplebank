@@ -1,18 +1,18 @@
 @host=http://localhost:3000
 
 ###
-GET {{host}}/payment/bill/inquiry?bill_id=553360290896
+GET {{host}}/payment/bill/inquiry?bill_id=830090890024
 
 ###
 POST {{host}}/payment/bill/payment
 Content-Type: application/json
 
 {
-    "bill_id" : "553360290896",
-    "account_number" : "7950455426",
+    "bill_id" : "830090890024",
+    "account_number" : "0062629802",
     "biller_name" : "telkomsel",
     "amount" : 10,
-    "cif_number" : "918382910",
+    "cif_number" : "1681274973",
     "description":  "TEST PAYMENT !",
     "biller_request_message" : {
         "bill_id" : "553360290896",
@@ -21,9 +21,101 @@ Content-Type: application/json
         "description" : "TEST PAYMENT"
     }
 }
+# response:
+# HTTP/1.1 201 CREATED
+# Server: nginx/1.21.6
+# Date: Thu, 03 Mar 2022 07:07:58 GMT
+# Content-Type: application/json
+# Content-Length: 740
+# Connection: close
+
+# {
+#   "data": {
+#     "account_number": "0062629802",
+#     "amount": 10,
+#     "bill_id": "553360290896",
+#     "biller_name": "telkomsel",
+#     "biller_request_message": {
+#       "amount": 10,
+#       "bill_id": "553360290896",
+#       "description": "TEST PAYMENT",
+#       "detail": "0813-1600-6010"
+#     },
+#     "biller_response": null,
+#     "cif_number": "1681274973",
+#     "description": "TEST PAYMENT !",
+#     "settlement_response": {
+#       "data": {
+#         "account_number": "0062629802",
+#         "amount": 10,
+#         "description": "TEST PAYMENT !",
+#         "journal_number": "015001",
+#         "transaction_id": "2488617589",
+#         "transaction_type": "PAYMENT"
+#       },
+#       "message": "success"
+#     }
+#   },
+#   "message": "DONE"
+# }
+
+
 
 ###
-GET {{host}}/payment/list?cif_number=918382910
+GET {{host}}/payment/list?cif_number=1681274973
+# response:
+# HTTP/1.1 201 CREATED
+# Server: nginx/1.21.6
+# Date: Thu, 03 Mar 2022 07:08:28 GMT
+# Content-Type: application/json
+# Content-Length: 478
+# Connection: close
+
+# [
+#   {
+#     "account_number": "0062629802",
+#     "amount": 10,
+#     "bill_id": "553360290896",
+#     "biller_name": "telkomsel",
+#     "cif_number": "1681274973",
+#     "incoming_response": null,
+#     "outgoing_request": {
+#       "amount": 10,
+#       "bill_id": "553360290896",
+#       "description": "TEST PAYMENT",
+#       "detail": "0813-1600-6010"
+#     },
+#     "status": "DONE",
+#     "transaction_datetime": "Thu, 03 Mar 2022 07:07:58 GMT",
+#     "transaction_id": "2488617589"
+#   }
+# ]
+
 
 ###
-GET {{host}}/payment/detail?transaction_id=7470326824
+GET {{host}}/payment/detail?transaction_id=2488617589
+# response:
+# HTTP/1.1 201 CREATED
+# Server: nginx/1.21.6
+# Date: Thu, 03 Mar 2022 07:08:41 GMT
+# Content-Type: application/json
+# Content-Length: 440
+# Connection: close
+
+# {
+#   "account_number": "0062629802",
+#   "amount": 10,
+#   "bill_id": "553360290896",
+#   "biller_name": "telkomsel",
+#   "cif_number": "1681274973",
+#   "incoming_response": null,
+#   "outgoing_request": {
+#     "amount": 10,
+#     "bill_id": "553360290896",
+#     "description": "TEST PAYMENT",
+#     "detail": "0813-1600-6010"
+#   },
+#   "status": "DONE",
+#   "transaction_datetime": "Thu, 03 Mar 2022 07:07:58 GMT",
+#   "transaction_id": "2488617589"
+# }
