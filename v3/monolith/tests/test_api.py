@@ -5,6 +5,7 @@ host = "http://localhost:3000"
 id_number = "1605058497852873"
 cif_number = "1681274973"
 username_1 = "user1"
+email_1 = "user0@gmail.com"
 password_1 = "password"
 bill_id = "458625142578"
 
@@ -53,11 +54,38 @@ def test_customer_mobile_logout():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
+@pytest.mark.run(order=5)
+def test_customer_internet_banking_login():
+    data = {
+        "email": email_1,
+        "password" : password_1
+    }
+    response = requests.post(f"{host}/customer/internet_banking/login/", json=data)
+
+    assert response is not None
+    assert response.status_code in (200, 201)
+    assert type(response.json()) is dict
+
+    return response.json()['data']
+
+@pytest.mark.run(order=6)
+def test_customer_internet_banking_logout():
+
+    data = {
+        "session_id": test_customer_internet_banking_login()['session_id']
+    }
+
+    response = requests.post(f"{host}/customer/internet_banking/logout/", json=data)
+
+    assert response is not None
+    assert response.status_code in (200, 201)
+    assert type(response.json()) is dict
+
 # CUSTOMER TEST [ENDED]
 
 # ACCOUNT TEST [STARTED]
 
-@pytest.mark.run(order=5)
+@pytest.mark.run(order=7)
 def test_account_create():
 
     data = {
@@ -72,7 +100,7 @@ def test_account_create():
 
     return response.json()
 
-@pytest.mark.run(order=6)
+@pytest.mark.run(order=8)
 def test_account_list():
     response = requests.get(f"{host}/account/list/?cif_number={cif_number}")
 
@@ -83,7 +111,7 @@ def test_account_list():
 
     return response.json()['data']
 
-@pytest.mark.run(order=7)
+@pytest.mark.run(order=9)
 def test_account_detail():
     account = test_account_list()[0]
     response = requests.get(f"{host}/account/?account_number={account['account_number']}")
@@ -92,7 +120,7 @@ def test_account_detail():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=8)
+@pytest.mark.run(order=10)
 def test_account_delete():
     account = test_account_list()[0]
     response = requests.delete(f"{host}/account/?account_number={account['account_number']}")
@@ -105,7 +133,7 @@ def test_account_delete():
 
 # TRANSACTION TEST [STARTED]
 
-@pytest.mark.run(order=9)
+@pytest.mark.run(order=11)
 def test_transaction_deposit():
     pytest.ACCOUNT_NUMBER = test_account_create()['data']
     data = {
@@ -118,7 +146,7 @@ def test_transaction_deposit():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=10)
+@pytest.mark.run(order=12)
 def test_transaction_intrabank():
     to_account_number = test_account_create()
     data = {
@@ -134,14 +162,14 @@ def test_transaction_intrabank():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=11)
+@pytest.mark.run(order=13)
 def test_transaction_interbank_inquiry():
     response = requests.get(f"{host}/transaction/transfer/interbank/?to_account_number=3540447401&to_bank_code=014")
     assert response is not None
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=12)
+@pytest.mark.run(order=14)
 def test_transaction_interbank_transfer():
     data = {
         "from_account_number": pytest.ACCOUNT_NUMBER['account_number'],
@@ -157,14 +185,14 @@ def test_transaction_interbank_transfer():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=13)
+@pytest.mark.run(order=15)
 def test_transaction_eletric_payment_inquiry():
     response = requests.get(f"{host}/transaction/payment/eletrical/?bill_id={bill_id}")
     assert response is not None
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=14)
+@pytest.mark.run(order=16)
 def test_transaction_eletric_payment_pay():
     data = {
         "bill_id":bill_id,
@@ -178,7 +206,7 @@ def test_transaction_eletric_payment_pay():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-@pytest.mark.run(order=15)
+@pytest.mark.run(order=17)
 def test_transaction_list():
     response = requests.get(f"{host}/transaction/list/?cif_number={pytest.ACCOUNT_NUMBER['cif_number']}")
 
@@ -197,7 +225,7 @@ def test_transaction_list():
 
 # HISTORY TEST [STARTED]
 
-@pytest.mark.run(order=16)      
+@pytest.mark.run(order=18)      
 def test_hist_trx():
     response = requests.get(f"{host}/historical_transaction/?account_number={pytest.ACCOUNT_NUMBER['account_number']}")
 

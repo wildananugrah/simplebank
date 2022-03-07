@@ -4,7 +4,7 @@ from exception.business_logic_exception import BusinessLogicException
 from abc import ABC, abstractmethod
 from datetime import datetime
 from view.presenter import detail
-
+from flask import jsonify
 
 class HistoricalTransaction:
 

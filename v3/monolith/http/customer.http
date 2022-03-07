@@ -81,6 +81,14 @@ Content-Type: application/json
 #   "timestamp": "0:00:00.055309"
 # }
 
+###
+POST {{host}}/customer/internet_banking/login/
+Content-Type: application/json
+
+{
+    "email": "user0@gmail.com",
+    "password" : "password"
+}
 
 ###
 POST {{host}}/customer/mobile/logout/
