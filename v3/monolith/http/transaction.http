@@ -27,6 +27,58 @@ Content-Type: application/json
 ###
 GET {{host}}/transaction/list/?cif_number=6094439536
 
+# response:
+# HTTP/1.1 200 OK
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:19:07 GMT
+# Content-Type: application/json
+# Content-Length: 1254
+# Connection: close
+
+# {
+#   "data": [
+#     {
+#       "amount": 1,
+#       "bank_code": "",
+#       "cif_number": "6094439536",
+#       "description": "TEST PAYMENT ELETRICAL PAYMENT",
+#       "from_account_number": "5290328307",
+#       "journal_number": "6029473584",
+#       "status": "DONE",
+#       "to_account_number": "",
+#       "transaction_datetime": "Mon, 07 Mar 2022 20:50:49 GMT",
+#       "transaction_type": "ELETRICAL_BILLPAYMENT"
+#     },
+#     {
+#       "amount": 1,
+#       "bank_code": "014",
+#       "cif_number": "6094439536",
+#       "description": "TEST INTERBANK",
+#       "from_account_number": "5290328307",
+#       "journal_number": "0873289568",
+#       "status": "DONE",
+#       "to_account_number": "3540447401",
+#       "transaction_datetime": "Mon, 07 Mar 2022 20:50:37 GMT",
+#       "transaction_type": "INTERBANK"
+#     },
+#     {
+#       "amount": 1,
+#       "bank_code": "009",
+#       "cif_number": "6094439536",
+#       "description": "TEST INTRABANK",
+#       "from_account_number": "5290328307",
+#       "journal_number": "7647673077",
+#       "status": "DONE",
+#       "to_account_number": "2513051497",
+#       "transaction_datetime": "Mon, 07 Mar 2022 20:50:15 GMT",
+#       "transaction_type": "INTRABANK"
+#     }
+#   ],
+#   "status_code": 200,
+#   "timestamp": "0:00:00.032679"
+# }
+
+
 ###
 GET {{host}}/transaction/?transaction_type=DEPOSIT&account_number=5290328307&journal_number=8877502283
 Content-Type: application/json
@@ -109,8 +161,10 @@ Content-Type: application/json
 POST {{host}}/transaction/transfer/interbank/
 Content-Type: application/json
 
+# {"from_account_number": "7562141722", "to_account_number": "3540447401", "to_bank_code": "014", "cif_number": "1681274973", "amount": 1, "description": "TEST INTERBANK"}
+
 {
-    "from_account_number": "5290328307",
+    "from_account_number": "0795845297",
     "to_account_number": "3540447401",
     "to_bank_code": "014",
     "cif_number": "6094439536",

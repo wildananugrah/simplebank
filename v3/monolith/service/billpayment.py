@@ -60,9 +60,9 @@ class EletricalBillPayment(PaymentAbstract):
 
     def pay(self):
         data = {
-            "bill_id" : "383276601961",
+            "bill_id" : self.bill_id,
             "journal_number" : self.journal_number,
-            "description" : "settlement success!"
+            "description" : self.description
         }
 
         response = requests.post(f"{self.host}/", json=data)

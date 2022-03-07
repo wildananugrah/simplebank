@@ -19,7 +19,7 @@ class InterbankAbstract(ABC):
 @dataclass
 class Interbank(InterbankAbstract):
 
-    host: str = os.getenv("SIM_BILLPAYMENT_HOST")
+    host: str = os.getenv("SIM_INTERBANK_HOST")
     # host: str = "http://45.113.232.164:3000"
     from_account_number: str = None
     from_bank_code: str = None 
@@ -39,7 +39,6 @@ class Interbank(InterbankAbstract):
     valid_status_code = [200, 201]
 
     def inquiry(self, account_number, bank_code):
-
         
         response = requests.get(f"{self.host}/?account_number={account_number}&bank_code={bank_code}")
 
