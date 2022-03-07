@@ -184,6 +184,13 @@ def test_transfer_intrabank():
     assert journal_number is not None
     assert type(journal_number) is str
 
+    detail_transfer_intrabank = transfer_intrabank.detail_transaction("INTRABANK", account_1['account_number'], journal_number)
+
+    assert detail_transfer_intrabank is not None
+    assert type(detail_transfer_intrabank) is dict
+    assert detail_transfer_intrabank['journal_number'] == journal_number
+    assert detail_transfer_intrabank['from_account_number'] == account_1['account_number']
+
     # delete_account(account_2['account_number'])
 
 @pytest.mark.run(order=12)
@@ -205,16 +212,23 @@ def test_transfer_interbank():
     to_bank_code = "014"
     amount = 1
     description = "TEST INTERBANK TRANSFER"
-    transter_interbank = TransferInterbank(from_account_number=account_1['account_number'], 
+    transfer_interbank = TransferInterbank(from_account_number=account_1['account_number'], 
                                             to_account_number=to_account_number, 
                                             to_bank_code=to_bank_code, 
                                             amount=amount, 
                                             cif_number=customer_1['cif_number'],
                                             description=description)
-    transfer = transter_interbank.transfer()
+    journal_number = transfer_interbank.transfer()
 
-    assert transfer is not None
-    assert type(transfer) is str
+    assert journal_number is not None
+    assert type(journal_number) is str
+
+    detail_transfer_interbank = transfer_interbank.detail_transaction("INTERBANK", account_1['account_number'], journal_number)
+
+    assert detail_transfer_interbank is not None
+    assert type(detail_transfer_interbank) is dict
+    assert detail_transfer_interbank['journal_number'] == journal_number
+    assert detail_transfer_interbank['from_account_number'] == account_1['account_number']
 
 # TRANSFER TEST [ENDED]
 
@@ -243,10 +257,17 @@ def test_billpayment_pay():
                                             from_account_number=account_1['account_number'], 
                                             cif_number=customer_1['cif_number'])
     bill_id = "458625142578"
-    inquiry = eletrical_billpayment.pay()
+    journal_number = eletrical_billpayment.pay()
 
-    assert inquiry is not None
-    assert type(inquiry) is str
+    assert journal_number is not None
+    assert type(journal_number) is str
+
+    detail_billpayament = eletrical_billpayment.detail_transaction("ELETRICAL_BILLPAYMENT", account_1['account_number'], journal_number)
+
+    assert detail_billpayament is not None
+    assert type(detail_billpayament) is dict
+    assert detail_billpayament['journal_number'] == journal_number
+    assert detail_billpayament['from_account_number'] == account_1['account_number']
 
     # delete_account(account_1['account_number'])
 

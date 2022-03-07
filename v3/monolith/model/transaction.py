@@ -85,6 +85,9 @@ class Transaction(TransactionAbstract):
         self.store_to_historical_transaction(transaction_type="CREDIT", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=to_account_number_update_balance)
             
         return journal_number
+    
+    def detail_transaction(self, transaction_type, account_number, journal_number):
+        return self.db.transactions.find_one({ 'transaction_type' : transaction_type, 'from_account_number' : account_number, 'journal_number' : journal_number }, { '_id' : False })
 
 @dataclass
 class TransferIntrabank(Transaction):
