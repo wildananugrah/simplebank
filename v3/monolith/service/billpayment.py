@@ -34,8 +34,8 @@ class EletricalBillPayment(PaymentAbstract):
 
     """ represent eletrical bill payment entity """
 
-    # host: str = os.getenv("BILLPAYMENT_HOST")
-    host: str = "http://45.113.232.164:3010"
+    host: str = os.getenv("SIM_BILLPAYMENT_HOST")
+    # host: str = "http://45.113.232.164:3010"
     bill_id: str = None
     journal_number: str = None
     description: str = None

@@ -11,8 +11,8 @@ class MongoDB():
         self.client = self.get_connection()
 
     def get_connection(self):
-        # client = MongoClient(os.getenv('MONGODB_HOST'))
-        client = MongoClient('mongodb://45.113.235.79:3000/')
+        client = MongoClient(os.getenv('MONGODB_HOST'))
+        # client = MongoClient('mongodb://45.113.235.79:3000/')
         return client
 
     def get_db(self):

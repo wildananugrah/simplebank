@@ -19,8 +19,8 @@ class InterbankAbstract(ABC):
 @dataclass
 class Interbank(InterbankAbstract):
 
-    # host: str = os.getenv("INTERBANK_HOST")
-    host: str = "http://45.113.232.164:3000"
+    host: str = os.getenv("SIM_BILLPAYMENT_HOST")
+    # host: str = "http://45.113.232.164:3000"
     from_account_number: str = None
     from_bank_code: str = None 
     acccount_number: str = None 
