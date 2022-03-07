@@ -13,12 +13,6 @@ class CustomerAbstract(ABC):
 
     """ represent base customer """
 
-    id_number: str = None
-    name: str = None
-    cif_number: str = None
-    is_loggin: bool = None
-    session_id: str = None
-
     @abstractmethod
     def detail(self, key_type, value):
         raise NotImplementedError("detail is not implemented.")
@@ -43,6 +37,11 @@ class CustomerAbstract(ABC):
 class Customer(CustomerAbstract):
 
     """ represent customer master entiity """
+    id_number: str = None
+    name: str = None
+    cif_number: str = None
+    is_loggin: bool = None
+    session_id: str = None
     
     db = dbinstance.get_db().simplebank_db
 
