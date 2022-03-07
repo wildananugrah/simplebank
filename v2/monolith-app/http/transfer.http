@@ -1,4 +1,4 @@
-@host=http://localhost:4000
+@host=http://45.113.234.254:3000
 
 ###
 GET {{host}}/transfer/inquiry/own_account_number/?cif_number=918382910

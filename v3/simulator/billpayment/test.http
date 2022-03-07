@@ -1,0 +1,24 @@
+# @host = http://localhost:9010
+@host = http://45.113.232.164:3010
+
+###
+POST {{host}}/create_billing
+Content-Type: application/json
+
+{
+    "bill_name" : "pln",
+    "amount" : 450000
+}
+
+###
+GET {{host}}/?bill_id=458625142578
+Content-Type: application/json
+
+###
+POST {{host}}
+Content-Type: application/json
+
+{
+    "bill_id" : "458625142578",
+    "description" : "settlement success!"
+}

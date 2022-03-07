@@ -1,0 +1,30 @@
+# @host=http://localhost:9000
+@host=http://45.113.232.164:3000
+
+###
+POST {{host}}
+Content-Type: application/json
+
+{
+    "account_number" : "3540447401",
+    "bank_code" : "014",
+    "account_name" : "Wildan Anugrah Putra"
+}
+
+###
+GET {{host}}/?account_number=3540447401&bank_code=014
+Content-Type: application/json
+
+###
+POST {{host}}/settlement
+Content-Type: application/json
+
+{
+    "account_number" : "3540447401",
+    "bank_code" : "014",
+    "amount" : "1000",
+    "source_account_number" : "7299942792",
+    "source_bank_code" : "009",
+    "transaction_datetime": "2022-02-17 13:38:54",
+    "description": "test 123"
+}

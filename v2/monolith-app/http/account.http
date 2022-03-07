@@ -1,5 +1,5 @@
 # @host=http://localhost:3000
-@host=http://45.113.234.254:3000
+@host=http://45.113.234.254:3040
 
 POST {{host}}/account
 Content-Type: application/json
