@@ -82,11 +82,14 @@ class Customer(CustomerAbstract):
     def logout(self, session_id):
         cif_number = self.extract_cif_number(session_id)
         customer = self.detail('cif_number', cif_number)
+        self.validate_session(session_id)
         self.update_session_id(cif_number, '', False)
         return self.detail('cif_number', cif_number)
 
     def validate_session(self, session_id):
         customer = self.detail('cif_number', self.extract_cif_number(session_id))
+        if self.db.customers.find_one({ 'cif_number' : customer['cif_number'], 'session_id' : session_id, 'is_login' : True }) is None:
+            raise BusinessLogicException(f"Invalid session_id.")
         return customer['is_login']
 
 @dataclass

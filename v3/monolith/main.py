@@ -2,8 +2,8 @@ from flask import Flask
 
 from routes.customer import customer
 from routes.account import account
-from routes.transfer import transfer
-from routes.payment import payment
+from routes.transaction import transaction
+from routes.historical_transaction import historical_transaction
 
 from mongodb import MongoDB
 from db import dbinstance
@@ -14,8 +14,9 @@ load_dotenv()
 app = Flask(__name__)
 app.register_blueprint(customer, url_prefix="/customer")
 app.register_blueprint(account, url_prefix="/account")
-app.register_blueprint(transfer, url_prefix="/transfer")
-app.register_blueprint(payment, url_prefix="/payment")
+app.register_blueprint(transaction, url_prefix="/transaction")
+app.register_blueprint(historical_transaction, url_prefix="/historical_transaction")
+
 dbinstance.init_app(app)
 
 if __name__ == "__main__":

@@ -1,0 +1,18 @@
+@host=http://localhost:3000
+
+### 
+POST {{host}}/account/
+Content-Type: application/json
+
+{
+    "cif_number": "1681274973"
+}
+
+###
+GET {{host}}/account/?account_number=5410692893
+
+###
+GET {{host}}/account/list/?cif_number=1681274973
+
+###
+DELETE {{host}}/account/?account_number=5410692893

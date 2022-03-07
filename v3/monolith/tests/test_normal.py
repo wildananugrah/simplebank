@@ -178,6 +178,7 @@ def test_transfer_intrabank():
     transfer_intrabank.to_account_number = account_2['account_number']
     transfer_intrabank.amount = 1
     transfer_intrabank.cif_number = account_1['cif_number']
+    transfer_intrabank.description = "TEST TRANSFER INTRABANK"
 
     journal_number = transfer_intrabank.transfer()
 

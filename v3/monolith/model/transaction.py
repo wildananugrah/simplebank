@@ -42,8 +42,11 @@ class Transaction(TransactionAbstract):
 
     def detail(self, account_number, journal_number):
         return self.db.transactions.find_one({ 'account_number' : account_number, 'journal_number' : journal_number }, { '_id' : False })
+    
+    def list(self, cif_number):
+        return list(self.db.transactions.find({'cif_number' : cif_number}, { '_id' : False }).sort('transaction_datetime', -1)) # descending
 
-    def save(self, transaction_type, from_account_number, to_account_number, to_bank_code, amount, journal_number, cif_number, status):
+    def save(self, transaction_type, from_account_number, to_account_number, to_bank_code, amount, journal_number, cif_number, status, description=""):
         data = {
             'transaction_type': transaction_type,
             'journal_number' : journal_number,
@@ -53,19 +56,21 @@ class Transaction(TransactionAbstract):
             'amount': amount,
             'transaction_datetime' : datetime.today().replace(microsecond=0),
             'cif_number' : cif_number,
-            'status' : status
+            'status' : status,
+            'description': description
         }
 
         self.db.transactions.insert_one(data)
 
         return True
     
-    def store_to_historical_transaction(self, transaction_type, account_number, amount, journal_number, current_balance):
+    def store_to_historical_transaction(self, transaction_type, account_number, amount, journal_number, current_balance, description = ""):
         self.historical_transaction.transaction_type = transaction_type
         self.historical_transaction.account_number = account_number
         self.historical_transaction.amount = amount
         self.historical_transaction.journal_number = journal_number
         self.historical_transaction.current_balance = current_balance
+        self.historical_transaction.description = description
         self.historical_transaction.save()
         return True
 
@@ -75,7 +80,7 @@ class Transaction(TransactionAbstract):
         to_account_number_update_balance = self.account.update(account_number, account_update_balance)['balance']
         journal_number = self.generate_journal_number(account_number)
         self.save(transaction_type="DEPOSIT", 
-                from_account_number=None, 
+                from_account_number=account_number, 
                 to_account_number=account_number, 
                 to_bank_code="009", 
                 amount=amount, 
@@ -87,7 +92,14 @@ class Transaction(TransactionAbstract):
         return journal_number
     
     def detail_transaction(self, transaction_type, account_number, journal_number):
-        return self.db.transactions.find_one({ 'transaction_type' : transaction_type, 'from_account_number' : account_number, 'journal_number' : journal_number }, { '_id' : False })
+
+        if transaction_type not in ['DEPOSIT', 'INTERBANK', 'INTRABANK', 'ELETRICAL_BILLPAYMENT']:
+            raise BusinessLogicException("Invalid transaction type.")
+        query = { 'transaction_type' : transaction_type, 'from_account_number' : account_number, 'journal_number' : journal_number }
+        detail = self.db.transactions.find_one(query, { '_id' : False })
+        if detail is None:
+            raise BusinessLogicException(f"Can not find: trx_type: {transaction_type} account_number: {account_number} journal_number: {journal_number}")
+        return detail
 
 @dataclass
 class TransferIntrabank(Transaction):
@@ -95,6 +107,7 @@ class TransferIntrabank(Transaction):
     from_account_number: str = None
     to_account_number: str = None
     cif_number: str = None
+    description: str = None
     amount: int = 0
 
     """ represent transaction in own bank system entity """
@@ -128,10 +141,11 @@ class TransferIntrabank(Transaction):
                         amount=self.amount, 
                         journal_number=journal_number, 
                         cif_number=self.cif_number, 
+                        description=self.description,
                         status="DONE")
 
-            self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance)
-            self.store_to_historical_transaction(transaction_type="CREDIT", account_number=self.to_account_number, amount=self.amount, journal_number=journal_number, current_balance=to_account_number_update_balance)
+            self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance, description=self.description)
+            self.store_to_historical_transaction(transaction_type="CREDIT", account_number=self.to_account_number, amount=self.amount, journal_number=journal_number, current_balance=to_account_number_update_balance, description=self.description)
             
             return journal_number
         else:
@@ -184,9 +198,10 @@ class TransferInterbank(Transaction):
                 amount=self.amount, 
                 journal_number=journal_number, 
                 cif_number=self.cif_number, 
+                description=self.description,
                 status="DONE")
 
-        self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance)
+        self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance,description=self.description)
 
         return journal_number
 
@@ -222,7 +237,7 @@ class EletricalBillPayment(Transaction):
         
         billpayment.pay()
 
-        self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance)
+        self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance,description=self.description)
         
         self.save(transaction_type="ELETRICAL_BILLPAYMENT", 
                 from_account_number=self.from_account_number, 
@@ -231,6 +246,7 @@ class EletricalBillPayment(Transaction):
                 amount=self.amount, 
                 journal_number=journal_number, 
                 cif_number=self.cif_number, 
+                description=self.description,
                 status="DONE")
 
         return journal_number

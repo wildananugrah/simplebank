@@ -1,0 +1,3 @@
+@host=http://localhost:3000
+
+GET {{host}}/historical_transaction/?account_number=5290328307
