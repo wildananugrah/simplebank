@@ -8,33 +8,9 @@ from datetime import datetime
 import json
 import base64
 
-@dataclass
-class CustomerAbstract(ABC):
-
-    """ represent base customer """
-
-    @abstractmethod
-    def detail(self, key_type, value):
-        raise NotImplementedError("detail is not implemented.")
-
-    @abstractmethod
-    def create_session_id(self, cif_number):
-        raise NotImplementedError("create_session_id is not implemented.")
-    
-    @abstractmethod
-    def update_session_id(self, cif_number, session_id, is_login):
-        raise NotImplementedError("update_session_id is not implemented.")
-    
-    @abstractmethod
-    def logout(self, session_id):
-        raise NotImplementedError("logout is not implemented.")
-    
-    @abstractmethod
-    def validate_session(self, session_id):
-        raise NotImplementedError("validate_session is not implemented.")
 
 @dataclass
-class Customer(CustomerAbstract):
+class Customer:
 
     """ represent customer master entiity """
     id_number: str = None

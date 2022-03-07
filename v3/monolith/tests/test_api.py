@@ -10,34 +10,6 @@ bill_id = "458625142578"
 
 pytest.ACCOUNT_NUMBER = None
 
-# HELPERS [STARTED]
-
-def find_customer(usename, password):
-    customer_mobile = CustomerMobile()
-    customer_mobile.username = usename
-    customer_mobile.password = password
-
-    customer_mobile = customer_mobile.login()
-
-    return customer_mobile
-
-def find_accounts(cif_number):
-    account = Account()
-    account = account.list(cif_number)
-    return account
-
-def create_account(cif_number):
-    account = Account()
-    account = account.create(cif_number)
-    return account
-
-def delete_account(account_number):
-    account = Account()
-    account = account.delete(account_number)
-    return account
-
-# HELPERS [ENDED]
-
 # CUSTOMER TEST [STARTED]
 
 @pytest.mark.run(order=1)

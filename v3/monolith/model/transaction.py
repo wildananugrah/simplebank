@@ -11,16 +11,9 @@ from service.billpayment import EletricalBillPayment as EBPService
 
 import random, string
 
-class TransactionAbstract(ABC):
-
-    """ represent base transaction """
-
-    @abstractmethod
-    def generate_journal_number(self, account_number):
-        pass
 
 @dataclass
-class Transaction(TransactionAbstract):
+class Transaction:
 
     """ represent transaction master entity """
 

@@ -4,20 +4,8 @@ from db import dbinstance
 from exception.business_logic_exception import BusinessLogicException
 from datetime import datetime
 
-class HistoricalTransactionAbstract(ABC):
-
-    """ represent base historical transaction """
-
-    @abstractmethod
-    def save(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def list(self, account_number):
-        raise NotImplementedError
-
 @dataclass
-class HistoricalTransaction(HistoricalTransactionAbstract):
+class HistoricalTransaction:
 
     """ represent historical transaction master entity """
 

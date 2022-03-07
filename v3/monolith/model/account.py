@@ -6,30 +6,6 @@ from uuid import uuid4
 from datetime import datetime
 import random, string
 
-class AccountAbstract(ABC):
-
-    """ represent base account """
-
-    @abstractmethod
-    def detail(self, account_number):
-        raise NotImplementedError("detail is not implemented.")
-
-    @abstractmethod
-    def create(self, cif_number, currency = 'IDR', balance = 0):
-        raise NotImplementedError("create is not implemented.")
-
-    @abstractmethod
-    def delete(self, account_number):
-        raise NotImplementedError("delete is not implemented.")
-
-    @abstractmethod
-    def list(self, cif_number):
-        raise NotImplementedError("list is not implemented.")
-
-    @abstractmethod
-    def generate_account_number(self, size=0):
-        raise NotImplementedError("generate_account_number is not implemented.")
-
 @dataclass
 class Account:
 

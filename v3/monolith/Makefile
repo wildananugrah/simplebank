@@ -4,6 +4,9 @@ run-dev:
 run-test:
 	@pytest -v -s --durations=0
 
+run-test-coverage:
+	@coverage run -m pytest; coverage html
+
 compose-up:
 	@docker-compose up -d --build --remove-orphans
 
