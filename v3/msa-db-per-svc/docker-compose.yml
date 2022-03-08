@@ -17,7 +17,7 @@ services:
             CUSTOMER_HOST: http://customer:3000
     transaction:
         build:
-            context: ./account
+            context: ./transaction
             dockerfile: ./app.Dockerfile
         container_name: transaction
         environment: 
