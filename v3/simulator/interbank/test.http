@@ -20,7 +20,7 @@ POST {{host}}/settlement
 Content-Type: application/json
 
 {
-    "account_number" : "3540447401",
+    "account_number" : "888777666",
     "bank_code" : "014",
     "amount" : "1000",
     "source_account_number" : "7299942792",

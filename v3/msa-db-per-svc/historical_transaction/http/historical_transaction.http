@@ -1,0 +1,16 @@
+@host=http://localhost:3000
+
+GET {{host}}/historical_transaction/?account_number=5290328307
+
+###
+POST {{host}}/historical_transaction/
+Content-Type: application/json
+
+{
+    "transaction_type": "INTERBANK",
+    "account_number": "1234567890",
+    "amount": 0,
+    "journal_number": "123456",
+    "current_balance": 1000,
+    "description": "TEST DESCRIPTION"
+}

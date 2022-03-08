@@ -57,7 +57,7 @@ class EletricalBillPayment(PaymentAbstract):
         elif response.status_code in self.invalid_status_code:
             raise ServiceException(self.invalid_status_code[response.status_code])
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke billpayment service inquiry.")
 
     def pay(self):
         data = {
@@ -71,4 +71,4 @@ class EletricalBillPayment(PaymentAbstract):
         if response and response.status_code in self.valid_status_code:
             return response.json()
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke billpayment service inquiry.")

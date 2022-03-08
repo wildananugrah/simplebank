@@ -19,6 +19,6 @@ POST {{host}}
 Content-Type: application/json
 
 {
-    "bill_id" : "458625142578",
+    "bill_id" : "999888777",
     "description" : "settlement success!"
 }

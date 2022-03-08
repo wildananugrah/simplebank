@@ -1,0 +1,137 @@
+@host=http://localhost:3000
+
+###
+GET {{host}}/customer/?key_type=id_number&value=1605058497852873
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 304
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 07:36:01 GMT
+
+# {
+#   "data": {
+#     "cif_number": "1681274973",
+#     "email": "user0@gmail.com",
+#     "id_number": "1605058497852873",
+#     "is_login": false,
+#     "name": "User 0",
+#     "password": "password",
+#     "session_id": "",
+#     "username": "user1"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.010176"
+# }
+
+
+###
+GET {{host}}/customer/?key_type=cif_number&value=1681274974
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 304
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 07:35:51 GMT
+
+# {
+#   "data": {
+#     "cif_number": "1681274973",
+#     "email": "user0@gmail.com",
+#     "id_number": "1605058497852873",
+#     "is_login": false,
+#     "name": "User 0",
+#     "password": "password",
+#     "session_id": "",
+#     "username": "user1"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.009505"
+# }
+
+###
+POST {{host}}/customer/mobile/login/
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password" : "password"
+}
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 422
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 07:46:25 GMT
+
+# {
+#   "data": {
+#     "cif_number": "1681274973",
+#     "email": "user0@gmail.com",
+#     "id_number": "1605058497852873",
+#     "is_login": true,
+#     "name": "User 0",
+#     "session_id": "eyJjaWZfbnVtYmVyIjogIjE2ODEyNzQ5NzMiLCAiZGF0ZXRpbWUiOiAiMDctMDMtMjAyMiAxODo0NjoyNSIsICJ1dWlkIjogIjcxOWQwNmY3LTI4NjktNDVlNi04NTEyLWRhNzJiNGZmNGY3ZCJ9",
+#     "username": "user1"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.055309"
+# }
+
+###
+POST {{host}}/customer/internet_banking/login/
+Content-Type: application/json
+
+{
+    "email": "user0@gmail.com",
+    "password" : "password"
+}
+
+###
+POST {{host}}/customer/mobile/logout/
+Content-Type: application/json
+
+{
+    "session_id" : "eyJjaWZfbnVtYmVyIjogIjE2ODEyNzQ5NzMiLCAiZGF0ZXRpbWUiOiAiMDctMDMtMjAyMiAxODo0Njo1NCIsICJ1dWlkIjogImI4YWEyNTNmLTkzMzUtNDg3OC05YWNjLTExNDI3NjE5NWYzNCJ9"
+}
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 304
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 07:46:59 GMT
+
+# {
+#   "data": {
+#     "cif_number": "1681274973",
+#     "email": "user0@gmail.com",
+#     "id_number": "1605058497852873",
+#     "is_login": false,
+#     "name": "User 0",
+#     "password": "password",
+#     "session_id": "",
+#     "username": "user1"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.115966"
+# }
+
+
+# response:
+# HTTP/1.0 400 BAD REQUEST
+# Content-Type: application/json
+# Content-Length: 112
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 07:46:44 GMT
+
+# {
+#   "data": {
+#     "error": "Invalid session_id."
+#   },
+#   "status_code": 400,
+#   "timestamp": "0:00:00.026811"
+# }

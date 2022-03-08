@@ -11,7 +11,7 @@ class HistoricalTransaction:
 
     transaction_type: str = None
     account_number: str = None
-    amount: str = None
+    amount: int = 0
     journal_number: str = None
     current_balance: int = 0
     description: str = None

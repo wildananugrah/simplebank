@@ -1,0 +1,54 @@
+@host=http://localhost:3040
+
+###
+GET {{host}}/transaction/payment/eletrical/?bill_id=458625142578
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 243
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 09:36:37 GMT
+
+# {
+#   "data": {
+#     "bill_id": "458625142578",
+#     "detail": {
+#       "amount": 450000,
+#       "bill_name": "pln"
+#     },
+#     "incoming_request": "",
+#     "status_payment": "UNPAID"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.025788"
+# }
+
+
+###
+POST {{host}}/transaction/payment/eletrical/
+Content-Type: application/json
+
+{
+    "bill_id":"458625142578",
+    "amount": 1,
+    "description": "TEST PAYMENT ELETRICAL PAYMENT",
+    "from_account_number": "5290328307",
+    "cif_number":"6094439536"
+}
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 112
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 09:39:21 GMT
+
+# {
+#   "data": {
+#     "journal_number": "0194030103"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.177758"
+# }

@@ -66,6 +66,9 @@ class Interbank(InterbankAbstract):
         response = requests.post(f"{self.host}/settlement", json=data)
 
         if response and response.status_code in self.valid_status_code:
+            print(response.status_code)
             return response.json()
+        elif response.status_code in self.invalid_status_code:
+            raise ServiceException(self.invalid_status_code[response.status_code])
         else:
             raise ServiceException(f"Can not invoke interbank service notify.")
