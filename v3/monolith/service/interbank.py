@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from exception.service_exception import ServiceException
 from datetime import datetime
-
+from sp_config import *
 import requests, os
 
 class InterbankAbstract(ABC):
@@ -19,8 +19,9 @@ class InterbankAbstract(ABC):
 @dataclass
 class Interbank(InterbankAbstract):
 
-    host: str = os.getenv("SIM_INTERBANK_HOST")
-    # host: str = "http://45.113.232.164:3000"
+    # host: str = os.getenv("SIM_INTERBANK_HOST")
+    # host: str = "http://45.113.232.164:3000" 
+    host: str = SIM_INTERBANK_HOST
     from_account_number: str = None
     from_bank_code: str = None 
     acccount_number: str = None 

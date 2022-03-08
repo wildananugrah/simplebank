@@ -4,6 +4,7 @@ from db import dbinstance
 from exception.business_logic_exception import BusinessLogicException
 from uuid import uuid4
 from datetime import datetime
+from model.customer import Customer
 import random, string
 
 @dataclass
@@ -14,6 +15,7 @@ class Account:
     account_number: str = None
     currency: str = None
     balance: int = 0
+    customer: Customer = Customer()
 
     db = dbinstance.get_db().simplebank_db
 
@@ -43,6 +45,9 @@ class Account:
             'balance' : balance,
             'cif_number': cif_number
         }
+
+        self.customer.detail(key_type="cif_number", value=cif_number)
+
         self.db.accounts.insert_one(data)
         return self.detail(account_number)
 

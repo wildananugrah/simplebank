@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from sp_config import *
 import os
 
 class MongoDB():
@@ -11,8 +12,10 @@ class MongoDB():
         self.client = self.get_connection()
 
     def get_connection(self):
-        client = MongoClient(os.getenv('MONGODB_HOST'))
+        # client = MongoClient(os.getenv('MONGODB_HOST'))
         # client = MongoClient('mongodb://45.113.235.79:3000/')
+        client = MongoClient(MONGODB_HOST)
+        
         return client
 
     def get_db(self):

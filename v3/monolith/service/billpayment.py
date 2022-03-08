@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from exception.service_exception import ServiceException
 from datetime import datetime
-
+from sp_config import *
 import requests, os
 
 class PaymentAbstract(ABC):
@@ -34,8 +34,9 @@ class EletricalBillPayment(PaymentAbstract):
 
     """ represent eletrical bill payment entity """
 
-    host: str = os.getenv("SIM_BILLPAYMENT_HOST")
+    # host: str = os.getenv("SIM_BILLPAYMENT_HOST")
     # host: str = "http://45.113.232.164:3010"
+    host: str = SIM_BILLPAYMENT_HOST
     bill_id: str = None
     journal_number: str = None
     description: str = None

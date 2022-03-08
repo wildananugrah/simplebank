@@ -5,6 +5,9 @@ from model.customer import CustomerMobile, CustomerInternetBanking
 from model.account import Account
 from model.transaction import Transaction, TransferIntrabank, TransferInterbank, EletricalBillPayment
 from model.historical_transaction import HistoricalTransaction
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # HELPERS [STARTED]
 
