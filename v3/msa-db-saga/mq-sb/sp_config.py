@@ -1,0 +1,5 @@
+import os
+
+RABBIT_MQ_HOST="45.113.232.164"
+RABBIT_MQ_PORT="3020"
+TRANSACTION_HOST="http://localhost:3020"

@@ -6,6 +6,6 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 3010
+EXPOSE 3030
 
 CMD ["python", "main.py"]

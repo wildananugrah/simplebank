@@ -39,7 +39,7 @@ class EletricalBillPayment(PaymentAbstract):
 
     def save(self, data):
         try:
-            self.db.interbank_transfers.insert_one(data)
+            self.db.payments.insert_one(data)
             return True
         except Exception as error:
             Exception(f"Internal server error: {str(error)}")
