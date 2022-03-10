@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+    customer:
+        build:
+            context: ./customer
+            dockerfile: ./app.Dockerfile
+        container_name: customer
+        environment: 
+            MONGODB_HOST: mongodb://45.113.235.79:5000
+    account:
+        build:
+            context: ./account
+            dockerfile: ./app.Dockerfile
+        container_name: account
+        environment: 
+            MONGODB_HOST: mongodb://45.113.235.79:5010
+            CUSTOMER_HOST: http://customer:3000
+    transaction:
+        build:
+            context: ./transaction
+            dockerfile: ./app.Dockerfile
+        container_name: transaction
+        environment: 
+            MONGODB_HOST: mongodb://45.113.235.79:5020
+            ACCOUNT_HOST: http://account:3010
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3030
+    historical_transaction:
+        build:
+            context: ./historical_transaction
+            dockerfile: ./app.Dockerfile
+        container_name: historical_transaction
+        environment: 
+            MONGODB_HOST: mongodb://45.113.235.79:5030
+    interbank_transfer:
+        build:
+            context: ./interbank_transfer
+            dockerfile: ./app.Dockerfile
+        container_name: interbank_transfer
+        environment: 
+            MONGODB_HOST: mongodb://45.113.235.79:5040
+            SIM_INTERBANK_HOST: http://45.113.232.164:3000
+            TRANSACTION_HOST: http://transaction:3020
+    payment:
+        build:
+            context: ./payment
+            dockerfile: ./app.Dockerfile
+        container_name: payment
+        environment: 
+            MONGODB_HOST: mongodb://45.113.235.79:5040
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3000
+            TRANSACTION_HOST: http://transaction:3020
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: ./app.Dockerfile
+        container_name: nginx
+        ports:
+            - "3000:80"
