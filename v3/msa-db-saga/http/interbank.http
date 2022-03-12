@@ -1,0 +1,67 @@
+@host=http://localhost:3040
+
+###
+GET {{host}}/transaction/transfer/interbank/?to_account_number=3540447401&to_bank_code=014
+Content-Type: application/json
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 182
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Mon, 07 Mar 2022 09:35:20 GMT
+
+# {
+#   "data": {
+#     "account_name": "Wildan Anugrah Putra",
+#     "account_number": "3540447401",
+#     "bank_code": "014"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.024992"
+# }
+
+
+###
+POST {{host}}/transaction/transfer/interbank/
+Content-Type: application/json
+
+# {"from_account_number": "7562141722", "to_account_number": "3540447401", "to_bank_code": "014", "cif_number": "1681274973", "amount": 1, "description": "TEST INTERBANK"}
+
+{
+    "from_account_number": "1551940807",
+    "to_account_number": "3540447401",
+    "to_bank_code": "014",
+    "cif_number": "1681274973",
+    "amount": 1,
+    "description": "TEST INTERBANK"
+}
+
+# response:
+# HTTP/1.0 200 OK
+# Content-Type: application/json
+# Content-Length: 112
+# Server: Werkzeug/2.0.3 Python/3.9.10
+# Date: Sat, 12 Mar 2022 12:31:26 GMT
+
+# {
+#   "data": {
+#     "transaction_id": "5656663441"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.080149"
+# }
+
+###
+GET {{host}}/transaction/transfer/interbank/detail/?transaction_id=9453564681
+Content-Type: application/json
+
+###
+GET {{host}}/transaction/transfer/interbank/list/?cif_number=1681274973
+Content-Type: application/json
+
+###
+POST {{host}}/transaction/transfer/interbank/update/
+Content-Type: application/json
+
+{"transaction_id": None, "status": "DONE", "message": "Settlement success", "journal_number": "9530678035"}

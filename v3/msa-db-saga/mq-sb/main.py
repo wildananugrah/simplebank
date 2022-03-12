@@ -8,11 +8,11 @@ load_dotenv()
 # HELPER [STARTED]
 
 def ack_debit_payment(message):
-    # requests.post(f"{PAYMENT_HOST}/ack_debit/", json=message)
+    requests.post(f"{PAYMENT_HOST}/transaction/payment/eletrical/update/", json=message)
     print(f"execute payment::ack_debit; message has been sent: {message}")
 
 def ack_debit_interbank(message):
-    requests.post(f"{INTERBANK_HOST}/transfer/interbank/update/", json=message)
+    requests.post(f"{INTERBANK_HOST}/transaction/transfer/interbank/update/", json=message)
     print(f"execute interbank::ack_debit; message has been sent: {message}")
 
 # HELPER [ENDED]
@@ -28,7 +28,7 @@ function_dict = {
 
 def on_historical_transaction_save(ch, method, properties, body):
     message = json.loads(body)
-    # requests.post(f"{HISTORICAL_TRANSACTION_HOST}/historical_transaction/", json=message)
+    requests.post(f"{HISTORICAL_TRANSACTION_HOST}/historical_transaction/", json=message)
     print(f"execute historical_transcation::save; message has been sent: {message}")
 
 def on_debit(ch, method, properties, body):
@@ -55,16 +55,14 @@ def main():
     channel.queue_declare(queue='ack_debit')
 
     channel.queue_declare(queue='reversal')
-    channel.queue_declare(queue='ack_reversal')
-
+    
     channel.basic_consume(queue='historical_transaction_save', on_message_callback=on_historical_transaction_save, auto_ack=True)
 
     channel.basic_consume(queue='debit', on_message_callback=on_debit, auto_ack=True)
     channel.basic_consume(queue='ack_debit', on_message_callback=on_ack_debit, auto_ack=True)
 
     channel.basic_consume(queue='reversal', on_message_callback=reversal, auto_ack=True)
-    channel.basic_consume(queue='ack_reversal', on_message_callback=on_ack_reversal, auto_ack=True)
-
+    
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from sp_config import *
-import requests, os, pika
+import requests, os, pika, json
 
 @dataclass
 class Transaction:

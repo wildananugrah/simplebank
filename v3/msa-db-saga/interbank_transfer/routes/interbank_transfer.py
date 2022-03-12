@@ -12,6 +12,14 @@ def inquiry_interbank():
 def transfer_interbank():
     return InterbankTransfer.transfer(request.get_json())
 
+@interbank_transfer.route("/transfer/interbank/detail/", methods=["GET"])
+def transfer_interbank_detail():
+    return InterbankTransfer.detail(request.args.get("transaction_id"))
+
+@interbank_transfer.route("/transfer/interbank/list/", methods=["GET"])
+def transfer_interbank_list():
+    return InterbankTransfer.list(request.args.get("cif_number"))
+
 @interbank_transfer.route("/transfer/interbank/update/", methods=["POST"])
-def transfer_interbank():
+def transfer_interbank_update():
     return InterbankTransfer.update(request.get_json())

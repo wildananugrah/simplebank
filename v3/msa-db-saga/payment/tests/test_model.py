@@ -10,9 +10,9 @@ load_dotenv()
 
 @pytest.mark.run(order=14)
 def test_billpayment_inquiry():
-    eletrical_billpayment = EletricalBillPayment()
+    electrical_billpayment = EletricalBillPayment()
     bill_id = "458625142578"
-    inquiry = eletrical_billpayment.inquiry(bill_id)
+    inquiry = electrical_billpayment.inquiry(bill_id)
 
     assert inquiry != None
     assert type(inquiry) == dict
@@ -24,12 +24,12 @@ def test_billpayment_pay():
     bill_id = "458625142578"
     amount = 1
 
-    eletrical_billpayment = EletricalBillPayment(bill_id=bill_id, 
+    electrical_billpayment = EletricalBillPayment(bill_id=bill_id, 
                                             amount=amount, description=description, 
                                             from_account_number="7028325696", 
                                             cif_number="1681274974")
     bill_id = "458625142578"
-    journal_number = eletrical_billpayment.pay()
+    journal_number = electrical_billpayment.pay()
 
     assert journal_number != None
     assert type(journal_number) == str
@@ -41,12 +41,12 @@ def test_billpayment_pay_error():
     amount = 1
 
     try:
-        eletrical_billpayment = EletricalBillPayment(bill_id="999888777", 
+        electrical_billpayment = EletricalBillPayment(bill_id="999888777", 
                                                 amount=amount, description=description, 
                                                 from_account_number="7028325696", 
                                                 cif_number="1681274974")
         bill_id = "458625142578"
-        journal_number = eletrical_billpayment.pay()
+        journal_number = electrical_billpayment.pay()
     except:
         assert 1 == 1
         

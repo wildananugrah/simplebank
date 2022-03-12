@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from sp_config import *
-import pika
+import pika, json
 
 @dataclass
 class JournalAck:

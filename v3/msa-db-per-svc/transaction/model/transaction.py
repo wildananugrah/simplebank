@@ -103,7 +103,7 @@ class Transaction:
 
     def detail_transaction(self, transaction_type, account_number, journal_number):
 
-        if transaction_type not in ['DEPOSIT', 'INTERBANK', 'INTRABANK', 'ELETRICAL_BILLPAYMENT']:
+        if transaction_type not in ['DEPOSIT', 'INTERBANK', 'INTRABANK', 'ELECTRICAL_BILLPAYMENT']:
             raise BusinessLogicException("Invalid transaction type.")
         query = { 'transaction_type' : transaction_type, 'from_account_number' : account_number, 'journal_number' : journal_number }
         detail = self.db.transactions.find_one(query, { '_id' : False })
