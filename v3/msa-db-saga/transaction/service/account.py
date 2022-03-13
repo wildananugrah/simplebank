@@ -11,8 +11,8 @@ class Account:
     current_balance: int = 0
     
     invalid_status_code = {
-        400 : 'Invalid cif number number',
-        404 : 'Interbank cif number does not exist'
+        400 : 'Invalid account number number',
+        404 : 'Interbank account number does not exist'
     }
 
     valid_status_code = [200, 201]

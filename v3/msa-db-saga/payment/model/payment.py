@@ -72,14 +72,17 @@ class EletricalBillPayment(Payment):
             self.transaction.from_account_number = payment['from_account_number']
             self.transaction.amount = payment['amount']
             self.transaction.journal_number = update_value['journal_number']
-            journal_number = self.transaction.reversal()['journal_number']
+            journal_number = self.transaction.reversal()
+
+            print(f"transaction_id: {transaction_id}")
 
             self.update(transaction_id, {
-                "journal_number" : self.journal_number,
+                "journal_number" : update_value['journal_number'],
                 "message" : "Notify failed",
                 "status" : "REVERSED",
                 "response" : {}
             })
+
             raise ServiceException(f"Can not invoke eletrical payment service. detail: {error}")
 
         except Exception as error:

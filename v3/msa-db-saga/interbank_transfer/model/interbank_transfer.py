@@ -84,7 +84,7 @@ class InterbankTransfer:
             self.transaction.journal_number = update_value['journal_number']
             journal_number = self.transaction.reversal()
 
-            self.update(self.transaction_id, {
+            self.update(transaction_id, {
                 "journal_number" : update_value['journal_number'],
                 "status" : "REVERSED",
                 "message" : "Notify Failed",

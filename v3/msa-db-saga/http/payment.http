@@ -65,6 +65,8 @@ Content-Type: application/json
 POST {{host}}/transaction/payment/eletrical/update/
 Content-Type: application/json
 
-{"transaction_id": "0997521704", "status": "DONE", "message": "Settlement success", "journal_number": "2547731892"}
+{"transaction_id": "6506530697", "status": "DONE", "message": "Settlement success", "journal_number": "9101495459"}
+
+# {"transaction_id": "0997521704", "status": "DONE", "message": "Settlement success", "journal_number": "2547731892"}
 
 # {"transaction_id": "5096803459", "status": "DONE", "message": "Settlement success", "journal_number": "1652253833"}

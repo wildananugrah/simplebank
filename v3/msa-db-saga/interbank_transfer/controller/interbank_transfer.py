@@ -98,6 +98,6 @@ class InterbankTransfer:
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
         except ServiceException as error:
-            return detail({ 'error' : str(error) }, start, 400)
+            return detail({ 'error' : str(error) }, start, 404)
         except Exception as error:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500

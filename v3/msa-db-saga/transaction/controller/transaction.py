@@ -114,7 +114,7 @@ class DebitTransaction:
                 "message" : str(error),
                 "journal_number": "000000"
             }
-            JournalAck().notify_journal(self.transaction_type, request_message, 'ack_debit')
+            JournalAck().notify_journal(json_request['transaction_type'], request_message, 'ack_debit')
             return detail({ 'error' : str(error) }, start, 400)
         except Exception as error:
             request_message = {
@@ -123,5 +123,5 @@ class DebitTransaction:
                 "message" : str(error),
                 "journal_number": "000000"
             }
-            JournalAck().notify_journal(self.transaction_type, request_message, 'ack_debit')
+            JournalAck().notify_journal(json_request['transaction_type'], request_message, 'ack_debit')
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500

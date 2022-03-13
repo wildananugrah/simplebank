@@ -38,7 +38,7 @@ def on_debit(ch, method, properties, body):
 
 def reversal(ch, method, properties, body):
     message = json.loads(body)
-    # requests.post(f"{TRANSACTION_HOST}/transaction/reversal/", json=message)
+    requests.post(f"{TRANSACTION_HOST}/transaction/reversal/", json=message)
     print(f"execute historical_transcation::reversal; message has been sent: {message}")
 
 def on_ack_debit(ch, method, properties, body):

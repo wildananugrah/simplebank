@@ -66,9 +66,11 @@ class EletricalBillPayment(PaymentAbstract):
             "description" : self.description
         }
 
-        response = requests.post(f"{self.host}/", json=data)
+        response = requests.post(f"{self.host}/settlement/", json=data)
 
         if response and response.status_code in self.valid_status_code:
             return response.json()
+        elif response.status_code in self.invalid_status_code:
+            raise ServiceException(self.invalid_status_code[response.status_code])
         else:
             raise ServiceException(f"Can not invoke billpayment service inquiry.")
