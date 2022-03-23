@@ -6,7 +6,7 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: monolith
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:3000
+            MONGODB_HOST: mongodb://45.113.234.254:3000
             SIM_INTERBANK_HOST: http://45.113.232.164:3000
             SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
     nginx:

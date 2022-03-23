@@ -6,14 +6,14 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: customer
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:5000
+            MONGODB_HOST: mongodb://45.113.234.254:5000
     account:
         build:
             context: ./account
             dockerfile: ./app.Dockerfile
         container_name: account
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:5010
+            MONGODB_HOST: mongodb://45.113.234.254:5010
             CUSTOMER_HOST: http://customer:3000
     transaction:
         build:
@@ -21,7 +21,7 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: transaction
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:5020
+            MONGODB_HOST: mongodb://45.113.234.254:5020
             ACCOUNT_HOST: http://account:3010
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
@@ -31,14 +31,14 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: historical_transaction
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:5030
+            MONGODB_HOST: mongodb://45.113.234.254:5030
     interbank_transfer:
         build:
             context: ./interbank_transfer
             dockerfile: ./app.Dockerfile
         container_name: interbank_transfer
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:5040
+            MONGODB_HOST: mongodb://45.113.234.254:5040
             SIM_INTERBANK_HOST: http://45.113.232.164:3000
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
@@ -48,7 +48,7 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: payment
         environment: 
-            MONGODB_HOST: mongodb://45.113.235.79:5050
+            MONGODB_HOST: mongodb://45.113.234.254:5050
             SIM_BILLPAYMENT_HOST: http://45.113.232.164:3000
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020

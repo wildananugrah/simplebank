@@ -6,40 +6,40 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: customer
         environment: 
-            MONGODB_READ_HOST: mongodb://45.113.235.79:6010/?readPreference=secondary&directConnection=true
-            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.234.254:6010/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true
     account:
         build:
             context: ./account
             dockerfile: ./app.Dockerfile
         container_name: account
         environment: 
-            MONGODB_READ_HOST: mongodb://45.113.235.79:6020/?readPreference=secondary&directConnection=true
-            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.234.254:6020/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true
     transaction:
         build:
             context: ./transaction
             dockerfile: ./app.Dockerfile
         container_name: transaction
         environment: 
-            MONGODB_READ_HOST: mongodb://45.113.235.79:6030/?readPreference=secondary&directConnection=true
-            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.234.254:6030/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true
     historical_transaction:
         build:
             context: ./historical_transaction
             dockerfile: ./app.Dockerfile
         container_name: historical_transaction
         environment: 
-            MONGODB_READ_HOST: mongodb://45.113.235.79:6040/?readPreference=secondary&directConnection=true
-            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.234.254:6040/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true
     interbank_transfer:
         build:
             context: ./interbank_transfer
             dockerfile: ./app.Dockerfile
         container_name: interbank_transfer
         environment: 
-            MONGODB_READ_HOST: mongodb://45.113.235.79:6050/?readPreference=secondary&directConnection=true
-            MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.234.254:6050/?readPreference=secondary&directConnection=true
+            MONGODB_WRITE_HOST: mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true
             SIM_INTERBANK_HOST: http://45.113.232.164:3000
     payment:
         build:
@@ -47,7 +47,7 @@ services:
             dockerfile: ./app.Dockerfile
         container_name: payment
         environment: 
-            MONGODB_READ_HOST: mongodb://45.113.235.79:6060/?readPreference=secondary&directConnection=true
+            MONGODB_READ_HOST: mongodb://45.113.234.254:6060/?readPreference=secondary&directConnection=true
             MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
             SIM_BILLPAYMENT_HOST: http://45.113.232.164:3000
     nginx:
