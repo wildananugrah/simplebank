@@ -1,4 +1,4 @@
-@host=http://localhost:3000
+@host=http://localhost:3040
 
 ### 5290328307, 2513051497
 POST {{host}}/transaction/deposit/
@@ -164,7 +164,7 @@ Content-Type: application/json
 # {"from_account_number": "7562141722", "to_account_number": "3540447401", "to_bank_code": "014", "cif_number": "1681274973", "amount": 1, "description": "TEST INTERBANK"}
 
 {
-    "from_account_number": "0795845297",
+    "from_account_number": "2841554665",
     "to_account_number": "3540447401",
     "to_bank_code": "014",
     "cif_number": "6094439536",

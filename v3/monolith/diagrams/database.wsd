@@ -1,0 +1,80 @@
+@startuml
+
+Customers ||--o{Accounts
+Accounts ||--o{Transactions
+Accounts ||--o{Historical_transactions
+Transactions ||--o{Interbank_transfers
+Transactions ||--o{Payment
+
+object Customers {
+  username: str
+  cif_number: str
+  email: str
+  id_number: str
+  name: str
+  password: str
+  is_login: bool
+  session_id: str
+}
+
+object Accounts {
+  account_number: str
+  currency: str
+  balance: number
+  cif_number: str
+}
+
+object Transactions {
+    transaction_type: str
+    journal_number: str
+    from_account_number: str
+    to_account_number: str
+    bank_code: str
+    amount: number
+    transaction_datetime: datetime
+    status: str
+    description: str
+}
+
+object Historical_transactions {
+    transaction_type: str
+    account_number: str
+    amount: number
+    journal_number: str
+    current_balance: number
+    description: str
+    transaction_datetime: datetime
+}
+
+object Interbank_transfers {
+    transaction_id: str
+    from_account_number: str
+    from_bank_code: str
+    to_account_number: str
+    to_bank_code: str
+    amount: number
+    journal_number: str
+    cif_number: str
+    transaction_datetime: datetime
+    description: str
+    status: str
+    message: str
+    reponse: obj
+}
+
+object Payment {
+    transaction_id: str
+    bill_id: str
+    cif_number: str
+    from_account_number: str
+    amount: str
+    journal_number: str
+    transaction_type: str
+    transaction_datetime: datetime
+    description: str
+    message: str
+    status: str
+    response: obj
+}
+
+@enduml

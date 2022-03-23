@@ -1,5 +1,5 @@
 # @host = http://localhost:9010
-@host = http://45.113.232.164:9010
+@host=http://45.113.232.164:3010
 
 ###
 POST {{host}}/create_billing
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{host}}/?bill_id=458625142578
+GET {{host}}/?bill_id=670706837027
 Content-Type: application/json
 
 ###
@@ -19,6 +19,6 @@ POST {{host}}
 Content-Type: application/json
 
 {
-    "bill_id" : "999888777",
+    "bill_id" : "670706837027",
     "description" : "settlement success!"
 }

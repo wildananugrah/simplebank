@@ -1,15 +1,8 @@
-```mermaid
 classDiagram
-
+  
     Customer <|-- CustomerMobile
     Customer <|-- CustomerInternetBanking
-    Customer <-- Account
-    Transaction <|-- TransferIntrabank
-    Transaction <|-- TransferInterbank
-    Transaction <|-- Payment
     Payment <|-- ElectricalBillPayment
-    Account <-- Transaction
-    HistoricalTransaction <-- Transaction 
 
     class Customer{
 
@@ -46,15 +39,21 @@ classDiagram
         + list(cif_number): list
         + deposit(account_number, amount): str
         + detail_transaction(transaction_type, account_number, journal_number): dict
-    }
-
-    class TransferIntrabank{
-        + transfer()
+        + transfer()    
     }
 
     class TransferInterbank{
+        + save()
+        + detail()
+        + list()
         + inquiry(to_account_number, to_bank_code): dict
         + transfer(): str
+    }
+
+    class Payment{
+      + save()
+      + list()
+      + detail()
     }
 
     class ElectricalBillPayment{
@@ -66,4 +65,3 @@ classDiagram
         + save(): bool
         + list(account_number): list
     }
-```   
