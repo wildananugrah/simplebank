@@ -1,1 +1,1 @@
-docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret -p 5000:27017 --net simulator mongo
+docker run -d --name mongo -p 5000:27017 --net simulator_net mongo

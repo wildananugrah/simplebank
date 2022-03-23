@@ -1,5 +1,5 @@
 # @host = http://localhost:9010
-@host = http://45.113.232.164:3010
+@host = http://45.113.232.164:9010
 
 ###
 POST {{host}}/create_billing
