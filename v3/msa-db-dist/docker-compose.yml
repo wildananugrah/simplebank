@@ -49,7 +49,7 @@ services:
         environment: 
             MONGODB_READ_HOST: mongodb://45.113.234.254:6060/?readPreference=secondary&directConnection=true
             MONGODB_WRITE_HOST: mongodb://45.113.235.79:6000/?readPreference=primary&directConnection=true
-            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3000
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
     nginx:
         build:
             context: ./nginx
