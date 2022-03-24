@@ -95,7 +95,7 @@ class SimpleUser(SequentialTaskSet):
 
     @task 
     def test_account_list(self):
-        with self.client.get(f"/account/list/?cif_number={self.cif_number}", catch_response=True, name="g_test_account_list") as response:
+        with self.client.get(f"/account/list/?cif_number={self.cif_number}&skip=0&limit=10", catch_response=True, name="g_test_account_list") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_account_list failed, status_code: " + str(response.status_code))
             else:
