@@ -2,7 +2,7 @@ import docker, time, json, sys
 from datetime import datetime
 
 start = datetime.now()
-
+limit_time = 1.0
 filename = sys.argv[1] if len(sys.argv) > 1 else "monolith"
 
 client = docker.from_env()
@@ -39,8 +39,8 @@ try:
             # if container.name in ("account", "customer", "payment", "transfer"):
             if container.name in ("monolith-app"):
                 now = datetime.now()
-                if ((now - start).total_seconds()) > 10.0:
-                    raise Exception("Stop\n")
+                if ((now - start).total_seconds() / 60.0) > limit_time:
+                    raise Exception("Stop the app\n")
                 sys.stdout.write(f"\rtime: {now - start} {container.name}             ")
                 sys.stdout.flush()
                 raw_stats.append({ 'name' : container.name, 'stats' : container.stats(stream=False) })
