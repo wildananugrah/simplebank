@@ -40,12 +40,12 @@ class Transaction:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
 
     @staticmethod
-    def list(cif_number):
+    def list(cif_number, skip, limit):
         try:
             start = datetime.now()
             
             model = TransactionModel()
-            transaction_list = model.list(cif_number)
+            transaction_list = model.list(cif_number, skip, limit)
             
             return detail( transaction_list , start, 200)
         except BusinessLogicException as error:

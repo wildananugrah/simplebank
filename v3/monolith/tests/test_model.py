@@ -284,7 +284,7 @@ def test_transation_list():
     transaction = Transaction()
     customer_1 = find_customer("user1", "password")
     account_1 = find_accounts(customer_1['cif_number'])[0]
-    hist_list = transaction.list(account_1['cif_number'])
+    hist_list = transaction.list(account_1['cif_number'], 0, 100)
 
     assert hist_list != None
     assert type(hist_list) == list
@@ -293,7 +293,7 @@ def test_transation_list():
 def test_historical_list():
     hist_trx = HistoricalTransaction()
     customer_1 = find_customer("user1", "password")
-    transaction_list = hist_trx.list(customer_1['cif_number'])
+    transaction_list = hist_trx.list(customer_1['cif_number'], 0, 100)
 
     assert transaction_list != None
     assert type(transaction_list) == list

@@ -14,7 +14,7 @@ def detail():
 
 @transaction.route("/list/", methods=["GET"])
 def list():
-    return Transaction.list(request.args.get('cif_number'))
+    return Transaction.list(request.args.get('cif_number'), request.args.get('skip'), request.args.get('limit'))
 
 @transaction.route("/transfer/intrabank/", methods=["POST"])
 def transfer_intrabank():

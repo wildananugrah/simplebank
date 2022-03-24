@@ -5,4 +5,4 @@ historical_transaction = Blueprint("historical_transaction", __name__)
 
 @historical_transaction.route("/", methods=["GET"])
 def find():
-    return HistoricalTransaction.list(request.args.get('account_number'))
+    return HistoricalTransaction.list(request.args.get('account_number'), request.args.get('skip'), request.args.get('limit'))
