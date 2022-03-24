@@ -70,5 +70,5 @@ class Account:
         self.db.simplebank_db.accounts.delete_one({ 'account_number' : account_number })
         return True
 
-    def list(self, cif_number):
-        return list(self.db.simplebank_db.accounts.find({ 'cif_number' : cif_number}, { '_id' : False }))
+    def list(self, cif_number, skip, limit):
+        return list(self.db.simplebank_db.accounts.find({ 'cif_number' : cif_number}, { '_id' : False }).skip(int(skip).limit(int(limit))))

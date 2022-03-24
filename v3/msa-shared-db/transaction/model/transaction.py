@@ -33,8 +33,8 @@ class Transaction:
     def detail(self, account_number, journal_number):
         return self.db.simplebank_db.transactions.find_one({ 'account_number' : account_number, 'journal_number' : journal_number }, { '_id' : False })
     
-    def list(self, cif_number):
-        return list(self.db.simplebank_db.transactions.find({'cif_number' : cif_number}, { '_id' : False }).sort('transaction_datetime', -1)) # descending
+    def list(self, cif_number, skip, limit):
+        return list(self.db.simplebank_db.transactions.find({'cif_number' : cif_number}, { '_id' : False }).skip(int(skip)).limit(int(limit)).sort('transaction_datetime', -1)) # descending
 
     def save(self, transaction_type, from_account_number, to_account_number, to_bank_code, amount, journal_number, cif_number, status, description=""):
         data = {

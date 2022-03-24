@@ -36,7 +36,7 @@ try:
     start = datetime.now()
     while True:
         for container in client.containers.list():
-            if container.name in ["monolith"]:
+            if container.name in ["account", "customer", "payment", "transaction", "interbank_transfer","historical_transaction"]:
                 now = datetime.now()
                 if ((now - start).total_seconds() / 60.0) > limit_time:
                     raise Exception("Stop the app\n")
