@@ -21,7 +21,7 @@ def test_customer_find_by_id_number():
     assert type(response.json()) is dict
 
 @pytest.mark.run(order=2)
-def test_customer_find_by_cif_number():
+def test_customer_find_by_cif_number_2():
     response = requests.get(f"{host}/customer/?key_type=cif_number&value={cif_number}")
     assert response is not None
     assert response.status_code in (200, 201)
