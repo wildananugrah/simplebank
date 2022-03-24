@@ -42,8 +42,8 @@ try:
                 sys.stdout.write(f"\rtime: {now - start} {container.name}             ")
                 sys.stdout.flush()
                 raw_stats.append({ 'name' : container.name, 'stats' : container.stats(stream=False) })
-
-                if ((now - start).total_seconds() / 60.0) > 40.0:
+                
+                if ((now - start).total_seconds()) > 10.0:
                     break
 
 finally:
