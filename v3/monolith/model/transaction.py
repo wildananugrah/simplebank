@@ -37,7 +37,7 @@ class Transaction:
         return self.db.transactions.find_one({ 'account_number' : account_number, 'journal_number' : journal_number }, { '_id' : False })
     
     def list(self, cif_number, skip, limit):
-        return list(self.db.transactions.find({'cif_number' : cif_number}, { '_id' : False }).skip(skip).limit(limit).sort('transaction_datetime', -1)) # descending
+        return list(self.db.transactions.find({'cif_number' : cif_number}, { '_id' : False }).skip(int(skip)).limit(int(limit)).sort('transaction_datetime', -1)) # descending
 
     def save(self, transaction_type, from_account_number, to_account_number, to_bank_code, amount, journal_number, cif_number, status, description=""):
         data = {

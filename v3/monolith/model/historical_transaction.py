@@ -38,4 +38,4 @@ class HistoricalTransaction:
 
     def list(self, account_number, skip, limit):
         print(account_number)
-        return list(self.db.historical_transactions.find({ 'account_number' : account_number }, { '_id' : False }).skip(skip).limit(limit).sort("transaction_datetime", -1)) # descending
+        return list(self.db.historical_transactions.find({ 'account_number' : account_number }, { '_id' : False }).skip(int(skip)).limit(int(limit)).sort("transaction_datetime", -1)) # descending
