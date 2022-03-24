@@ -33,11 +33,12 @@ def __calculate_cpu_percent(data):
 
 raw_stats = []
 try:
+    start = datetime.now()
     while True:
         for container in client.containers.list():
             # if container.name in ("account", "customer", "payment", "transfer"):
             if container.name in ("monolith-app"):
-                sys.stdout.write(f"\rtime: {datetime.now()} {container.name}             ")
+                sys.stdout.write(f"\rtime: {datetime.now() - start} {container.name}             ")
                 sys.stdout.flush()
                 raw_stats.append({ 'name' : container.name, 'stats' : container.stats(stream=False) })
 finally:
