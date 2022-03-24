@@ -71,4 +71,4 @@ class Account:
         return True
 
     def list(self, cif_number, skip, limit):
-        return list(self.db.simplebank_db.accounts.find({ 'cif_number' : cif_number}, { '_id' : False }).skip(int(skip).limit(int(limit))))
+        return list(self.db.simplebank_db.accounts.find({ 'cif_number' : cif_number}, { '_id' : False }).skip(int(skip)).limit(int(limit)))
