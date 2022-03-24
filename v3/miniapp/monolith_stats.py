@@ -35,8 +35,8 @@ raw_stats = []
 try:
     while True:
         for container in client.containers.list():
-            if container.name in ("account", "customer", "payment", "transfer"):
-            # if container.name in ("monolith-app"):
+            # if container.name in ("account", "customer", "payment", "transfer"):
+            if container.name in ("monolith-app"):
                 sys.stdout.write(f"\rtime: {datetime.now()} {container.name}             ")
                 sys.stdout.flush()
                 raw_stats.append({ 'name' : container.name, 'stats' : container.stats(stream=False) })
