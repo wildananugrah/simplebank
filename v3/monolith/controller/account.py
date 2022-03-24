@@ -33,11 +33,11 @@ class Account:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
     
     @staticmethod
-    def list(account_number):
+    def list(account_number, skip, limit):
         try:
             start = datetime.now()
             account_model = AccountModel()
-            account_data = account_model.list(account_number)
+            account_data = account_model.list(account_number, skip, limit)
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)

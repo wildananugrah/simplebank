@@ -102,7 +102,7 @@ def test_account_create():
 
 @pytest.mark.run(order=8)
 def test_account_list():
-    response = requests.get(f"{host}/account/list/?cif_number={cif_number}")
+    response = requests.get(f"{host}/account/list/?cif_number={cif_number}&skip=0&limit=100")
 
     assert response is not None
     assert response.status_code in (200, 201)
