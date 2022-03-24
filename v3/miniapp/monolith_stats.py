@@ -40,7 +40,7 @@ try:
             if container.name in ("monolith-app"):
                 now = datetime.now()
                 if ((now - start).total_seconds()) > 10.0:
-                    break
+                    raise Exception("Stop\n")
                 sys.stdout.write(f"\rtime: {now - start} {container.name}             ")
                 sys.stdout.flush()
                 raw_stats.append({ 'name' : container.name, 'stats' : container.stats(stream=False) })
