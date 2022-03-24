@@ -202,8 +202,6 @@ def test_transaction_eletric_payment_pay():
         "cif_number": pytest.ACCOUNT_NUMBER['cif_number']
     }
 
-    print(data)
-
     response = requests.post(f"{host}/transaction/payment/eletrical/", json=data)
     assert response is not None
     print(response.text)

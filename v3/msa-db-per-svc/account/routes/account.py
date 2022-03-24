@@ -13,7 +13,7 @@ def detail():
 
 @account.route("/list/", methods=["GET"])
 def list():
-    return Account.list(request.args.get('cif_number'))
+    return Account.list(request.args.get('cif_number'), request.args.get('skip'), request.args.get('limit'))
 
 @account.route("/", methods=["PUT"])
 def update():
