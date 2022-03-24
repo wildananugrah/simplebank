@@ -208,11 +208,11 @@ def test_transaction_eletric_payment_pay():
 
 @pytest.mark.run(order=17)
 def test_transaction_list():
-    response = requests.get(f"{host}/transaction/list/?cif_number={pytest.ACCOUNT_NUMBER['cif_number']}&skip=0&limit=100")
+    response = requests.get(f"{host}/transaction/list/?cif_number={pytest.ACCOUNT_NUMBER['cif_number']}&skip=0&limit=2")
 
     assert response is not None
 
-    print(response.json())
+    # print(response.json())
 
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
@@ -233,7 +233,7 @@ def test_hist_trx():
     response = requests.get(f"{host}/historical_transaction/?account_number={pytest.ACCOUNT_NUMBER['account_number']}&skip=0&limit=100")
 
     assert response is not None
-    print(response.json())
+    # print(response.json())
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
     assert type(response.json()['data']) is list
