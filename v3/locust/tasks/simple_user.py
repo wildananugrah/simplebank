@@ -180,7 +180,7 @@ class SimpleUser(SequentialTaskSet):
 
     @task
     def test_transaction_list(self):
-        with self.client.get(f"/transaction/list/?cif_number={self.cif_number}", catch_response=True, name="n_test_transaction_list") as response:
+        with self.client.get(f"/transaction/list/?cif_number={self.cif_number}&skip=0&limit=100", catch_response=True, name="n_test_transaction_list") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_transaction_list failed, status_code: " + str(response.status_code))
             else:
@@ -188,7 +188,7 @@ class SimpleUser(SequentialTaskSet):
 
     @task
     def test_hist_trx(self):
-        with self.client.get(f"/historical_transaction/?account_number={self.from_account_number}", catch_response=True, name="o_test_hist_trx") as response:
+        with self.client.get(f"/historical_transaction/?account_number={self.from_account_number}&skip=0&limit=100", catch_response=True, name="o_test_hist_trx") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_hist_trx failed, status_code: " + str(response.status_code))
             else:
