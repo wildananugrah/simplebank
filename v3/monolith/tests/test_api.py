@@ -7,7 +7,7 @@ cif_number = "1681274973"
 username_1 = "user1"
 email_1 = "user0@gmail.com"
 password_1 = "password"
-bill_id = "458625142578"
+bill_id = "670706837027"
 
 pytest.ACCOUNT_NUMBER = None
 
@@ -201,8 +201,12 @@ def test_transaction_eletric_payment_pay():
         "from_account_number": pytest.ACCOUNT_NUMBER['account_number'],
         "cif_number": pytest.ACCOUNT_NUMBER['cif_number']
     }
+
+    print(data)
+
     response = requests.post(f"{host}/transaction/payment/eletrical/", json=data)
     assert response is not None
+    print(response.text)
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 

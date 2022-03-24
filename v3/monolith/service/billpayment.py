@@ -66,9 +66,9 @@ class EletricalBillPayment(PaymentAbstract):
             "description" : self.description
         }
 
-        response = requests.post(f"{self.host}/", json=data)
+        response = requests.post(f"{self.host}/settlement/", json=data)
 
         if response and response.status_code in self.valid_status_code:
             return response.json()
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke interbank service payment.")

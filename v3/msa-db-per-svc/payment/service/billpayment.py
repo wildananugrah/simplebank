@@ -71,4 +71,4 @@ class EletricalBillPayment(PaymentAbstract):
         if response and response.status_code in self.valid_status_code:
             return response.json()
         else:
-            raise ServiceException(f"Can not invoke billpayment service inquiry.")
+            raise ServiceException(f"Can not invoke billpayment service payment.")
