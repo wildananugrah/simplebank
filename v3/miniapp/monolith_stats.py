@@ -38,9 +38,14 @@ try:
         for container in client.containers.list():
             # if container.name in ("account", "customer", "payment", "transfer"):
             if container.name in ("monolith-app"):
-                sys.stdout.write(f"\rtime: {datetime.now() - start} {container.name}             ")
+                now = datetime.now()
+                sys.stdout.write(f"\rtime: {now - start} {container.name}             ")
                 sys.stdout.flush()
                 raw_stats.append({ 'name' : container.name, 'stats' : container.stats(stream=False) })
+
+                if ((now - start).total_seconds() / 60.0) > 40.0:
+                    break
+
 finally:
     print("Processing writing...")
     stats = []
