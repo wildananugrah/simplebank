@@ -39,5 +39,5 @@ class HistoricalTransaction:
         except Exception as error:
             Exception(f"Database failure. {str(error)}")
 
-    def list(self, account_number):
-        return list(self.db_read.simplebank_db.historical_transactions.find({ 'account_number' : account_number }, { '_id' : False }).sort("transaction_datetime", -1)) # descending
+    def list(self, account_number, skip, limit):
+        return list(self.db_read.simplebank_db.historical_transactions.find({ 'account_number' : account_number }, { '_id' : False }).skip(int(skip)).limit(int(limit)).sort("transaction_datetime", -1)) # descending
