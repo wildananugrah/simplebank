@@ -66,7 +66,7 @@ class EletricalBillPayment(PaymentAbstract):
             "description" : self.description
         }
 
-        response = requests.post(f"{self.host}/settlement/", json=data)
+        response = requests.post(f"{self.host}/", json=data)
 
         if response and response.status_code in self.valid_status_code:
             return response.json()

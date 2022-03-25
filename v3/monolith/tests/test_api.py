@@ -2,8 +2,8 @@ import pytest
 import requests
 
 host = "http://45.113.235.79:3000"
-id_number = "1605058497852873"
-cif_number = "1681274973"
+id_number = "3106331656172569"
+cif_number = "2650790324"
 username_1 = "user1"
 email_1 = "user0@gmail.com"
 password_1 = "password"
