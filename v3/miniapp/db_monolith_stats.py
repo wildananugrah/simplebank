@@ -2,8 +2,8 @@ import docker, time, json, sys
 from datetime import datetime
 
 start = datetime.now()
-limit_time = 60.0
-filename = sys.argv[1] if len(sys.argv) > 1 else "monolith-db"
+limit_time = 10.0
+filename = sys.argv[1] if len(sys.argv) > 1 else "db-monolith"
 
 client = docker.from_env()
 
