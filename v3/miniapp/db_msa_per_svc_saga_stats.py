@@ -2,8 +2,8 @@ import docker, time, json, sys
 from datetime import datetime
 
 start = datetime.now()
-limit_time = 10.0
-filename = sys.argv[1] if len(sys.argv) > 1 else "monolith"
+limit_time = 60.0
+filename = sys.argv[1] if len(sys.argv) > 1 else "monolith-db"
 
 client = docker.from_env()
 
@@ -36,7 +36,7 @@ try:
     start = datetime.now()
     while True:
         for container in client.containers.list():
-            if container.name in ["monolith"]:
+            if container.name in ["db1-saga-svc","db2-saga-svc","db3-saga-svc","db4-saga-svc","db5-saga-svc","db6-saga-svc"]:
                 now = datetime.now()
                 if ((now - start).total_seconds() / 60.0) > limit_time:
                     raise Exception("Stop the app\n")
