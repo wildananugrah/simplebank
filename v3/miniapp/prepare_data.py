@@ -1,10 +1,11 @@
 from pymongo import MongoClient
 import json, random, string
 
-client = MongoClient("mongodb://mongoadmin:secret@localhost:5000/")
+client = MongoClient("mongodb://localhost:5000/")
 db = client.simplebank_db
 
 NUMBER_OF_CUSTOMERS = 100
+FILENAME = f"customer_{NUMBER_OF_CUSTOMERS}.json"
 
 def find_cif_number(cif_number):
     return db.customers.find_one({ 'cif_number' : cif_number }, {'_id' : False})
@@ -12,8 +13,8 @@ def find_cif_number(cif_number):
 def find_id_number(id_number):
     return db.customers.find_one({ 'id_number' : id_number }, {'_id' : False})
 
-def find_account_number(account_number):
-    return db.accounts.find_one({ 'account_number' : account_number }, {'_id' : False})
+# def find_account_number(account_number):
+#     return db.accounts.find_one({ 'account_number' : account_number }, {'_id' : False})
 
 def generate_cif_number(cif_number="", size=10):
         cif_number = ''.join(random.choice(string.digits) for _ in range(size))
@@ -29,14 +30,14 @@ def generate_id_number(id_number="", size=16):
             self.generate_id_number(id_number)
         return id_number
 
-def generate_account_number(account_number="", size=10):
-        account_number = ''.join(random.choice(string.digits) for _ in range(size))
-        db_account_number = find_account_number(account_number)
-        if db_account_number:
-            self.generate_account_number(account_number)
-        return account_number
+# def generate_account_number(account_number="", size=10):
+#         account_number = ''.join(random.choice(string.digits) for _ in range(size))
+#         db_account_number = find_account_number(account_number)
+#         if db_account_number:
+#             self.generate_account_number(account_number)
+#         return account_number
 
-f = open("customers.json", "a")
+f = open(FILENAME, "w")
 
 cif_numbers = []
 for x in range(NUMBER_OF_CUSTOMERS):
@@ -60,21 +61,21 @@ for x in range(NUMBER_OF_CUSTOMERS):
     f.write(f"{json.dumps(data)}\n")
 f.close()
 
-f = open("accounts.json", "a")
+# f = open(FILENAME, "w")
 
-account_numbers = []
-for cif_number in cif_numbers:
+# account_numbers = []
+# for cif_number in cif_numbers:
     
-    account_number = generate_account_number()
+#     account_number = generate_account_number()
 
-    data = {
-        "account_number": account_number,
-        "cif_number": cif_number,
-        "currency": "IDR",
-        "balance": 1000
-    }
+#     data = {
+#         "account_number": account_number,
+#         "cif_number": cif_number,
+#         "currency": "IDR",
+#         "balance": 1000
+#     }
 
-    account_numbers.append(data)
-    f.write(f"{json.dumps(data)}\n")
+#     account_numbers.append(data)
+#     f.write(f"{json.dumps(data)}\n")
 
-f.close()
+# f.close()
