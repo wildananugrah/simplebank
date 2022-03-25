@@ -7,7 +7,7 @@ filename = sys.argv[1] if len(sys.argv) > 1 else "monolith"
 
 client = docker.from_env()
 
-f = open(f"{filename}.json", "a")
+f = open(f"{filename}.json", "w")
 
 def __calculate_memory_percent(data):
     memory_used = float(data['memory_stats']['usage'])
