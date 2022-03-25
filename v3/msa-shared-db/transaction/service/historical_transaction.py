@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from exception.business_logic_exception import BusinessLogicException
 from sp_config import *
 from db import dbinstance
+from datetime import datetime
 import requests, os
 
 @dataclass
@@ -19,9 +20,11 @@ class HistoricalTransaction:
     def save(self):
         
         try:
+
             if self.transaction_type not in ['DEBIT', 'CREDIT', 'REVERSAL']:
+                
                 raise BusinessLogicException(f"Invalid transaction_type: {self.transaction_type}")
-        
+
             data = {
                     'transaction_type': self.transaction_type,
                     'account_number': self.account_number, 

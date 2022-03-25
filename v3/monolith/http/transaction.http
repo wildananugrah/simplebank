@@ -1,11 +1,12 @@
-@host=http://localhost:3050
+# @host=http://45.113.235.79:3000/
+@host=http://localhost:3020/
 
 ### 5290328307, 2513051497
 POST {{host}}/transaction/deposit/
 Content-Type: application/json
 
 {
-    "account_number": "5290328307",
+    "account_number": "3673998679",
     "amount": 1000
 }
 

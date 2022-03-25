@@ -2,8 +2,8 @@ import pytest
 import requests
 
 host = "http://45.113.235.79:3000"
-id_number = "3106331656172569"
-cif_number = "2650790324"
+id_number = "8705095121996512"
+cif_number = "6921614771"
 username_1 = "user1"
 email_1 = "user0@gmail.com"
 password_1 = "password"
@@ -204,7 +204,7 @@ def test_transaction_eletric_payment_pay():
 
     response = requests.post(f"{host}/transaction/payment/eletrical/", json=data)
     assert response is not None
-    print(response.text)
+    # print(response.text)
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 

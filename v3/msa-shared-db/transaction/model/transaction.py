@@ -62,6 +62,7 @@ class Transaction:
         self.historical_transaction.current_balance = current_balance
         self.historical_transaction.description = description
         self.historical_transaction.save()
+
         return True
 
     def deposit(self, account_number, amount):
