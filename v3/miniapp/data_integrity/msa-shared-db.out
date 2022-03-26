@@ -1,0 +1,21 @@
+started at: 2022-03-25 23:43:16.792140
+accounts
+db_accounts: 1849
+elapse time: 0:00:03.327837
+historical_transactions
+elapse time: 0:01:20.710042
+
+transactions
+matched: 1736
+not matched: 113
+elapse time: 0:02:48.676624
+
+account balances
+matched: 1573
+not matched: 276
+elapse time: 0:04:07.619599
+
+SUMMARY
+accounts: 1849
+transactions: 34506
+historical-trx: 43218
