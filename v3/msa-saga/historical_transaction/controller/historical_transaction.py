@@ -24,7 +24,6 @@ class HistoricalTransaction:
     def save(json_request):
         try:
             start = datetime.now()
-            
             hist_model = HistTrxModel()
             hist_model.transaction_type = json_request['transaction_type']
             hist_model.account_number = json_request['account_number']

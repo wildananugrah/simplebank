@@ -22,7 +22,6 @@ class HistoricalTransaction:
         try:
             if self.transaction_type not in ['DEBIT', 'CREDIT', 'REVERSAL']:
                 raise BusinessLogicException(f"Invalid transaction_type: {self.transaction_type}")
-        
             data = {
                     'transaction_type': self.transaction_type,
                     'account_number': self.account_number, 
@@ -37,6 +36,7 @@ class HistoricalTransaction:
 
             return True
         except Exception as error:
+            print(error)
             Exception(f"Database failure. {str(error)}")
 
     def list(self, account_number, skip, limit):

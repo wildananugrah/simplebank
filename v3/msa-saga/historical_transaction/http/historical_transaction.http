@@ -1,0 +1,17 @@
+# @host=http://localhost:3030
+@host=http://45.113.235.79:3000/
+
+GET {{host}}/historical_transaction/?account_number=5290328307&skip=0&limit=100
+
+###
+POST {{host}}/historical_transaction/
+Content-Type: application/json
+
+{
+    "transaction_type": "DEBIT",
+    "account_number": "1234567890",
+    "amount": 0,
+    "journal_number": "123456",
+    "current_balance": 1000,
+    "description": "TEST DESCRIPTION"
+}
