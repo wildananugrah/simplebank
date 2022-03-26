@@ -9,11 +9,11 @@ from flask import jsonify
 class HistoricalTransaction:
 
     @staticmethod
-    def list(account_number):
+    def list(account_number, skip, limit):
         try:
             start = datetime.now()
             hist_model = HistTrxModel()
-            historical_trx = hist_model.list(account_number)
+            historical_trx = hist_model.list(account_number, skip, limit)
             return detail(historical_trx, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
