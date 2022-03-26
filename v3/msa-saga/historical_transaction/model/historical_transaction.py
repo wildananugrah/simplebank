@@ -27,7 +27,8 @@ class HistoricalTransaction:
                 raise BusinessLogicException(f"Invalid transaction_type: {self.transaction_type}")
             
             if self.find_journal_number(self.account_number, self.journal_number):
-                raise BusinessLogicException(f"Duplicate journal_number: {self.journal_number}")
+                # raise BusinessLogicException(f"Duplicate journal_number: {self.journal_number}")
+                return False
             
             data = {
                     'transaction_type': self.transaction_type,
