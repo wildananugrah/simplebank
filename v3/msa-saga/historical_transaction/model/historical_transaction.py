@@ -19,16 +19,16 @@ class HistoricalTransaction:
     db = dbinstance.get_db().simplebank_db
 
     def find_journal_number(self, account_number, journal_number):
-        return self.db.historical_transaction.find_one({ 'journal_number' : journal_number, 'account_number' : account_number })
+        return self.db.historical_transactions.find_one({ 'journal_number' : journal_number, 'account_number' : account_number })
 
     def save(self):
         try:
             if self.transaction_type not in ['DEBIT', 'CREDIT', 'REVERSAL']:
                 raise BusinessLogicException(f"Invalid transaction_type: {self.transaction_type}")
-
+            
             if self.find_journal_number(self.account_number, self.journal_number):
                 raise BusinessLogicException(f"Duplicate journal_number: {self.journal_number}")
-
+            
             data = {
                     'transaction_type': self.transaction_type,
                     'account_number': self.account_number, 
@@ -43,8 +43,7 @@ class HistoricalTransaction:
 
             return True
         except Exception as error:
-            print(error)
-            Exception(f"Database failure. {str(error)}")
+            raise Exception(f"Database failure. {str(error)}")
 
     def list(self, account_number, skip, limit):
         return list(self.db.historical_transactions.find({ 'account_number' : account_number }, { '_id' : False }).skip(int(skip)).limit(int(limit)).sort("transaction_datetime", -1)) # descending

@@ -1,5 +1,5 @@
-# @host=http://localhost:3000
-@host=http://45.113.235.79:3000/
+@host=http://localhost:3030
+# @host=http://45.113.235.79:3000/
 
 GET {{host}}/historical_transaction/?account_number=7467997555&skip=0&limit=100
 

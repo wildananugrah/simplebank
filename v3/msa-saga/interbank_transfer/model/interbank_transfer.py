@@ -52,7 +52,7 @@ class InterbankTransfer:
         try:
             self.db.interbank_transfers.update_one({ 'transaction_id' : transaction_id }, { '$set' : update_value })
         except Exception as error:
-            Exception(f"Internal server error: {str(error)}")
+            raise Exception(f"Internal server error: {str(error)}")
 
     def inquiry(self, to_account_number, to_bank_code):
         return self.interbank.inquiry(to_account_number, to_bank_code)

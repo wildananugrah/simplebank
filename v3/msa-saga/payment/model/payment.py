@@ -37,7 +37,7 @@ class Payment:
         try:
             self.db.payments.update_one({ 'transaction_id' : transaction_id }, { '$set' : update_value })
         except Exception as error:
-            Exception(f"Internal server error: {str(error)}")
+            raise Exception(f"Internal server error: {str(error)}")
 
 @dataclass
 class EletricalBillPayment(Payment):
@@ -121,5 +121,4 @@ class EletricalBillPayment(Payment):
             return self.transaction.transaction_id
 
         except Exception as error:
-            print(error)
             raise Exception("Internal server error.")
