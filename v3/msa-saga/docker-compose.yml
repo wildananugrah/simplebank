@@ -32,6 +32,8 @@ services:
         container_name: historical_transaction
         environment: 
             MONGODB_HOST: mongodb://45.113.234.254:5030
+            RABBIT_MQ_HOST: 45.113.232.164 
+            RABBIT_MQ_PORT: 3020
     interbank_transfer:
         build:
             context: ./interbank_transfer
@@ -52,18 +54,18 @@ services:
             SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
-    mq-sb:
-        build:
-            context: ./mq-sb
-            dockerfile: ./app.Dockerfile
-        container_name: mq-sb
-        environment:
-            RABBIT_MQ_HOST: 45.113.232.164
-            RABBIT_MQ_PORT: 3020
-            TRANSACTION_HOST: http://transaction:3020
-            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3030
-            INTERBANK_HOST: http://interbank_transfer:3040
-            PAYMENT_HOST: http://payment:3050
+    # mq-sb:
+    #     build:
+    #         context: ./mq-sb
+    #         dockerfile: ./app.Dockerfile
+    #     container_name: mq-sb
+    #     environment:
+    #         RABBIT_MQ_HOST: 45.113.232.164
+    #         RABBIT_MQ_PORT: 3020
+    #         TRANSACTION_HOST: http://transaction:3020
+    #         HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3030
+    #         INTERBANK_HOST: http://interbank_transfer:3040
+    #         PAYMENT_HOST: http://payment:3050
     nginx:
         build:
             context: ./nginx

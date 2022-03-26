@@ -79,7 +79,7 @@ class Transaction:
                 journal_number=journal_number, 
                 cif_number=account['cif_number'], 
                 status="DONE")
-        self.store_to_historical_transaction(transaction_type="CREDIT", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=to_account_number_update_balance)
+        self.store_to_historical_transaction(transaction_type="CREDIT", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=to_account_number_update_balance, description="DEPOSIT")
             
         return journal_number
     

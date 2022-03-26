@@ -11,11 +11,11 @@ class JournalAck:
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
         channel = connection.channel()
 
-        data = {
-            "transaction_type" : transaction_type,
-            "request_message" : request_message
-        }
+        # data = {
+        #     "transaction_type" : transaction_type,
+        #     "request_message" : request_message
+        # }
 
-        channel.basic_publish(exchange='',routing_key=ack_type, body=json.dumps(data))
+        channel.basic_publish(exchange='',routing_key=f"{ack_type}-{transaction_type}", body=json.dumps(request_message))
 
         connection.close()  
