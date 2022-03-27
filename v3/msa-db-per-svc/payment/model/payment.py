@@ -36,13 +36,14 @@ class EletricalBillPayment(PaymentAbstract):
     payment: EBPService = EBPService()
     transaction: Transaction = Transaction()
     transaction_type: str = "ELETRICAL_BILLPAYMENT"
+    journal_number: str = None
 
     def save(self, data):
         try:
             self.db.payments.insert_one(data)
             return True
         except Exception as error:
-            Exception(f"Internal server error: {str(error)}")
+            raise Exception(f"Internal server error: {str(error)}")
 
     def inquiry(self, bill_id):
         return self.payment.inquiry(bill_id)
@@ -83,7 +84,7 @@ class EletricalBillPayment(PaymentAbstract):
             self.transaction.from_account_number = self.from_account_number
             self.transaction.amount = self.amount
             self.transaction.journal_number = self.journal_number
-            journal_number = self.transaction.reversal()['journal_number']
+            self.journal_number = self.transaction.reversal()['journal_number']
 
             self.save({
                 'from_account_number' : self.from_account_number,
@@ -98,5 +99,4 @@ class EletricalBillPayment(PaymentAbstract):
             raise ServiceException(f"Can not invoke eletrical payment service. detail: {error}")
 
         except Exception as error:
-            print(error)
             raise Exception("Internal server error.")

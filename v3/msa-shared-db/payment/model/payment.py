@@ -37,6 +37,7 @@ class EletricalBillPayment(PaymentAbstract):
     transaction_type: str = "ELETRICAL_BILLPAYMENT"
     
     db = dbinstance.get_db()
+    journal_number: str = None
     
     def save(self, data):
         try:
@@ -70,7 +71,7 @@ class EletricalBillPayment(PaymentAbstract):
             self.save({
                 'from_account_number' : self.from_account_number,
                 "amount" : self.amount,
-                "journal_number" : self.journal_number,
+                "journal_number" : journal_number,
                 "transaction_type": self.transaction_type,
                 "transaction_datetime" : transaction_datetime,
                 "description" : self.description,
@@ -84,7 +85,7 @@ class EletricalBillPayment(PaymentAbstract):
             self.transaction.from_account_number = self.from_account_number
             self.transaction.amount = self.amount
             self.transaction.journal_number = self.journal_number
-            journal_number = self.transaction.reversal()
+            self.journal_number = self.transaction.reversal()
 
             self.save({
                 'from_account_number' : self.from_account_number,
@@ -99,5 +100,4 @@ class EletricalBillPayment(PaymentAbstract):
             raise ServiceException(f"Can not invoke eletrical payment service. detail: {error}")
 
         except Exception as error:
-            print(error)
             raise Exception("Internal server error.")

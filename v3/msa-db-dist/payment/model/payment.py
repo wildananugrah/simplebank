@@ -35,7 +35,7 @@ class EletricalBillPayment(PaymentAbstract):
     payment: EBPService = EBPService()
     transaction: DebitTransaction = DebitTransaction()
     transaction_type: str = "ELETRICAL_BILLPAYMENT"
-    
+    journal_number: str = None
     db_read, db_write = dbinstance.get_db()
     
     def save(self, data):
@@ -62,7 +62,7 @@ class EletricalBillPayment(PaymentAbstract):
 
             # invoke eletrical payment service
             self.payment.bill_id = self.bill_id
-            self.payment.journal_number = self.journal_number
+            self.payment.journal_number = journal_number
             self.payment.description = self.description
             response = self.payment.pay()
 
@@ -84,7 +84,7 @@ class EletricalBillPayment(PaymentAbstract):
             self.transaction.from_account_number = self.from_account_number
             self.transaction.amount = self.amount
             self.transaction.journal_number = self.journal_number
-            journal_number = self.transaction.reversal()
+            self.journal_number = self.transaction.reversal()
 
             self.save({
                 'from_account_number' : self.from_account_number,

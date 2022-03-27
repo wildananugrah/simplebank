@@ -1,4 +1,5 @@
-@host=http://localhost:3040
+@host=http://localhost:3000
+# @host=http://45.113.235.79:3000
 
 ###
 GET {{host}}/transaction/payment/eletrical/?bill_id=458625142578
@@ -34,8 +35,8 @@ Content-Type: application/json
     "bill_id":"458625142578",
     "amount": 1,
     "description": "TEST PAYMENT ELETRICAL PAYMENT",
-    "from_account_number": "5290328307",
-    "cif_number":"6094439536"
+    "from_account_number": "7760803318",
+    "cif_number":"7065211830"
 }
 
 # response:
