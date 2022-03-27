@@ -56,3 +56,10 @@ services:
         container_name: nginx
         ports:
             - "3000:80"
+        depends_on:
+            - customer
+            - account
+            - transaction
+            - historical_transaction
+            - interbank_transfer
+            - payment
