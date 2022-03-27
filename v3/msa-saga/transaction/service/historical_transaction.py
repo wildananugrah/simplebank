@@ -31,3 +31,22 @@ class HistoricalTransaction:
                             body=json.dumps(data))
 
         connection.close()
+    
+    def save_list(self, data_list):
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
+        channel = connection.channel()
+
+        # data = {
+        #     'transaction_type': self.transaction_type,
+        #     'account_number': self.account_number,
+        #     'amount': self.amount,
+        #     'journal_number': self.journal_number,
+        #     'current_balance': self.current_balance,
+        #     'description': self.description
+        # }
+
+        channel.basic_publish(exchange='',
+                            routing_key='historical_transaction_save_list',
+                            body=json.dumps(data_list))
+
+        connection.close()

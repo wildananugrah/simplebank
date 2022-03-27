@@ -7,6 +7,7 @@ services:
         container_name: customer
         environment: 
             MONGODB_HOST: mongodb://45.113.234.254:5000
+        volumes: ['./customer:/app']
     account:
         build:
             context: ./account
@@ -15,6 +16,7 @@ services:
         environment: 
             MONGODB_HOST: mongodb://45.113.234.254:5010
             CUSTOMER_HOST: http://customer:3000
+        volumes: ['./account:/app']
     transaction:
         build:
             context: ./transaction
@@ -25,6 +27,7 @@ services:
             ACCOUNT_HOST: http://account:3010
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
+        volumes: ['./transaction:/app']
     historical_transaction:
         build:
             context: ./historical_transaction
@@ -34,6 +37,7 @@ services:
             MONGODB_HOST: mongodb://45.113.234.254:5030
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
+        volumes: ['./historical_transaction:/app']
     interbank_transfer:
         build:
             context: ./interbank_transfer
@@ -44,6 +48,7 @@ services:
             SIM_INTERBANK_HOST: http://45.113.232.164:3000
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
+        volumes: ['./interbank_transfer:/app']
     payment:
         build:
             context: ./payment
@@ -54,18 +59,7 @@ services:
             SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
             RABBIT_MQ_HOST: 45.113.232.164 
             RABBIT_MQ_PORT: 3020
-    # mq-sb:
-    #     build:
-    #         context: ./mq-sb
-    #         dockerfile: ./app.Dockerfile
-    #     container_name: mq-sb
-    #     environment:
-    #         RABBIT_MQ_HOST: 45.113.232.164
-    #         RABBIT_MQ_PORT: 3020
-    #         TRANSACTION_HOST: http://transaction:3020
-    #         HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3030
-    #         INTERBANK_HOST: http://interbank_transfer:3040
-    #         PAYMENT_HOST: http://payment:3050
+        volumes: ['./payment:/app']
     nginx:
         build:
             context: ./nginx
@@ -73,3 +67,10 @@ services:
         container_name: nginx
         ports:
             - "3000:80"
+        depends_on:
+            - customer
+            - account
+            - transaction
+            - historical_transaction
+            - interbank_transfer
+            - payment

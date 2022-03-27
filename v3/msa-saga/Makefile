@@ -5,7 +5,7 @@ run-model-test:
 	@pytest tests/test_model.py -v -s --durations=0
 
 run-api-test:
-	@pytest --count=100 tests/test_api.py -v -s --durations=0
+	@pytest tests/test_api.py -v -s --durations=0
 
 run-api-test-10:
 	@pytest --count=10 tests/test_api.py -v -s --durations=0
@@ -20,4 +20,4 @@ compose-down:
 	@docker-compose down
 
 run-all:
-	@python drop_db_2.py; make compose-down; make compose-up; make run-api-test;
+	@python drop_db_2.py; make compose-down; make compose-up; make run-api-test; python data_integrity_test_saga.py
