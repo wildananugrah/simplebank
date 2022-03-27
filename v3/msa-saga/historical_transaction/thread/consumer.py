@@ -18,6 +18,7 @@ def on_historical_transaction_save(ch, method, properties, body):
 
 def on_historical_transaction_save_many(ch, method, properties, body):
     json_requests = json.loads(body)
+    hist_model = HistTrxModel()
     hist_model.save_many(json_requests)
     print(f"execute on_historical_transaction_save_many; message: {json_request}")
 
