@@ -1,4 +1,5 @@
 from locust import SequentialTaskSet, task
+import time
 
 class NormalUser(SequentialTaskSet):
 
@@ -32,6 +33,8 @@ class NormalUser(SequentialTaskSet):
                 self.session_id = response.json()['data']['session_id']
                 response.success()
         
+        time.sleep(1) # create first account
+
         data = {
             "cif_number" : self.cif_number
         }
@@ -43,6 +46,7 @@ class NormalUser(SequentialTaskSet):
                 self.from_account_number = response.json()['data']['account_number']
                 response.success()
 
+        time.sleep(1) # create second account
         data = {
             "cif_number" : self.cif_number
         }
@@ -54,24 +58,33 @@ class NormalUser(SequentialTaskSet):
                 self.to_account_number = response.json()['data']['account_number']
                 response.success()
         
+        time.sleep(1) # check detail account
         with self.client.get(f"/account/?account_number={self.from_account_number}", catch_response=True, name="d_test_account_detail") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_account_detail failed, status_code: " + str(response.status_code))
             else:
                 response.success()     
 
+        time.sleep(1) # check account list
         with self.client.get(f"/account/list/?cif_number={self.cif_number}&skip=0&limit=10", catch_response=True, name="e_test_account_list") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_account_list failed, status_code: " + str(response.status_code))
             else:
                 response.success()     
+        
+        data = {
+            "account_number": self.from_account_number,
+            "amount": self.deposit_amount
+        }
 
+        time.sleep(1) # deposit money
         with self.client.post(f"/transaction/deposit/", json=data, catch_response=True, name="f_test_transaction_deposit") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_transaction_deposit failed, status_code: " + str(response.status_code))
             else:
                 response.success()      
 
+        time.sleep(1) # transfer to my other account
         data = {
             "from_account_number": self.from_account_number,
             "to_account_number": self.to_account_number,
@@ -86,12 +99,14 @@ class NormalUser(SequentialTaskSet):
             else:
                 response.success()  
     
+        time.sleep(1) # send money to other bank account, step 1. inquiry
         with self.client.get(f"/transaction/transfer/interbank/?to_account_number=3540447401&to_bank_code=014", catch_response=True, name="h_test_transaction_interbank_inquiry") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_transaction_interbank_inquiry failed, status_code: " + str(response.status_code))
             else:
                 response.success()
 
+        time.sleep(1) # send money to other bank account, step 2. transfer the money
         data = {
             "from_account_number": self.from_account_number,
             "to_account_number": self.to_interbank_account_number,
@@ -107,12 +122,14 @@ class NormalUser(SequentialTaskSet):
             else:
                 response.success()
 
+        time.sleep(1) # make a bill payment, step 1. inquiry
         with self.client.get(f"/transaction/payment/eletrical/?bill_id={self.bill_id}", catch_response=True, name="j_test_transaction_eletric_payment_inquiry") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_transaction_eletric_payment_inquiry failed, status_code: " + str(response.status_code))
             else:
                 response.success()
         
+        time.sleep(1) # make a bill payment, step 2. pay
         data = {
             "bill_id":self.bill_id,
             "amount": 1,
@@ -127,34 +144,25 @@ class NormalUser(SequentialTaskSet):
             else:
                 response.success()
 
+        time.sleep(1) # check the transaction, step 2. pay
         with self.client.get(f"/transaction/list/?cif_number={self.cif_number}&skip=0&limit=10", catch_response=True, name="l_test_transaction_list") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_transaction_list failed, status_code: " + str(response.status_code))
             else:
                 response.success()
-
+        
+        time.sleep(1) # check the historical transaction, step 2. pay
         with self.client.get(f"/historical_transaction/?account_number={self.from_account_number}&skip=0&limit=10", catch_response=True, name="m_test_hist_trx") as response:
             if response.status_code not in (200, 201):
                 response.failure("test_hist_trx failed, status_code: " + str(response.status_code))
             else:
                 response.success()
 
-        with self.client.delete(f"/account/?account_number={self.from_account_number}", catch_response=True, name="n_test_account_delete") as response:
-            if response.status_code not in (200, 201):
-                response.failure("test_account_delete failed, status_code: " + str(response.status_code))
-            else:
-                response.success()
-
-        with self.client.delete(f"/account/?account_number={self.to_account_number}", catch_response=True, name="o_test_account_delete_2") as response:
-            if response.status_code not in (200, 201):
-                response.failure("test_account_delete_2 failed, status_code: " + str(response.status_code))
-            else:
-                response.success()
-
+        time.sleep(1) # logout from the system
         data = {
             "session_id" : self.session_id
         }
-        with self.client.post(f"/customer/mobile/logout/", json=data, catch_response=True, name="p_test_customer_mobile_logout") as response:
+        with self.client.post(f"/customer/mobile/logout/", json=data, catch_response=True, name="n_test_customer_mobile_logout") as response:
             if response.status_code not in (200, 201, 400): # 400 stil okay i guess. pfft
                 response.failure("test_customer_mobile_logout failed, status_code: " + str(response.status_code) + " session_id: " + str(self.session_id) + ", username: " + str(self.user.username))
             else:
