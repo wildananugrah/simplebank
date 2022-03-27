@@ -51,5 +51,5 @@ class HistoricalTransaction:
                     'description': data['description'],
                     'transaction_datetime' : datetime.today().replace(microsecond=0)
                 })
-            self.db.historical_transactions.insert_many(documents, ordered=True)
+        self.db.historical_transactions.insert_many(documents, ordered=True)
         return True
