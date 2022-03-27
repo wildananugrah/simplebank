@@ -18,7 +18,7 @@ db_hist = client_hist.simplebank_db
 db_interbank_transfer = client_interbank_transfer.simplebank_db
 db_payment = client_payment.simplebank_db
 
-db_accounts = list(db_account.accounts.find().limit(20))
+db_accounts = list(db_account.accounts.find())
 db_transactions = list(db_transaction.transactions.find())
 db_historical_transactions = list(db_hist.historical_transactions.find())
 
@@ -57,7 +57,7 @@ not_matched = [i for i, j in zip(hist_trx_summ, trx_summ) if i != j]
 if len(not_matched) > 0:
     print("NOT MATCHED!")
     print(not_matched)
-    
+
 print(f"matched: {len(matched)}")
 print(f"not matched: {len(not_matched)}")
 
