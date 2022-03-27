@@ -17,9 +17,9 @@ def on_historical_transaction_save(ch, method, properties, body):
     print(f"execute on_historical_transaction_save; message: {json_request}")
 
 def on_historical_transaction_save_many(ch, method, properties, body):
-    json_requests = json.loads(body)
+    json_request = json.loads(body)
     hist_model = HistTrxModel()
-    hist_model.save_many(json_requests)
+    hist_model.save_many(json_request)
     print(f"execute on_historical_transaction_save_many; message: {json_request}")
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
