@@ -31,7 +31,7 @@ class MyUser(HttpUser):
     weight = 1
 
     def on_start(self):
-        self.username, self.password, self.email = load_users("data/customers_10000.json").pop()
+        self.username, self.password, self.email = load_users("data/customers_1000.json").pop()
         print("MyUser: hatching user..")
 
     def on_stop(self):
