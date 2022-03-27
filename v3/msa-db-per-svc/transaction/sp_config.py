@@ -1,8 +1,8 @@
 import os
 
-# MONGODB_HOST="mongodb://45.113.235.79:5020"
-# ACCOUNT_HOST="http://localhost:3010"
-# HISTORICAL_TRANSACTION_HOST="http://localhost:3030"
+# MONGODB_HOST="mongodb://45.113.234.254:5020"
+# ACCOUNT_HOST="http://localhost:3000"
+# HISTORICAL_TRANSACTION_HOST="http://localhost:3000"
 
 MONGODB_HOST=os.getenv("MONGODB_HOST")
 ACCOUNT_HOST=os.getenv("ACCOUNT_HOST")

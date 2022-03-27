@@ -1,6 +1,7 @@
 import pytest
 import requests
 
+# host = "http://45.113.235.79:3000"
 host = "http://localhost:3000"
 id_number = "8705095121996512"
 cif_number = "6921614771"
@@ -138,8 +139,7 @@ def test_transaction_deposit():
     pytest.ACCOUNT_NUMBER = test_account_create()['data']
     data = {
         "account_number": pytest.ACCOUNT_NUMBER['account_number'],
-        "amount": 1000,
-        "description" : "DEPOSIT "
+        "amount": 1000
     }
     response = requests.post(f"{host}/transaction/deposit/", json=data)
 

@@ -36,6 +36,21 @@ class HistoricalTransaction:
 
         return True
 
+    def save_many(self, data_list):
+        documents = []
+        for data in data_list:
+            documents.append({
+                    'transaction_type': data['transaction_type'],
+                    'account_number': data['account_number'], 
+                    'amount': data['amount'],
+                    'journal_number' : data['journal_number'],
+                    'current_balance': data['current_balance'],
+                    'description': data['description'],
+                    'transaction_datetime' : datetime.today().replace(microsecond=0)
+                })
+            self.db.historical_transactions.insert_many(documents, ordered=True)
+        return True
+
     def list(self, account_number, skip, limit):
         print(account_number)
         return list(self.db.historical_transactions.find({ 'account_number' : account_number }, { '_id' : False }).skip(int(skip)).limit(int(limit)).sort("transaction_datetime", -1)) # descending

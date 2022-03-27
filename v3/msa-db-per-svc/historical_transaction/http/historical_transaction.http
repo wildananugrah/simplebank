@@ -1,4 +1,4 @@
-@host=http://localhost:3000
+@host=http://localhost:3030
 
 GET {{host}}/historical_transaction/?account_number=5290328307
 
@@ -14,3 +14,9 @@ Content-Type: application/json
     "current_balance": 1000,
     "description": "TEST DESCRIPTION"
 }
+
+###
+POST {{host}}/historical_transaction/many/
+Content-Type: application/json
+
+[{"transaction_type": "DEBIT", "account_number": "3043636545", "amount": 1, "journal_number": "1146715603", "current_balance": 990, "description": "TEST INTRABANK"}, {"transaction_type": "CREDIT", "account_number": "9091051853", "amount": 1, "journal_number": "1146715603", "current_balance": 8, "description": "TEST INTRABANK"}]

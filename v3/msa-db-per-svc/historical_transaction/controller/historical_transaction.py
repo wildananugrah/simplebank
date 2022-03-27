@@ -39,3 +39,15 @@ class HistoricalTransaction:
             return detail({ 'error' : str(error) }, start, 400)
         except Exception as error:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
+    
+    @staticmethod
+    def save_many(json_request):
+        try:
+            start = datetime.now()
+            hist_model = HistTrxModel()
+            historical_trx = hist_model.save_many(json_request)
+            return detail(historical_trx, start, 200)
+        except BusinessLogicException as error:
+            return detail({ 'error' : str(error) }, start, 400)
+        except Exception as error:
+            return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500

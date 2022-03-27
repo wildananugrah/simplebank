@@ -16,23 +16,14 @@ def on_historical_transaction_save(ch, method, properties, body):
     historical_trx = hist_model.save()
     print(f"execute on_historical_transaction_save; message: {json_request}")
 
-def on_historical_transaction_save_list(ch, method, properties, body):
+def on_historical_transaction_save_many(ch, method, properties, body):
     json_requests = json.loads(body)
-    for json_request in json_requests:
-        start = datetime.now()
-        hist_model = HistTrxModel()
-        hist_model.transaction_type = json_request['transaction_type']
-        hist_model.account_number = json_request['account_number']
-        hist_model.amount = int(json_request['amount'])
-        hist_model.journal_number = json_request['journal_number']
-        hist_model.current_balance = int(json_request['current_balance'])
-        hist_model.description = json_request['description']
-        historical_trx = hist_model.save()
-        print(f"execute on_historical_transaction_save; message: {json_request}")
+    hist_model.save_many(json_requests)
+    print(f"execute on_historical_transaction_save_many; message: {json_request}")
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
 channel = connection.channel()
 channel.queue_declare(queue='historical_transaction_save')
 channel.basic_consume(queue='historical_transaction_save', on_message_callback=on_historical_transaction_save, auto_ack=True)
-channel.queue_declare(queue='historical_transaction_save_list')
-channel.basic_consume(queue='historical_transaction_save_list', on_message_callback=on_historical_transaction_save_list, auto_ack=True)
+channel.queue_declare(queue='historical_transaction_save_many')
+channel.basic_consume(queue='historical_transaction_save_many', on_message_callback=on_historical_transaction_save_many, auto_ack=True)

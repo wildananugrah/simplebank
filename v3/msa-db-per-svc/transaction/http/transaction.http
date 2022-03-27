@@ -1,4 +1,4 @@
-@host=http://localhost:3000
+@host=http://localhost:3020
 
 ### 5290328307, 2513051497
 POST {{host}}/transaction/deposit/
@@ -111,13 +111,15 @@ Content-Type: application/json
 POST {{host}}/transaction/transfer/intrabank/
 Content-Type: application/json
 
-{
-    "from_account_number": "5290328307",
-    "to_account_number": "2513051497",
-    "cif_number": "6094439536",
-    "amount": 1,
-    "description": "TEST INTRABANK"
-}
+{"from_account_number": "3043636545", "to_account_number": "9091051853", "cif_number": "6921614771", "amount": 1, "description": "TEST INTRABANK"}
+
+# {
+#     "from_account_number": "5290328307",
+#     "to_account_number": "2513051497",
+#     "cif_number": "6094439536",
+#     "amount": 1,
+#     "description": "TEST INTRABANK"
+# }
 
 # response:
 # HTTP/1.0 200 OK

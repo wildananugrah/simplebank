@@ -40,6 +40,16 @@ class HistoricalTransaction:
         elif response.status_code in self.invalid_status_code:
             raise ServiceException(self.invalid_status_code[response.status_code])
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke historical transaction save.")
 
         # return True
+    
+    def save_many(self, documents):
+        response = requests.post(f"{self.host}/historical_transaction/many/", json=documents)
+
+        if response and response.status_code in self.valid_status_code:
+            return response.json()['data']
+        elif response.status_code in self.invalid_status_code:
+            raise ServiceException(self.invalid_status_code[response.status_code])
+        else:
+            raise ServiceException(f"Can not invoke historical transaction save many.")

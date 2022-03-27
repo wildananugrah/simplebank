@@ -10,3 +10,7 @@ def find():
 @historical_transaction.route("/", methods=["POST"])
 def save():
     return HistoricalTransaction.save(request.get_json())
+
+@historical_transaction.route("/many/", methods=["POST"])
+def save_many():
+    return HistoricalTransaction.save_many(request.get_json())

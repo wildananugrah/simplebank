@@ -155,8 +155,28 @@ class TransferIntrabank(Transaction):
                         description=self.description,
                         status="DONE")
 
-            self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance, description=self.description)
-            self.store_to_historical_transaction(transaction_type="CREDIT", account_number=self.to_account_number, amount=self.amount, journal_number=journal_number, current_balance=to_account_number_update_balance, description=self.description)
+            documents = [
+                {
+                    'transaction_type': "DEBIT",
+                    'account_number': self.from_account_number,
+                    'amount': self.amount,
+                    'journal_number': journal_number,
+                    'current_balance': from_account_number_update_balance,
+                    'description': self.description
+                },
+                {
+                    'transaction_type': "CREDIT",
+                    'account_number': self.to_account_number,
+                    'amount': self.amount,
+                    'journal_number': journal_number,
+                    'current_balance': to_account_number_update_balance,
+                    'description': self.description
+                }
+            ]
+            self.historical_transaction.save_many(documents)
+
+            # self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance, description=self.description)
+            # self.store_to_historical_transaction(transaction_type="CREDIT", account_number=self.to_account_number, amount=self.amount, journal_number=journal_number, current_balance=to_account_number_update_balance, description=self.description)
             
             return journal_number
         else:
