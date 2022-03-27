@@ -18,7 +18,7 @@ db_hist = client_hist.simplebank_db
 db_interbank_transfer = client_interbank_transfer.simplebank_db
 db_payment = client_payment.simplebank_db
 
-db_accounts = list(db_account.accounts.find())
+db_accounts = list(db_account.accounts.find().limit(10))
 db_transactions = list(db_transaction.transactions.find())
 db_historical_transactions = list(db_hist.historical_transactions.find())
 
