@@ -1,0 +1,10 @@
+scrape_configs:
+  - job_name: 'containeradvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['45.113.232.164:8080']
+
+  - job_name: 'node-exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['45.113.232.164:9100']
