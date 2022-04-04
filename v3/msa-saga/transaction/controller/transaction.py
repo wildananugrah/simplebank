@@ -14,11 +14,12 @@ class Transaction:
     @staticmethod
     def deposit(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             
             model = TransactionModel()
             journal_number = model.deposit(json_request['account_number'], json_request['amount'])
-            
+            print(f"outgoing request: {journal_number}")
             return detail( {'journal_number' : journal_number} , start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -28,11 +29,12 @@ class Transaction:
     @staticmethod
     def reversal(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             
             model = TransactionModel()
             journal_number = model.reversal(json_request['account_number'], json_request['amount'], json_request['journal_number'])
-            
+            print(f"outgoing request: {journal_number}")
             return detail( {'journal_number' : journal_number} , start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -42,11 +44,12 @@ class Transaction:
     @staticmethod
     def detail(transaction_type, account_number, journal_number):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             
             model = TransactionModel()
             detail_transaction = model.detail_transaction(transaction_type, account_number, journal_number)
-            
+            print(f"outgoing request: {detail_transaction}")
             return detail( detail_transaction , start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -56,11 +59,12 @@ class Transaction:
     @staticmethod
     def list(cif_number, skip, limit):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             
             model = TransactionModel()
             transaction_list = model.list(cif_number, skip, limit)
-            
+            print(f"outgoing request: {transaction_list}")
             return detail( transaction_list , start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -74,6 +78,7 @@ class TransferIntrabank:
     @staticmethod
     def transfer(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             
             model = TransferIntrabankModel()
@@ -95,6 +100,7 @@ class DebitTransaction:
     @staticmethod
     def debit(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             
             model = DebitTransactionModel()
@@ -105,7 +111,7 @@ class DebitTransaction:
             model.amount = int(json_request['amount'])
             model.description = json_request['description']
             journal_number = model.debit()
-            
+            print(f"outgoing request: {journal_number}")
             return detail({ 'journal_number' : journal_number }, start, 200)
         except BusinessLogicException as error:
             request_message = {
