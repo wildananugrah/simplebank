@@ -15,9 +15,6 @@ class HistoricalTransaction:
 
     def save(self):
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
-            channel = connection.channel()
-
             data = {
                 'transaction_type': self.transaction_type,
                 'account_number': self.account_number,
@@ -26,12 +23,13 @@ class HistoricalTransaction:
                 'current_balance': self.current_balance,
                 'description': self.description
             }
+            print(f"sent queue: {data}")
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
+            channel = connection.channel()
 
             channel.basic_publish(exchange='',
                                 routing_key='historical_transaction_save',
                                 body=json.dumps(data))
-            
-            print(f"sent queue: {data}")
 
             connection.close()
         except Exception as error:
@@ -39,15 +37,13 @@ class HistoricalTransaction:
     
     def save_many(self, documents):
         try:
+            print(f"sent queue: {documents}")
             connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=RABBIT_MQ_PORT))
             channel = connection.channel()
 
             channel.basic_publish(exchange='',
                                 routing_key='historical_transaction_save_many',
                                 body=json.dumps(documents))
-            
-            print(f"sent queue: {documents}")
-
             connection.close()
         except Exception as error:
             print(f"ERROR: {error}")
