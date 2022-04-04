@@ -30,6 +30,8 @@ class HistoricalTransaction:
             channel.basic_publish(exchange='',
                                 routing_key='historical_transaction_save',
                                 body=json.dumps(data))
+            
+            print(f"sent queue: {data}")
 
             connection.close()
         except Exception as error:
