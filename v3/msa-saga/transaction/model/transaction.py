@@ -141,9 +141,20 @@ class TransferIntrabank(Transaction):
 
         total_current_balance = db_to_account_number['balance'] + db_from_account_number['balance']
 
-        # TODO: tweak code
-        to_account_number_update_balance = self.account.update(self.to_account_number, to_account_number_current_balance)['balance']
-        from_account_number_update_balance = self.account.update(self.from_account_number, from_account_number_current_balance)['balance']
+        documents = []
+        documents.append({
+            'account_number' : self.to_account_number,
+            'current_balance' : to_account_number_current_balance
+        })
+        documents.append({
+            'account_number' : self.from_account_number,
+            'current_balance' : from_account_number_current_balance
+        })
+        
+        self.account.update_many(documents)
+        
+        to_account_number_update_balance = self.account.detail(self.to_account_number)['balance']
+        from_account_number_update_balance = self.account.detail(self.from_account_number)['balance']
         journal_number = self.generate_journal_number(self.from_account_number)
 
         if total_current_balance == (to_account_number_update_balance + from_account_number_update_balance):

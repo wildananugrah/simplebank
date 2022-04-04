@@ -43,3 +43,14 @@ class Account:
             raise ServiceException(self.invalid_status_code[response.status_code])
         else:
             raise ServiceException(f"Can not invoke interbank service inquiry.")
+    
+    def update_many(self, documents):
+
+        response = requests.put(f"{self.host}/account/many/", json=documents)
+
+        if response and response.status_code in self.valid_status_code:
+            return response.json()['data']
+        elif response.status_code in self.invalid_status_code:
+            raise ServiceException(self.invalid_status_code[response.status_code])
+        else:
+            raise ServiceException(f"Can not invoke interbank service inquiry.")

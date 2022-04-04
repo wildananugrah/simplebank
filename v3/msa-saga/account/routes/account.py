@@ -19,6 +19,10 @@ def list():
 def update():
     return Account.update(request.get_json())
 
+@account.route("/many/", methods=["PUT"])
+def update_many():
+    return Account.update_many(request.get_json())
+
 @account.route("/", methods=["DELETE"])
 def delete():
     return Account.delete(request.args.get('account_number'))

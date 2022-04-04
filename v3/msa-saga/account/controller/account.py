@@ -31,6 +31,18 @@ class Account:
             return detail({ 'error' : str(error) }, start, 400)
         except Exception as error:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
+    
+    @staticmethod
+    def update_many(json_request):
+        try:
+            start = datetime.now()
+            account_model = AccountModel()
+            account_data = account_model.update_many(json_request)
+            return detail(account_data, start, 200)
+        except BusinessLogicException as error:
+            return detail({ 'error' : str(error) }, start, 400)
+        except Exception as error:
+            return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
 
     @staticmethod
     def delete(account_number):

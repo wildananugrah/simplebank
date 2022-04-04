@@ -64,6 +64,16 @@ class Account:
 
         return self.detail(account_number)
 
+    def update_many(self, documents):
+
+        try:
+            for document in documents:
+                self.update(document['account_number'], document['current_balance'])
+            
+            return True
+        except Exception as error:
+            print(f"ERROR: {error}")
+
     def delete(self, account_number):
         self.detail(account_number)
         self.db.accounts.delete_one({ 'account_number' : account_number })
