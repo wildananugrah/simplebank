@@ -141,6 +141,7 @@ class TransferIntrabank(Transaction):
 
         total_current_balance = db_to_account_number['balance'] + db_from_account_number['balance']
 
+        # TODO: tweak code
         to_account_number_update_balance = self.account.update(self.to_account_number, to_account_number_current_balance)['balance']
         from_account_number_update_balance = self.account.update(self.from_account_number, from_account_number_current_balance)['balance']
         journal_number = self.generate_journal_number(self.from_account_number)
