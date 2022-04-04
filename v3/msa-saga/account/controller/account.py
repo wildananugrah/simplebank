@@ -11,9 +11,11 @@ class Account:
     @staticmethod
     def detail(account_number):
         try:
+            print(f"incoming request: {account_number}")
             start = datetime.now()
             account_model = AccountModel()
             account_data = account_model.detail(account_number)
+            print(f"outgoing response: {account_data}")
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -23,9 +25,11 @@ class Account:
     @staticmethod
     def update(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             account_model = AccountModel()
             account_data = account_model.update(json_request['account_number'], int(json_request['current_balance']))
+            print(f"outgoing response: {account_data}")
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -35,9 +39,11 @@ class Account:
     @staticmethod
     def update_many(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             account_model = AccountModel()
             account_data = account_model.update_many(json_request)
+            print(f"outgoing response: {account_data}")
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -47,9 +53,11 @@ class Account:
     @staticmethod
     def delete(account_number):
         try:
+            print(f"incoming request: {account_number}")
             start = datetime.now()
             account_model = AccountModel()
             account_data = account_model.delete(account_number)
+            print(f"outgoing response: {account_data}")
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -59,9 +67,11 @@ class Account:
     @staticmethod
     def list(account_number, skip, limit):
         try:
+            print(f"incoming request: {account_number}")
             start = datetime.now()
             account_model = AccountModel()
             account_data = account_model.list(account_number, skip, limit)
+            print(f"outgoing response: {account_data}")
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
@@ -71,9 +81,11 @@ class Account:
     @staticmethod
     def create(json_request):
         try:
+            print(f"incoming request: {json_request}")
             start = datetime.now()
             account_model = AccountModel()
             account_data = account_model.create(json_request['cif_number'])
+            print(f"outgoing response: {account_data}")
             return detail(account_data, start, 200)
         except BusinessLogicException as error:
             return detail({ 'error' : str(error) }, start, 400)
