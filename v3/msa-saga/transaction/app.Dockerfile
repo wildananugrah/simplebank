@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 3020
 
-CMD ["python", "main.py"]
+CMD ["python", "-u", "main.py"]
