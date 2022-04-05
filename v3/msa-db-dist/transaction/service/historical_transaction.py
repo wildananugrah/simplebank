@@ -42,7 +42,8 @@ class HistoricalTransaction:
     def save_many(self, data_list):
         documents = []
         for data in data_list:
-            documents.append({
+            # documents.append()
+            self.db_write.historical_transactions.insert_one({
                     'transaction_type': data['transaction_type'],
                     'account_number': data['account_number'], 
                     'amount': data['amount'],
@@ -51,5 +52,4 @@ class HistoricalTransaction:
                     'description': data['description'],
                     'transaction_datetime' : datetime.today().replace(microsecond=0)
                 })
-        self.db_write.historical_transactions.insert_many(documents, ordered=True)
         return True
