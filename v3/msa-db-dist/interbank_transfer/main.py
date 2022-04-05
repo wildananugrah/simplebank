@@ -14,4 +14,4 @@ app.register_blueprint(interbank_transfer, url_prefix="/transaction")
 dbinstance.init_app(app)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3040, host="0.0.0.0")
+    app.run(debug=True, port=3040, host="0.0.0.0", threaded=False)

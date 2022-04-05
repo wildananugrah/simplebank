@@ -66,6 +66,13 @@ for account in db_accounts:
 matched = [i for i, j in zip(account_balances, accounts) if i == j]
 not_matched = [i for i, j in zip(account_balances, accounts) if i != j]
 
+if len(not_matched) > 0:
+    for account in accounts:
+        if '5336277127' in account:
+            print(account)
+    print("NOT MATCHED!")
+    print(not_matched)
+
 print(f"matched: {len(matched)}")
 print(f"not matched: {len(not_matched)}")
 
