@@ -59,7 +59,7 @@ class Transaction:
     @staticmethod
     def list(cif_number, skip, limit):
         try:
-            print(f"incoming request: {json_request}")
+            print(f"incoming request: {cif_number}")
             start = datetime.now()
             
             model = TransactionModel()

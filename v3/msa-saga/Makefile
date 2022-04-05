@@ -5,7 +5,7 @@ run-model-test:
 	@pytest tests/test_model.py -v -s --durations=0
 
 run-api-test:
-	@pytest -n 2 --count=10 tests/test_api.py -v -s --durations=0
+	@pytest -n 10 --count=2 tests/test_api.py -v -s --durations=0
 
 run-api-test-10:
 	@pytest --count=10 tests/test_api.py -v -s --durations=0
