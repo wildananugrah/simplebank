@@ -116,4 +116,4 @@ class Account:
         return True
 
     def list(self, cif_number, skip, limit):
-        return list(self.db.accounts.find({ 'cif_number' : cif_number}, { '_id' : False }).skip(int(skip)).limit(int(limit)))
+        return list(self.db.accounts.find({ 'cif_number' : cif_number}, { '_id' : False }).sort('balance', -1).skip(int(skip)).limit(int(limit)))
