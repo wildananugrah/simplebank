@@ -51,6 +51,20 @@ class Account:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
 
     @staticmethod
+    def settlement(json_request):
+        try:
+            print(f"incoming request: {json_request}")
+            start = datetime.now()
+            account_model = AccountModel()
+            account_data = account_model.settlement(json_request['from_account_number'], json_request['to_account_number'], json_request['amount'])
+            print(f"outgoing response: {account_data}")
+            return detail(account_data, start, 200)
+        except BusinessLogicException as error:
+            return detail({ 'error' : str(error) }, start, 400)
+        except Exception as error:
+            return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
+
+    @staticmethod
     def delete(account_number):
         try:
             print(f"incoming request: {account_number}")

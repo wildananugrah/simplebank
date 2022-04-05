@@ -136,22 +136,24 @@ class TransferIntrabank(Transaction):
         if db_from_account_number['balance'] < self.amount:
             raise BusinessLogicException(f"Unsufficient fund from_account_number: {self.from_account_number}")
 
-        to_account_number_current_balance =  db_to_account_number['balance'] + self.amount # credit
-        from_account_number_current_balance =  db_from_account_number['balance'] - self.amount # debit
+        # to_account_number_current_balance =  db_to_account_number['balance'] + self.amount # credit
+        # from_account_number_current_balance =  db_from_account_number['balance'] - self.amount # debit
 
-        total_current_balance = db_to_account_number['balance'] + db_from_account_number['balance']
+        # total_current_balance = db_to_account_number['balance'] + db_from_account_number['balance']
 
-        documents = []
-        documents.append({
-            'account_number' : self.to_account_number,
-            'current_balance' : to_account_number_current_balance
-        })
-        documents.append({
-            'account_number' : self.from_account_number,
-            'current_balance' : from_account_number_current_balance
-        })
+        # documents = []
+        # documents.append({
+        #     'account_number' : self.to_account_number,
+        #     'current_balance' : to_account_number_current_balance
+        # })
+        # documents.append({
+        #     'account_number' : self.from_account_number,
+        #     'current_balance' : from_account_number_current_balance
+        # })
         
-        self.account.update_many(documents)
+        # self.account.update_many(documents)
+
+        self.account.settlement(self.from_account_number, self.to_account_number, self.amount)
         
         to_account_number_update_balance = self.account.detail(self.to_account_number)['balance']
         from_account_number_update_balance = self.account.detail(self.from_account_number)['balance']

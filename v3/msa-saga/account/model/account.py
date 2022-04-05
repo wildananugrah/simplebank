@@ -64,6 +64,22 @@ class Account:
 
         return self.detail(account_number)
 
+    def settlement(self, from_account_number, to_account_number, amount):
+        from_account_number = self.detail(from_account_number)
+        to_account_number = self.detail(to_account_number)
+
+        query = { 'account_number' : from_account_number }
+        new_value = { 'balance' : from_account_number['balance'] - amount }
+
+        self.db.accounts.update_one(query, { '$set' : new_value })
+
+        query = { 'account_number' : to_account_number }
+        new_value = { 'balance' : to_account_number['balance'] + amount }
+
+        self.db.accounts.update_one(query, { '$set' : new_value })
+
+        return True
+
     def update_many(self, documents):
 
         try:

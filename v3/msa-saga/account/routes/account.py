@@ -7,6 +7,10 @@ account = Blueprint("account", __name__)
 def create():
     return Account.create(request.get_json())
 
+@account.route("/settlement/", methods=["POST"])
+def settlement():
+    return Account.settlement(request.get_json())
+
 @account.route("/", methods=["GET"])
 def detail():
     return Account.detail(request.args.get('account_number'))

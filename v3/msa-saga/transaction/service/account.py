@@ -26,7 +26,7 @@ class Account:
         elif response.status_code in self.invalid_status_code:
             raise ServiceException(self.invalid_status_code[response.status_code])
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke detail.")
     
     def update(self, account_number, current_balance):
         
@@ -42,7 +42,7 @@ class Account:
         elif response.status_code in self.invalid_status_code:
             raise ServiceException(self.invalid_status_code[response.status_code])
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke update account.")
     
     def update_many(self, documents):
 
@@ -53,4 +53,21 @@ class Account:
         elif response.status_code in self.invalid_status_code:
             raise ServiceException(self.invalid_status_code[response.status_code])
         else:
-            raise ServiceException(f"Can not invoke interbank service inquiry.")
+            raise ServiceException(f"Can not invoke update many accounts.")
+
+    def settlement(self, from_account_number, to_account_number, amount):
+
+        data = {
+            "from_account_number" : from_account_number,
+            "to_account_number" : to_account_number,
+            "amount" : amount
+        }
+
+        response = requests.put(f"{self.host}/settlement/", json=data)
+
+        if response and response.status_code in self.valid_status_code:
+            return response.json()['data']
+        elif response.status_code in self.invalid_status_code:
+            raise ServiceException(self.invalid_status_code[response.status_code])
+        else:
+            raise ServiceException(f"Can not invoke settlement account.")
