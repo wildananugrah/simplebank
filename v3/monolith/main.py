@@ -20,4 +20,4 @@ app.register_blueprint(historical_transaction, url_prefix="/historical_transacti
 dbinstance.init_app(app)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3000, host="0.0.0.0")
+    app.run(debug=True, port=3000, host="0.0.0.0", threaded=False)

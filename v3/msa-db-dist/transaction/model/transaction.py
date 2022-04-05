@@ -175,8 +175,6 @@ class TransferIntrabank(Transaction):
 
             return journal_number
         else:
-            # to_account_number_update_balance = self.account.update(self.to_account_number, db_to_account_number['balance'])
-            # from_account_number_update_balance = self.account.update(self.from_account_number, db_from_account_number['balance'])
             raise BusinessLogicException(f"Invalid settlement: {total_current_balance} is not {(to_account_number_update_balance + from_account_number_update_balance)}")
         
 
