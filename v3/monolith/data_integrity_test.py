@@ -4,8 +4,8 @@ import json, random, string
 
 start = datetime.now()
 
-# client = MongoClient("mongodb://45.113.234.254:3000/") # monolith
-client = MongoClient("mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true") # monolith
+client = MongoClient("mongodb://45.113.234.254:3000/") # monolith
+# client = MongoClient("mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true") # distributed db
 db = client.simplebank_db
 
 db_accounts = list(db.accounts.find())

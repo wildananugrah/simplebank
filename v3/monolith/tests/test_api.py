@@ -230,7 +230,7 @@ def test_transaction_eletric_payment_pay():
 
     response = requests.post(f"{host}/transaction/payment/eletrical/", json=data)
     assert response is not None
-    # print(response.text)
+    print(response.text)
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
