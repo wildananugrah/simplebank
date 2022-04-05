@@ -1,8 +1,8 @@
 import pytest
 import requests
 
-# host = "http://45.113.235.79:3000"
-host = "http://localhost:3000"
+host = "http://45.113.235.79:3000"
+# host = "http://localhost:3000"
 id_number = "8705095121996512"
 cif_number = "6921614771"
 username_1 = "user1"
@@ -176,51 +176,63 @@ def test_transaction_intrabank():
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
-# @pytest.mark.run(order=13)
-# def test_transaction_interbank_inquiry():
-#     response = requests.get(f"{host}/transaction/transfer/interbank/?to_account_number=3540447401&to_bank_code=014")
-#     assert response is not None
-#     assert response.status_code in (200, 201)
-#     assert type(response.json()) is dict
+@pytest.mark.run(order=13)
+def test_transaction_interbank_inquiry():
+    response = requests.get(f"{host}/transaction/transfer/interbank/?to_account_number=3540447401&to_bank_code=014")
+    assert response is not None
+    assert response.status_code in (200, 201)
+    assert type(response.json()) is dict
 
-# @pytest.mark.run(order=14)
-# def test_transaction_interbank_transfer():
-#     data = {
-#         "from_account_number": pytest.ACCOUNT_NUMBER['account_number'],
-#         "to_account_number": "3540447401",
-#         "to_bank_code": "014",
-#         "cif_number": pytest.ACCOUNT_NUMBER['cif_number'],
-#         "amount": 1,
-#         "description": "TEST INTERBANK"
-#     }
+@pytest.mark.run(order=14)
+def test_transaction_interbank_transfer():
+    accounts = test_account_list()
+    _account = None
+    for account in accounts:
+        if account['balance'] > 0:
+            _account = account
+            break
+    data = {
+        "from_account_number": _account['account_number'],
+        "to_account_number": "3540447401",
+        "to_bank_code": "014",
+        "cif_number": _account['cif_number'],
+        "amount": 1,
+        "description": "TEST INTERBANK"
+    }
 
-#     response = requests.post(f"{host}/transaction/transfer/interbank/", json=data)
-#     assert response is not None
-#     assert response.status_code in (200, 201)
-#     assert type(response.json()) is dict
+    response = requests.post(f"{host}/transaction/transfer/interbank/", json=data)
+    assert response is not None
+    assert response.status_code in (200, 201)
+    assert type(response.json()) is dict
 
-# @pytest.mark.run(order=15)
-# def test_transaction_eletric_payment_inquiry():
-#     response = requests.get(f"{host}/transaction/payment/eletrical/?bill_id={bill_id}")
-#     assert response is not None
-#     assert response.status_code in (200, 201)
-#     assert type(response.json()) is dict
+@pytest.mark.run(order=15)
+def test_transaction_eletric_payment_inquiry():
+    response = requests.get(f"{host}/transaction/payment/eletrical/?bill_id={bill_id}")
+    assert response is not None
+    assert response.status_code in (200, 201)
+    assert type(response.json()) is dict
 
-# @pytest.mark.run(order=16)
-# def test_transaction_eletric_payment_pay():
-#     data = {
-#         "bill_id":bill_id,
-#         "amount": 1,
-#         "description": "TEST PAYMENT ELETRICAL PAYMENT",
-#         "from_account_number": pytest.ACCOUNT_NUMBER['account_number'],
-#         "cif_number": pytest.ACCOUNT_NUMBER['cif_number']
-#     }
+@pytest.mark.run(order=16)
+def test_transaction_eletric_payment_pay():
+    accounts = test_account_list()
+    _account = None
+    for account in accounts:
+        if account['balance'] > 0:
+            _account = account
+            break
+    data = {
+        "bill_id":bill_id,
+        "amount": 1,
+        "description": "TEST PAYMENT ELETRICAL PAYMENT",
+        "from_account_number": _account['account_number'],
+        "cif_number": _account['cif_number']
+    }
 
-#     response = requests.post(f"{host}/transaction/payment/eletrical/", json=data)
-#     assert response is not None
-#     # print(response.text)
-#     assert response.status_code in (200, 201)
-#     assert type(response.json()) is dict
+    response = requests.post(f"{host}/transaction/payment/eletrical/", json=data)
+    assert response is not None
+    # print(response.text)
+    assert response.status_code in (200, 201)
+    assert type(response.json()) is dict
 
 # @pytest.mark.run(order=17)
 # def test_transaction_list():

@@ -69,6 +69,8 @@ print("\n\naccount balances")
 account_balances = []
 for account in db_accounts:
     hist_trxs = list(db_hist.historical_transactions.find({ 'account_number' : account['account_number'] }))
+    if account['account_number'] == '8906476652':
+        print(list(db_hist.historical_transactions.find({ 'account_number' : account['account_number'] },{'_id' : False})))
     balance = 0
     for hist_trx in hist_trxs:
         if hist_trx['transaction_type'] == "CREDIT":
@@ -81,6 +83,9 @@ matched = [i for i, j in zip(account_balances, accounts) if i == j]
 not_matched = [i for i, j in zip(account_balances, accounts) if i != j]
 
 if len(not_matched) > 0:
+    for account in accounts:
+        if '8906476652' in account:
+            print(account)
     print("NOT MATCHED!")
     print(not_matched)
 
