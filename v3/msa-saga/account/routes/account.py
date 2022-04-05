@@ -11,6 +11,14 @@ def create():
 def settlement():
     return Account.settlement(request.get_json())
 
+@account.route("/debit/", methods=["POST"])
+def debit():
+    return Account.debit(request.get_json())
+
+@account.route("/credit/", methods=["POST"])
+def credit():
+    return Account.credit(request.get_json())
+
 @account.route("/", methods=["GET"])
 def detail():
     return Account.detail(request.args.get('account_number'))

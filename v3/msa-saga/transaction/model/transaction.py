@@ -67,9 +67,8 @@ class Transaction:
         return True
 
     def deposit(self, account_number, amount):
+        self.account.credit(account_number, amount)
         account = self.account.detail(account_number)
-        account_update_balance = account['balance'] + amount
-        to_account_number_update_balance = self.account.update(account_number, account_update_balance)['balance']
         journal_number = self.generate_journal_number(account_number)
         self.save(transaction_type="DEPOSIT", 
                 from_account_number=account_number, 
@@ -79,15 +78,14 @@ class Transaction:
                 journal_number=journal_number, 
                 cif_number=account['cif_number'], 
                 status="DONE")
-        self.store_to_historical_transaction(transaction_type="CREDIT", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=to_account_number_update_balance, description="DEPOSIT")
+        self.store_to_historical_transaction(transaction_type="CREDIT", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=account['balance'], description="DEPOSIT")
             
         return journal_number
     
     def reversal(self, account_number, amount, journal_number):
         try:
+            self.account.credit(account_number, amount)
             account = self.account.detail(account_number)
-            account_update_balance = account['balance'] + amount
-            to_account_number_update_balance = self.account.update(account_number, account_update_balance)['balance']
             self.save(transaction_type="REVERSAL", 
                     from_account_number=account_number, 
                     to_account_number=account_number, 
@@ -97,7 +95,7 @@ class Transaction:
                     cif_number=account['cif_number'], 
                     status="DONE")
                     
-            self.store_to_historical_transaction(transaction_type="REVERSAL", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=to_account_number_update_balance)
+            self.store_to_historical_transaction(transaction_type="REVERSAL", account_number=account_number, amount=amount, journal_number=journal_number, current_balance=account['balance'])
             
             return journal_number
         except Exception as error:
@@ -135,23 +133,6 @@ class TransferIntrabank(Transaction):
 
         if db_from_account_number['balance'] < self.amount:
             raise BusinessLogicException(f"Unsufficient fund from_account_number: {self.from_account_number}")
-
-        # to_account_number_current_balance =  db_to_account_number['balance'] + self.amount # credit
-        # from_account_number_current_balance =  db_from_account_number['balance'] - self.amount # debit
-
-        # total_current_balance = db_to_account_number['balance'] + db_from_account_number['balance']
-
-        # documents = []
-        # documents.append({
-        #     'account_number' : self.to_account_number,
-        #     'current_balance' : to_account_number_current_balance
-        # })
-        # documents.append({
-        #     'account_number' : self.from_account_number,
-        #     'current_balance' : from_account_number_current_balance
-        # })
-        
-        # self.account.update_many(documents)
 
         self.account.settlement(self.from_account_number, self.to_account_number, self.amount)
         
@@ -212,16 +193,13 @@ class DebitTransaction(Transaction):
     def debit(self):
         try:
             db_from_account_number = self.account.detail(self.from_account_number)
-
             if db_from_account_number['balance'] < self.amount:
                 raise BusinessLogicException(f"Unsufficient fund from_account_number: {self.from_account_number}")
 
-            from_account_number_current_balance =  db_from_account_number['balance'] - self.amount # debit
-
-            from_account_number_update_balance = self.account.update(self.from_account_number, from_account_number_current_balance)['balance']
-
+            self.account.debit(self.from_account_number, self.amount)
             journal_number = self.generate_journal_number(self.from_account_number)
-
+            db_from_account_number = self.account.detail(self.from_account_number)
+            
             status = "DONE"
             self.save(transaction_type=self.transaction_type, 
                     from_account_number=self.from_account_number, 
@@ -233,7 +211,7 @@ class DebitTransaction(Transaction):
                     description=self.description,
                     status=status)
 
-            self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance,description=self.description)
+            self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=db_from_account_number['balance'],description=self.description)
             
             request_message = {
                 "transaction_id": self.transaction_id,

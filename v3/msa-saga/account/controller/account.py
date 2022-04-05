@@ -63,6 +63,34 @@ class Account:
             return detail({ 'error' : str(error) }, start, 400)
         except Exception as error:
             return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
+    
+    @staticmethod
+    def debit(json_request):
+        try:
+            print(f"incoming request: {json_request}")
+            start = datetime.now()
+            account_model = AccountModel()
+            account_data = account_model.debit(json_request['account_number'], json_request['amount'])
+            print(f"outgoing response: {account_data}")
+            return detail(account_data, start, 200)
+        except BusinessLogicException as error:
+            return detail({ 'error' : str(error) }, start, 400)
+        except Exception as error:
+            return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
+    
+    @staticmethod
+    def credit(json_request):
+        try:
+            print(f"incoming request: {json_request}")
+            start = datetime.now()
+            account_model = AccountModel()
+            account_data = account_model.credit(json_request['account_number'], json_request['amount'])
+            print(f"outgoing response: {account_data}")
+            return detail(account_data, start, 200)
+        except BusinessLogicException as error:
+            return detail({ 'error' : str(error) }, start, 400)
+        except Exception as error:
+            return jsonify({ 'message' : f'SERVER ERROR: {str(error)}' }), 500
 
     @staticmethod
     def delete(account_number):

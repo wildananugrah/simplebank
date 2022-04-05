@@ -65,16 +65,36 @@ class Account:
         return self.detail(account_number)
 
     def settlement(self, from_account_number, to_account_number, amount):
-        from_account_number = self.detail(from_account_number)
-        to_account_number = self.detail(to_account_number)
+        from_account = self.detail(from_account_number)
+        to_account = self.detail(to_account_number)
 
         query = { 'account_number' : from_account_number }
-        new_value = { 'balance' : from_account_number['balance'] - amount }
+        new_value = { 'balance' : from_account['balance'] - amount }
 
         self.db.accounts.update_one(query, { '$set' : new_value })
 
         query = { 'account_number' : to_account_number }
-        new_value = { 'balance' : to_account_number['balance'] + amount }
+        new_value = { 'balance' : to_account['balance'] + amount }
+
+        self.db.accounts.update_one(query, { '$set' : new_value })
+
+        return True
+    
+    def credit(self, account_number, amount):
+        account = self.detail(account_number)
+
+        query = { 'account_number' : account_number }
+        new_value = { 'balance' : account['balance'] + amount }
+
+        self.db.accounts.update_one(query, { '$set' : new_value })
+
+        return True
+
+    def debit(self, account_number, amount):
+        account = self.detail(account_number)
+
+        query = { 'account_number' : account_number }
+        new_value = { 'balance' : account['balance'] - amount }
 
         self.db.accounts.update_one(query, { '$set' : new_value })
 
