@@ -16,5 +16,5 @@ dbinstance.init_app(app)
 if __name__ == "__main__":
     thread = Thread(target=channel.start_consuming)
     thread.start()
-    app.run(debug=True, port=3030, host="0.0.0.0")
+    app.run(debug=True, port=3030, host="0.0.0.0", threaded=False)
     
