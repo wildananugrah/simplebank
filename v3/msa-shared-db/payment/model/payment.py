@@ -71,7 +71,7 @@ class EletricalBillPayment(PaymentAbstract):
             self.save({
                 'from_account_number' : self.from_account_number,
                 "amount" : self.amount,
-                "journal_number" : journal_number,
+                "journal_number" : self.journal_number,
                 "transaction_type": self.transaction_type,
                 "transaction_datetime" : transaction_datetime,
                 "description" : self.description,
