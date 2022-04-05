@@ -172,7 +172,7 @@ def test_transaction_intrabank():
     response = requests.post(f"{host}/transaction/transfer/intrabank/", json=data)
 
     assert response is not None
-    print(response.text)
+    # print(response.text)
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
