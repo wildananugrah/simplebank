@@ -1,8 +1,8 @@
 import pytest
 import requests
 
-host = "http://45.113.235.79:3000"
-# host = "http://localhost:3000"
+# host = "http://45.113.235.79:3000"
+host = "http://localhost:3000"
 id_number = "8705095121996512"
 cif_number = "6921614771"
 username_1 = "user1"
@@ -79,7 +79,6 @@ def test_customer_internet_banking_logout():
     response = requests.post(f"{host}/customer/internet_banking/logout/", json=data)
 
     assert response is not None
-    print(response.text)
     assert response.status_code in (200, 201, 400)
     assert type(response.json()) is dict
 
@@ -144,9 +143,11 @@ def test_transaction_deposit():
         "account_number": pytest.ACCOUNT_NUMBER['account_number'],
         "amount": 1000
     }
+    print(data)
     response = requests.post(f"{host}/transaction/deposit/", json=data)
 
     assert response is not None
+    print(response.text)
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 
@@ -171,6 +172,7 @@ def test_transaction_intrabank():
     response = requests.post(f"{host}/transaction/transfer/intrabank/", json=data)
 
     assert response is not None
+    print(response.text)
     assert response.status_code in (200, 201)
     assert type(response.json()) is dict
 

@@ -12,7 +12,7 @@ class Account:
     
     invalid_status_code = {
         400 : 'Invalid account number number',
-        404 : 'Interbank account number does not exist'
+        404 : 'Account number does not exist'
     }
 
     valid_status_code = [200, 201]
@@ -63,7 +63,7 @@ class Account:
             "amount" : amount
         }
 
-        response = requests.put(f"{self.host}/settlement/", json=data)
+        response = requests.post(f"{self.host}/account/settlement/", json=data)
 
         if response and response.status_code in self.valid_status_code:
             return response.json()['data']
@@ -79,7 +79,7 @@ class Account:
             "amount" : amount
         }
 
-        response = requests.put(f"{self.host}/debit/", json=data)
+        response = requests.post(f"{self.host}/account/debit/", json=data)
 
         if response and response.status_code in self.valid_status_code:
             return response.json()['data']
@@ -95,7 +95,7 @@ class Account:
             "amount" : amount
         }
 
-        response = requests.put(f"{self.host}/credit/", json=data)
+        response = requests.post(f"{self.host}/account/credit/", json=data)
 
         if response and response.status_code in self.valid_status_code:
             return response.json()['data']

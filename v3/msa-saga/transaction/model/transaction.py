@@ -139,44 +139,37 @@ class TransferIntrabank(Transaction):
         to_account_number_update_balance = self.account.detail(self.to_account_number)['balance']
         from_account_number_update_balance = self.account.detail(self.from_account_number)['balance']
         journal_number = self.generate_journal_number(self.from_account_number)
+        self.save(transaction_type="INTRABANK", 
+                    from_account_number=self.from_account_number, 
+                    to_account_number=self.to_account_number, 
+                    to_bank_code="009", 
+                    amount=self.amount, 
+                    journal_number=journal_number, 
+                    cif_number=self.cif_number, 
+                    description=self.description,
+                    status="DONE")
 
-        if total_current_balance == (to_account_number_update_balance + from_account_number_update_balance):
-            self.save(transaction_type="INTRABANK", 
-                        from_account_number=self.from_account_number, 
-                        to_account_number=self.to_account_number, 
-                        to_bank_code="009", 
-                        amount=self.amount, 
-                        journal_number=journal_number, 
-                        cif_number=self.cif_number, 
-                        description=self.description,
-                        status="DONE")
-
-            documents = [
-                {
-                    'transaction_type': "DEBIT",
-                    'account_number': self.from_account_number,
-                    'amount': self.amount,
-                    'journal_number': journal_number,
-                    'current_balance': from_account_number_update_balance,
-                    'description': self.description
-                },
-                {
-                    'transaction_type': "CREDIT",
-                    'account_number': self.to_account_number,
-                    'amount': self.amount,
-                    'journal_number': journal_number,
-                    'current_balance': to_account_number_update_balance,
-                    'description': self.description
-                }
-            ]
-            self.historical_transaction.save_many(documents)
-            # self.store_to_historical_transaction(transaction_type="DEBIT", account_number=self.from_account_number, amount=self.amount, journal_number=journal_number, current_balance=from_account_number_update_balance, description=self.description)
-            # self.store_to_historical_transaction(transaction_type="CREDIT", account_number=self.to_account_number, amount=self.amount, journal_number=journal_number, current_balance=to_account_number_update_balance, description=self.description)
+        documents = [
+            {
+                'transaction_type': "DEBIT",
+                'account_number': self.from_account_number,
+                'amount': self.amount,
+                'journal_number': journal_number,
+                'current_balance': from_account_number_update_balance,
+                'description': self.description
+            },
+            {
+                'transaction_type': "CREDIT",
+                'account_number': self.to_account_number,
+                'amount': self.amount,
+                'journal_number': journal_number,
+                'current_balance': to_account_number_update_balance,
+                'description': self.description
+            }
+        ]
+        self.historical_transaction.save_many(documents)
             
-            return journal_number
-        else:
-            raise BusinessLogicException(f"Invalid settlement: {total_current_balance} is not {(to_account_number_update_balance + from_account_number_update_balance)}")
-        
+        return journal_number
 
 @dataclass
 class DebitTransaction(Transaction):
