@@ -62,7 +62,7 @@ class EletricalBillPayment(PaymentAbstract):
 
             # invoke eletrical payment service
             self.payment.bill_id = self.bill_id
-            self.payment.journal_number = journal_number
+            self.payment.journal_number = self.journal_number
             self.payment.description = self.description
             response = self.payment.pay()
 
