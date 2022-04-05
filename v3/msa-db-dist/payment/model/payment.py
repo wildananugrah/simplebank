@@ -99,5 +99,4 @@ class EletricalBillPayment(PaymentAbstract):
             raise ServiceException(f"Can not invoke eletrical payment service. detail: {error}")
 
         except Exception as error:
-            print(error)
-            raise Exception("Internal server error.")
+            raise Exception(f"Internal server error. {error}")
