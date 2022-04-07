@@ -8,7 +8,7 @@ client = MongoClient("mongodb://45.113.234.254:3000/") # monolith
 # client = MongoClient("mongodb://45.113.234.254:6000/?readPreference=primary&directConnection=true") # distributed db
 db = client.simplebank_db
 
-db_accounts = list(db.accounts.find())
+db_accounts = list(db.accounts.find().limit(500))
 db_transactions = list(db.transactions.find())
 db_historical_transactions = list(db.historical_transactions.find())
 

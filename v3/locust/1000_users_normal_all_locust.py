@@ -1,6 +1,6 @@
 from locust import HttpUser, between, task, SequentialTaskSet, events
-# from tasks.normal_user import NormalUser
-from tasks.simple_user import SimpleUser
+from tasks.normal_user import NormalUser
+# from tasks.simple_user import SimpleUser
 import json
 
 # users = [
@@ -28,8 +28,8 @@ def on_test_stop(**kwargs):
 
 class MyUser(HttpUser):
     wait_time = between(1,2)
-    # tasks = [NormalUser]
-    tasks = [SimpleUser]
+    tasks = [NormalUser]
+    # tasks = [SimpleUser]
     weight = 1
 
     def on_start(self):
