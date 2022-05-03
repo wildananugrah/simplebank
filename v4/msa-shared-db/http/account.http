@@ -1,0 +1,137 @@
+@host=http://localhost:3000
+
+### 
+POST {{host}}/account/
+Content-Type: application/json
+
+{
+    "cif_number": "1681274973"
+}
+
+# response:
+# HTTP/1.1 200 OK
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:14:55 GMT
+# Content-Type: application/json
+# Content-Length: 188
+# Connection: close
+
+# {
+#   "data": {
+#     "account_number": "5940115521",
+#     "balance": 0,
+#     "cif_number": "1681274973",
+#     "currency": "IDR"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.030069"
+# }
+
+###
+GET {{host}}/account/?account_number=9780613988
+
+# response:
+# HTTP/1.1 200 OK
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:15:11 GMT
+# Content-Type: application/json
+# Content-Length: 188
+# Connection: close
+
+# {
+#   "data": {
+#     "account_number": "5940115521",
+#     "balance": 0,
+#     "cif_number": "1681274973",
+#     "currency": "IDR"
+#   },
+#   "status_code": 200,
+#   "timestamp": "0:00:00.010678"
+# }
+
+# response:
+# HTTP/1.1 400 BAD REQUEST
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:16:15 GMT
+# Content-Type: application/json
+# Content-Length: 132
+# Connection: close
+
+# {
+#   "data": {
+#     "error": "Can not find account_number: 2513051497"
+#   },
+#   "status_code": 400,
+#   "timestamp": "0:00:00.010301"
+# }
+
+
+###
+GET {{host}}/account/list/?cif_number=1681274973
+
+# response:
+# HTTP/1.1 200 OK
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:15:27 GMT
+# Content-Type: application/json
+# Content-Length: 474
+# Connection: close
+
+# {
+#   "data": [
+#     {
+#       "account_number": "2513051497",
+#       "balance": 1,
+#       "cif_number": "1681274973",
+#       "currency": "IDR"
+#     },
+#     {
+#       "account_number": "7876808371",
+#       "balance": 0,
+#       "cif_number": "1681274973",
+#       "currency": "IDR"
+#     },
+#     {
+#       "account_number": "5940115521",
+#       "balance": 0,
+#       "cif_number": "1681274973",
+#       "currency": "IDR"
+#     }
+#   ],
+#   "status_code": 200,
+#   "timestamp": "0:00:00.013111"
+# }
+
+
+###
+DELETE {{host}}/account/?account_number=9780613988
+
+# response:
+# HTTP/1.1 200 OK
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:15:42 GMT
+# Content-Type: application/json
+# Content-Length: 76
+# Connection: close
+
+# {
+#   "data": true,
+#   "status_code": 200,
+#   "timestamp": "0:00:00.020252"
+# }
+
+# response:
+# HTTP/1.1 400 BAD REQUEST
+# Server: nginx/1.21.6
+# Date: Mon, 07 Mar 2022 11:15:51 GMT
+# Content-Type: application/json
+# Content-Length: 132
+# Connection: close
+
+# {
+#   "data": {
+#     "error": "Can not find account_number: 2513051497"
+#   },
+#   "status_code": 400,
+#   "timestamp": "0:00:00.009957"
+# }
