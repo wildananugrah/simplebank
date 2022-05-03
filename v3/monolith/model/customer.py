@@ -89,7 +89,7 @@ class CustomerMobile(Customer):
 @dataclass
 class CustomerInternetBanking(Customer):
 
-    """ represent customer mobile, user loggin using email and password """
+    """ represent customer internet banking, user loggin using email and password """
 
     email: str  = None
     password: str  = None

@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+    monolith-app:
+        build:
+            context: ./
+            dockerfile: ./app.Dockerfile
+        container_name: monolith
+        environment: 
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:3000/simplebankdb
+            SIM_INTERBANK_HOST: http://45.113.232.164:3000
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: ./app.Dockerfile
+        container_name: nginx
+        ports:
+            - "3000:80"
