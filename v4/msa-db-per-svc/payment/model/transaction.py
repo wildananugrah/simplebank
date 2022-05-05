@@ -1,0 +1,80 @@
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
+from exception.business_logic_exception import BusinessLogicException
+from exception.service_exception import ServiceException
+from uuid import uuid4
+from datetime import datetime
+from service.transaction import Transaction
+from service.billpayment import EletricalBillPayment as EBPService
+
+
+@dataclass
+class EletricalBillPayment:
+
+    """ represent eletrical bill payment entity """
+
+    bill_id: str = None
+    amount: int = 0
+    description: str = None
+    from_account_number: str = None
+    cif_number: str = None
+    payment: EBPService = EBPService()
+    transaction: Transaction = Transaction()
+    transaction_type: str = "ELETRICAL_BILLPAYMENT"
+    journal_number: str = None
+
+    def inquiry(self, bill_id):
+        return self.payment.inquiry(bill_id)
+
+    def pay(self):
+        try:
+            transaction_datetime = datetime.now().strftime("%d-%m-%Y %H:%I%S")
+                
+            # invoke transaction to retrieve journal number.
+            self.transaction.from_account_number = self.from_account_number
+            self.transaction.transaction_type = self.transaction_type
+            self.transaction.cif_number = self.cif_number
+            self.transaction.amount = self.amount
+            self.transaction.description = self.description
+            self.journal_number = self.transaction.debit()['journal_number']
+
+            # invoke eletrical payment service
+            self.payment.bill_id = self.bill_id
+            self.payment.journal_number = self.journal_number
+            self.payment.description = self.description
+            response = self.payment.pay()
+
+            # save transaction
+            # self.save({
+            #     'from_account_number' : self.from_account_number,
+            #     "amount" : self.amount,
+            #     "journal_number" : self.journal_number,
+            #     "transaction_type": self.transaction_type,
+            #     "transaction_datetime" : transaction_datetime,
+            #     "description" : self.description,
+            #     "status" : "DONE",
+            #     "response" : response
+            # })
+
+            return self.journal_number
+
+        except ServiceException as error:
+            self.transaction.from_account_number = self.from_account_number
+            self.transaction.amount = self.amount
+            self.transaction.journal_number = self.journal_number
+            self.journal_number = self.transaction.reversal()['journal_number']
+
+            self.save({
+                'from_account_number' : self.from_account_number,
+                "amount" : self.amount,
+                "journal_number" : self.journal_number,
+                "transaction_type": self.transaction_type,
+                "transaction_datetime" : transaction_datetime,
+                "description" : self.description,
+                "status" : "REVERSED",
+                "response" : {}
+            })
+            raise ServiceException(f"Can not invoke eletrical payment service. detail: {error}")
+
+        except Exception as error:
+            raise Exception("Internal server error.")
