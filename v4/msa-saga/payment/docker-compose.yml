@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+    customer:
+        build:
+            context: ./customer
+            dockerfile: ./app.Dockerfile
+        container_name: customer
+        environment: 
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:3000/simplebankdb
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: ./app.Dockerfile
+        container_name: nginx
+        ports:
+            - "3000:80"

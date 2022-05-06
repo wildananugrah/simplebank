@@ -1,0 +1,83 @@
+version: "3.7"
+services:
+    customer:
+        build:
+            context: ./customer
+            dockerfile: ./app.Dockerfile
+        container_name: customer
+        environment: 
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:5000/simplebankdb
+        volumes: ['./customer:/app']
+    account:
+        build:
+            context: ./account
+            dockerfile: ./app.Dockerfile
+        container_name: account
+        environment: 
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:5010/simplebankdb
+            CUSTOMER_HOST: http://customer:3000
+        volumes: ['./account:/app']
+    historical_transaction:
+        build:
+            context: ./historical_transaction
+            dockerfile: ./app.Dockerfile
+        container_name: historical_transaction
+        environment: 
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:5020/simplebankdb
+            RABBIT_MQ_HOST: 45.113.232.164 
+            RABBIT_MQ_PORT: 3020
+        volumes: ['./historical_transaction:/app']
+    transaction:
+        build:
+            context: ./transaction
+            dockerfile: ./app.Dockerfile
+        container_name: transaction
+        environment: 
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:5030/simplebankdb
+            ACCOUNT_HOST: http://account:3000
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3000
+            RABBIT_MQ_HOST: 45.113.232.164 
+            RABBIT_MQ_PORT: 3020
+        volumes: ['./transaction:/app']
+    interbank_transfer:
+        build:
+            context: ./interbank_transfer
+            dockerfile: ./app.Dockerfile
+        container_name: interbank_transfer
+        environment: 
+            ACCOUNT_HOST: http://account:3000
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3000
+            TRANSACTION_HOST: http://transaction:3000
+            SIM_INTERBANK_HOST: http://45.113.232.164:3000
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:5040/simplebankdb
+            RABBIT_MQ_HOST: 45.113.232.164 
+            RABBIT_MQ_PORT: 3020
+        volumes: ['./interbank_transfer:/app']
+    payment:
+        build:
+            context: ./payment
+            dockerfile: ./app.Dockerfile
+        container_name: payment
+        environment: 
+            ACCOUNT_HOST: http://account:3000
+            HISTORICAL_TRANSACTION_HOST: http://historical_transaction:3000
+            TRANSACTION_HOST: http://transaction:3000
+            SIM_BILLPAYMENT_HOST: http://45.113.232.164:3010
+            DATABASE_CONN_STR: postgresql+psycopg2://simplebankdb_user:simplebankdb_password@45.113.234.254:5050/simplebankdb
+            RABBIT_MQ_HOST: 45.113.232.164 
+            RABBIT_MQ_PORT: 3020
+        volumes: ['./payment:/app']
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: ./app.Dockerfile
+        container_name: nginx
+        ports:
+            - "3000:80"
+        depends_on:
+            - customer
+            - account
+            - transaction
+            - historical_transaction
+            - interbank_transfer
+            - payment
